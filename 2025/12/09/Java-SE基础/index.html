@@ -19,16 +19,16 @@
   <meta name="author" content="测开求职者">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Java入门1.1 注释123456789101112131415161718&#x2F;**目标：学会使用注释     这是程序的讲解注释*&#x2F;public class NoteDemo&#123;    &#x2F;&#x2F;这是程序的主方法，是程序的入口    public static void main(String[] args)&#123;        System.out.println(&quot;我开始学">
+    <meta name="description" content="Java SE 基础知识学习笔记，包括注释、字面量、变量、关键字、标识符等核心概念，以及类型转换和运算符的使用方法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java SE基础">
 <meta property="og:url" content="https://lilpear2002.github.io/2025/12/09/Java-SE%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="测开学习之路">
-<meta property="og:description" content="Java入门1.1 注释123456789101112131415161718&#x2F;**目标：学会使用注释     这是程序的讲解注释*&#x2F;public class NoteDemo&#123;    &#x2F;&#x2F;这是程序的主方法，是程序的入口    public static void main(String[] args)&#123;        System.out.println(&quot;我开始学">
+<meta property="og:description" content="Java SE 基础知识学习笔记，包括注释、字面量、变量、关键字、标识符等核心概念，以及类型转换和运算符的使用方法。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://lilpear2002.github.io/Java-SE%E5%9F%BA%E7%A1%80%5C%E5%AD%97%E9%9D%A2%E9%87%8F.png">
+<meta property="og:image" content="https://lilpear2002.github.io/img/java.png">
 <meta property="article:published_time" content="2025-12-09T03:09:34.000Z">
-<meta property="article:modified_time" content="2025-12-09T03:19:24.031Z">
+<meta property="article:modified_time" content="2025-12-09T04:21:13.877Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="Java SE">
 <meta property="article:tag" content="基础语法">
@@ -36,7 +36,7 @@
 <meta property="article:tag" content="方法">
 <meta property="article:tag" content="流程控制">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://lilpear2002.github.io/Java-SE%E5%9F%BA%E7%A1%80%5C%E5%AD%97%E9%9D%A2%E9%87%8F.png">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/java.png">
   
   
   
@@ -334,7 +334,8 @@
 
 <hr>
 <h2 id="1-2-字面量"><a href="#1-2-字面量" class="headerlink" title="1.2 字面量"></a>1.2 字面量</h2><p>字面量其实就是告诉程序员数据在程序中的书写格式。下面是常用的数据在程序中的书写格式</p>
-<p><img src="/Java-SE%E5%9F%BA%E7%A1%80%5C%E5%AD%97%E9%9D%A2%E9%87%8F.png" srcset="/img/loading.gif" lazyload alt="字面量"></p>
+<img src="/2025/12/09/Java-SE%E5%9F%BA%E7%A1%80/image1.png" srcset="/img/loading.gif" lazyload class="" title="字面量">
+
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment">目标：需要同学们掌握常见数据在程序中的书写格式</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LiteralDemo</span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span>&#123;<br>        <span class="hljs-comment">//1.整数</span><br>        System.out.println(<span class="hljs-number">666</span>);<br>        <br>        <span class="hljs-comment">//2.小数</span><br>        System.out.println(<span class="hljs-number">3.66</span>);<br>        <br>        <span class="hljs-comment">//3.字符: 字符必须用单引号引起来</span><br>        System.out.println(<span class="hljs-string">&#x27;a&#x27;</span>);<br>        System.out.println(<span class="hljs-string">&#x27;0&#x27;</span>);<br>        System.out.println(<span class="hljs-string">&#x27;中&#x27;</span>);<br>        System.out.println(<span class="hljs-string">&#x27; &#x27;</span>); <span class="hljs-comment">//空格也算字符</span><br>        <span class="hljs-comment">//特殊字符：\t表示制表符 \n表示换行</span><br>        System.out.println(<span class="hljs-string">&#x27;\t&#x27;</span>); <span class="hljs-comment">//这相当于一个tab键，专业叫做制表符</span><br>        System.out.println(<span class="hljs-string">&#x27;\n&#x27;</span>); <span class="hljs-comment">//这是换行的意思</span><br>        <br>        <span class="hljs-comment">//4.字符串：字符串是双引号引起来的</span><br>        System.out.println(<span class="hljs-string">&quot;我爱你中国abc&quot;</span>);<br>        <br>        <span class="hljs-comment">//5.布尔值：只有两个值true和false</span><br>        System.out.println(<span class="hljs-literal">true</span>);<br>        System.out.println(<span class="hljs-literal">false</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <hr>
