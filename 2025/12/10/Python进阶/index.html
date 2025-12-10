@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lilpear2002.github.io/img/python.png">
 <meta property="article:published_time" content="2025-12-10T02:18:48.000Z">
-<meta property="article:modified_time" content="2025-12-10T09:12:43.453Z">
+<meta property="article:modified_time" content="2025-12-10T14:41:34.305Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="Python进阶">
 <meta property="article:tag" content="多线程">
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          14k 字
+          16k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          114 分钟
+          136 分钟
         
       </span>
     
@@ -913,7 +913,7 @@
 <hr>
 <h1 id="Property属性"><a href="#Property属性" class="headerlink" title="Property属性"></a>Property属性</h1><h2 id="只读属性"><a href="#只读属性" class="headerlink" title="只读属性"></a>只读属性</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, name, birth_year</span>):<br>        <span class="hljs-variable language_">self</span>.name = name<br>        <span class="hljs-variable language_">self</span>.birth_year = birth_year<br><br>    <span class="hljs-comment"># 【关键】加上 @property</span><br>    <span class="hljs-comment"># 把这个方法变成一个 &quot;只读属性&quot;</span><br><span class="hljs-meta">    @property</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">age</span>(<span class="hljs-params">self</span>):<br>        current_year = datetime.datetime.now().year<br>        <span class="hljs-keyword">return</span> current_year - <span class="hljs-variable language_">self</span>.birth_year<br><br>s1 = Student(<span class="hljs-string">&quot;小明&quot;</span>, <span class="hljs-number">2000</span>)<br><br><span class="hljs-comment"># 1. 像访问变量一样访问 age（注意：后面没有括号！）</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;今年年龄: <span class="hljs-subst">&#123;s1.age&#125;</span>&quot;</span>) <br><br><span class="hljs-comment"># 2. 尝试修改它（会报错）</span><br><span class="hljs-comment"># s1.age = 18 </span><br><span class="hljs-comment"># 报错：AttributeError: can&#x27;t set attribute (因为我们只定义了 getter，没定义 setter)</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="读写控制"><a href="#读写控制" class="headerlink" title="读写控制"></a>读写控制</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 这是一个私有变量，不对外公开</span><br>        <span class="hljs-variable language_">self</span>.__score = <span class="hljs-number">0</span><br><br>    <span class="hljs-comment"># --- 1. 定义 Getter (读) ---</span><br><span class="hljs-meta">    @property</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">score</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>._score<br><br>    <span class="hljs-comment"># --- 2. 定义 Setter (写) ---</span><br>    <span class="hljs-comment"># 语法规则：@函数名.setter</span><br><span class="hljs-meta">    @score.setter</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">score</span>(<span class="hljs-params">self, value</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">int</span>):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;❌ 错误：分数必须是整数！&quot;</span>)<br>            <span class="hljs-keyword">return</span><br>        <br>        <span class="hljs-keyword">if</span> value &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> value &gt; <span class="hljs-number">100</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;❌ 错误：分数 <span class="hljs-subst">&#123;value&#125;</span> 超出范围 (0-100)！&quot;</span>)<br>            <span class="hljs-keyword">return</span><br>            <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;✅ 分数 <span class="hljs-subst">&#123;value&#125;</span> 设置成功&quot;</span>)<br>        <span class="hljs-variable language_">self</span>._score = value<br><br><span class="hljs-comment"># --- 测试 ---</span><br>s = Student()<br><br><span class="hljs-comment"># 正常赋值</span><br>s.score = <span class="hljs-number">90</span>  <span class="hljs-comment"># 自动触发 @score.setter 下的函数</span><br><span class="hljs-built_in">print</span>(s.score) <span class="hljs-comment"># 自动触发 @property 下的函数</span><br><br><span class="hljs-comment"># 异常赋值（会被 setter 里的逻辑拦截）</span><br>s.score = <span class="hljs-number">999</span> <br>s.score = <span class="hljs-string">&quot;不及格&quot;</span><br><br><span class="hljs-comment"># 再次查看，还是原来的 90，没被污染</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前真实分数: <span class="hljs-subst">&#123;s.score&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h2 id="读写控制"><a href="#读写控制" class="headerlink" title="读写控制"></a>读写控制</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 这是一个私有变量，不对外公开</span><br>        <span class="hljs-variable language_">self</span>._score = <span class="hljs-number">0</span><br><br>    <span class="hljs-comment"># --- 1. 定义 Getter (读) ---</span><br><span class="hljs-meta">    @property</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">score</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>._score<br><br>    <span class="hljs-comment"># --- 2. 定义 Setter (写) ---</span><br>    <span class="hljs-comment"># 语法规则：@函数名.setter</span><br><span class="hljs-meta">    @score.setter</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">score</span>(<span class="hljs-params">self, value</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">int</span>):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;❌ 错误：分数必须是整数！&quot;</span>)<br>            <span class="hljs-keyword">return</span><br>        <br>        <span class="hljs-keyword">if</span> value &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> value &gt; <span class="hljs-number">100</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;❌ 错误：分数 <span class="hljs-subst">&#123;value&#125;</span> 超出范围 (0-100)！&quot;</span>)<br>            <span class="hljs-keyword">return</span><br>            <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;✅ 分数 <span class="hljs-subst">&#123;value&#125;</span> 设置成功&quot;</span>)<br>        <span class="hljs-variable language_">self</span>._score = value<br><br><span class="hljs-comment"># --- 测试 ---</span><br>s = Student()<br><br><span class="hljs-comment"># 正常赋值</span><br>s.score = <span class="hljs-number">90</span>  <span class="hljs-comment"># 自动触发 @score.setter 下的函数</span><br><span class="hljs-built_in">print</span>(s.score) <span class="hljs-comment"># 自动触发 @property 下的函数</span><br><br><span class="hljs-comment"># 异常赋值（会被 setter 里的逻辑拦截）</span><br>s.score = <span class="hljs-number">999</span> <br>s.score = <span class="hljs-string">&quot;不及格&quot;</span><br><br><span class="hljs-comment"># 再次查看，还是原来的 90，没被污染</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前真实分数: <span class="hljs-subst">&#123;s.score&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h3 id="基础语法速查表"><a href="#基础语法速查表" class="headerlink" title="基础语法速查表"></a>基础语法速查表</h3><p>认识几个“特殊符号”（元字符）：</p>
 <h4 id="A-代表“字符”的符号"><a href="#A-代表“字符”的符号" class="headerlink" title="A. 代表“字符”的符号"></a>A. 代表“字符”的符号</h4><ul>
@@ -923,7 +923,7 @@
 <li><strong><code>\s</code></strong>：空白符 (Space)。代表空格、Tab、换行。</li>
 </ul>
 <h4 id="B-代表“数量”的符号"><a href="#B-代表“数量”的符号" class="headerlink" title="B. 代表“数量”的符号"></a>B. 代表“数量”的符号</h4><ul>
-<li><strong><code>\*</code></strong>：0 次或多次（有没有都行，越多越好）。</li>
+<li><strong><code>*</code></strong>：0 次或多次（有没有都行，越多越好）。</li>
 <li><strong><code>+</code></strong>：1 次或多次（至少得有一个）。</li>
 <li><strong><code>?</code></strong>：0 次或 1 次（要么没有，要么有一个）。</li>
 <li><strong><code>&#123;n&#125;</code></strong>：恰好 n 次。</li>
@@ -948,6 +948,166 @@
 <p>5:贪婪与非贪婪:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>s = <span class="hljs-string">&quot;&lt;div&gt;第一个&lt;/div&gt;&lt;div&gt;第二个&lt;/div&gt;&quot;</span><br><br><span class="hljs-comment"># 1. 贪婪模式 (.*)</span><br><span class="hljs-comment"># 它会从第一个 &lt;div&gt; 一直吃到最后一个 &lt;/div&gt;，中间不管有多少闭合标签全吞了</span><br>res_greedy = re.findall(<span class="hljs-string">r&quot;&lt;div&gt;(.*)&lt;/div&gt;&quot;</span>, s)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;贪婪: <span class="hljs-subst">&#123;res_greedy&#125;</span>&quot;</span>)<br><span class="hljs-comment"># 输出: [&#x27;第一个&lt;/div&gt;&lt;div&gt;第二个&#x27;]  &lt;-- 翻车了！</span><br><br><span class="hljs-comment"># 2. 非贪婪模式 (.*?)</span><br><span class="hljs-comment"># 遇到第一个 &lt;/div&gt; 它就觉得“够了”，停止匹配</span><br>res_lazy = re.findall(<span class="hljs-string">r&quot;&lt;div&gt;(.*?)&lt;/div&gt;&quot;</span>, s)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;非贪婪: <span class="hljs-subst">&#123;res_lazy&#125;</span>&quot;</span>)<br><span class="hljs-comment"># 输出: [&#x27;第一个&#x27;, &#x27;第二个&#x27;] &lt;-- 这才是我们要的</span><br></code></pre></td></tr></table></figure>
 
+<hr>
+<h1 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h1><p>Python 的 GC 机制是以【引用计数】为主，以【标记-清除】和【分代回收】为辅。</p>
+<h2 id="引用计数-Reference-Counting"><a href="#引用计数-Reference-Counting" class="headerlink" title="引用计数 (Reference Counting)"></a>引用计数 (Reference Counting)</h2><p>这是 Python 内存管理最核心、最基础的机制。它像是一个**“计分器”**。</p>
+<h4 id="1-原理"><a href="#1-原理" class="headerlink" title="1. 原理"></a>1. 原理</h4><p>Python 中的每个对象（比如一个列表、一个数字）内部都有一个字段叫 <code>ob_refcnt</code>，记录着**“现在有多少个变量引用着我”**。</p>
+<ul>
+<li><strong>计数 +1 的情况</strong>：<ul>
+<li>对象被创建：<code>a = [1, 2]</code> （计数&#x3D;1）</li>
+<li>被赋值给别人：<code>b = a</code> （计数&#x3D;2）</li>
+<li>作为参数传给函数：<code>func(a)</code> （计数+1，函数结束-1）</li>
+<li>被放进容器里：<code>list_c = [a]</code> （计数+1）</li>
+</ul>
+</li>
+<li><strong>计数 -1 的情况</strong>：<ul>
+<li>变量被显式销毁：<code>del a</code></li>
+<li>变量被赋予了新值：<code>a = &quot;hello&quot;</code> （原来的 <code>[1,2]</code> 计数-1）</li>
+<li>离开作用域（函数运行结束）：局部变量会被自动销毁。</li>
+</ul>
+</li>
+<li><strong>回收时刻</strong>：<ul>
+<li>一旦某个对象的引用计数变成 <strong>0</strong>，Python 里的“收尸队”会<strong>立刻</strong>把它回收，释放内存。这是一种<strong>实时</strong>的回收机制。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Hero</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, name</span>):<br>        <span class="hljs-variable language_">self</span>.name = name<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;✅ <span class="hljs-subst">&#123;self.name&#125;</span> 出生了&quot;</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__del__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;💀 <span class="hljs-subst">&#123;self.name&#125;</span> 被销毁了 (内存释放)&quot;</span>)<br><br><span class="hljs-comment"># --- 测试 ---</span><br><br><span class="hljs-comment"># 1. 创建对象（计数=1）</span><br>h1 = Hero(<span class="hljs-string">&quot;亚索&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;引用计数: <span class="hljs-subst">&#123;sys.getrefcount(h1)&#125;</span>&quot;</span>) <br><span class="hljs-comment"># 注意：sys.getrefcount() 会比实际多 1，因为它自己作为参数也引用了一次</span><br><br><span class="hljs-comment"># 2. 增加引用（计数+1）</span><br>h2 = h1<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;引用计数: <span class="hljs-subst">&#123;sys.getrefcount(h1)&#125;</span>&quot;</span>) <span class="hljs-comment"># 现在有两个变量指着它</span><br><br><span class="hljs-comment"># 3. 删除其中一个引用</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&gt;&gt;&gt; 删除 h1...&quot;</span>)<br><span class="hljs-keyword">del</span> h1<br><span class="hljs-comment"># 此时 h2 还在，引用计数没归零，所以亚索还活着，不会打印 &quot;被销毁&quot;</span><br><br><span class="hljs-comment"># 4. 删除最后一个引用</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&gt;&gt;&gt; 删除 h2...&quot;</span>)<br><span class="hljs-keyword">del</span> h2<br><span class="hljs-comment"># 此时引用计数为 0，系统立刻触发回收，打印 &quot;被销毁&quot;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&gt;&gt;&gt; 程序结束&quot;</span>)<br><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">✅ 亚索 出生了</span><br><span class="hljs-string">引用计数: 2</span><br><span class="hljs-string">引用计数: 3</span><br><span class="hljs-string"><span class="hljs-meta">&gt;&gt;&gt; </span>删除 h1...</span><br><span class="hljs-string"><span class="hljs-meta">&gt;&gt;&gt; </span>删除 h2...</span><br><span class="hljs-string">💀 亚索 被销毁了 (内存释放)</span><br><span class="hljs-string"><span class="hljs-meta">&gt;&gt;&gt; </span>程序结束</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="致命缺点：循环引用-Circular-Reference"><a href="#致命缺点：循环引用-Circular-Reference" class="headerlink" title="致命缺点：循环引用 (Circular Reference)"></a>致命缺点：循环引用 (Circular Reference)</h4><p>引用计数非常快，但有一个死穴。请看下面这个经典的“互为舔狗”场景：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">a = [<span class="hljs-number">1</span>]<br>b = [<span class="hljs-number">2</span>]<br><br><span class="hljs-comment"># 互相引用</span><br>a.append(b) <span class="hljs-comment"># a 引用 b</span><br>b.append(a) <span class="hljs-comment"># b 引用 a</span><br><br><span class="hljs-comment"># 删除外部引用</span><br><span class="hljs-keyword">del</span> a<br><span class="hljs-keyword">del</span> b<br></code></pre></td></tr></table></figure>
+
+<p><strong>结果</strong>：</p>
+<ul>
+<li>执行 <code>del a</code> 后，<code>[1]</code> 的计数从 2 减为 1（因为 <code>b</code> 还在引用它）。</li>
+<li>执行 <code>del b</code> 后，<code>[2]</code> 的计数从 2 减为 1（因为 <code>a</code> 还在引用它）。</li>
+<li><strong>死锁</strong>：外界已经谁也找不到这两个列表了，但它俩在内存里互相抓着对方，计数器永远不为 0。这就造成了<strong>内存泄漏</strong>。</li>
+</ul>
+<p><strong>为了解决这个问题，Python 引入了后面两把辅助斧头。</strong></p>
+<hr>
+<h2 id="标记-清除-Mark-and-Sweep"><a href="#标记-清除-Mark-and-Sweep" class="headerlink" title="标记-清除 (Mark and Sweep)"></a>标记-清除 (Mark and Sweep)</h2><p>这把斧头专门用来解决<strong>循环引用</strong>的问题。</p>
+<p>它不再盯着计数器看，而是从更高的视角看**“连通性”**。</p>
+<h4 id="1-原理（图论思想）"><a href="#1-原理（图论思想）" class="headerlink" title="1. 原理（图论思想）"></a>1. 原理（图论思想）</h4><p>Python 会把所有的对象看作图的节点，引用看作边。</p>
+<ul>
+<li><strong>Root (根节点)</strong>：全局变量、调用栈里的变量、寄存器。这些是绝对不能回收的“大人物”。</li>
+</ul>
+<h4 id="2-过程"><a href="#2-过程" class="headerlink" title="2. 过程"></a>2. 过程</h4><ol>
+<li><strong>标记 (Mark)</strong>：GC 算法从“根节点”出发，沿着引用链往下走。凡是能走到的对象，都打上“<strong>存活</strong>”的标签。</li>
+<li><strong>清除 (Sweep)</strong>：遍历所有对象，凡是<strong>没有</strong>被打上“存活”标签的（也就是那些与外界彻底失联的“孤岛”，比如刚才互为舔狗的那俩），统统干掉。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gc<br><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Node</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, name</span>):<br>        <span class="hljs-variable language_">self</span>.name = name<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;✅ <span class="hljs-subst">&#123;self.name&#125;</span> 准备好了&quot;</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__del__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;♻️ <span class="hljs-subst">&#123;self.name&#125;</span> 被 GC 回收了&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_cycle</span>():<br>    <span class="hljs-comment"># 1. 创建两个对象</span><br>    n1 = Node(<span class="hljs-string">&quot;节点A&quot;</span>)<br>    n2 = Node(<span class="hljs-string">&quot;节点B&quot;</span>)<br><br>    <span class="hljs-comment"># 2. 制造循环引用 (互为舔狗)</span><br>    n1.partner = n2 <span class="hljs-comment"># Python 允许在对象创建后的任何时间，给它身上贴任何新的属性标签。</span><br>    n2.partner = n1<br><br>    <span class="hljs-comment"># 3. 删除外部引用</span><br>    <span class="hljs-comment"># 按理说，函数结束，n1 和 n2 应该被销毁。</span><br>    <span class="hljs-comment"># 但因为它们互相拉着对方，引用计数不为 0，所以默认无法回收！</span><br>    <span class="hljs-keyword">del</span> n1<br>    <span class="hljs-keyword">del</span> n2<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&gt;&gt;&gt; 函数运行结束，外部引用已断开&quot;</span>)<br><br><span class="hljs-comment"># --- 测试 ---</span><br><br><span class="hljs-comment"># 为了演示效果，我们先关闭自动 GC，模拟引用计数解决不了的场景</span><br>gc.disable()<br><br>create_cycle()<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;--- 等待片刻 ---&quot;</span>)<br><span class="hljs-comment"># 此时你会发现，并没有打印 &quot;被 GC 回收了&quot;，说明内存泄漏了！</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&gt;&gt;&gt; 手动触发 GC (标记-清除)...&quot;</span>)<br><span class="hljs-comment"># 手动召唤收尸队</span><br>collected_num = gc.collect()<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;本次 GC 清理了 <span class="hljs-subst">&#123;collected_num&#125;</span> 个垃圾对象&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;--- 程序彻底结束 ---&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="分代回收-Generational-Collection"><a href="#分代回收-Generational-Collection" class="headerlink" title="分代回收 (Generational Collection)"></a>分代回收 (Generational Collection)</h2><p>标记-清除虽然能解决循环引用，但它要把所有对象扫描一遍，<strong>太慢了</strong>！ 为了不拖慢程序运行速度，Python 引入了**“分代回收”**（基于“空间换时间”的思想）。</p>
+<h4 id="1-核心假设"><a href="#1-核心假设" class="headerlink" title="1. 核心假设"></a>1. 核心假设</h4><p><strong>“对象存活越久，它是垃圾的可能性越小。”</strong></p>
+<ul>
+<li>新创建的对象（比如循环里的临时变量）往往死得快。</li>
+<li>老不死的对象（比如全局配置）往往会一直活下去。</li>
+</ul>
+<h4 id="2-三代人-0代-1代-2代"><a href="#2-三代人-0代-1代-2代" class="headerlink" title="2. 三代人 (0代, 1代, 2代)"></a>2. 三代人 (0代, 1代, 2代)</h4><p>Python 将所有的对象分为三代：</p>
+<ul>
+<li><strong>0代 (Generation 0)</strong>：新生代。所有新创建的对象都放这里。</li>
+<li><strong>1代 (Generation 1)</strong>：中生代。</li>
+<li><strong>2代 (Generation 2)</strong>：老年代。</li>
+</ul>
+<h4 id="3-回收逻辑"><a href="#3-回收逻辑" class="headerlink" title="3. 回收逻辑"></a>3. 回收逻辑</h4><ol>
+<li><strong>扫描频率</strong>：0代扫描最勤快，1代次之，2代最懒。</li>
+<li><strong>晋升机制</strong>：<ul>
+<li>当 GC 扫描 0代列表时，发现有些对象居然还活着（没被回收），那就把它们<strong>移入 1代</strong>。</li>
+<li>同理，如果在扫描 1代时对象还没死，就<strong>移入 2代</strong>。</li>
+</ul>
+</li>
+<li><strong>触发阈值</strong>（了解即可）：<ul>
+<li>当 0代对象数量达到一定阈值（默认 700 个），就会触发一次 0代 GC。</li>
+<li>当 0代 GC 触发 10 次，才会触发一次 1代 GC。</li>
+<li>当 1代 GC 触发 10 次，才会触发一次 2代 GC。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gc<br><br><span class="hljs-comment"># 获取当前的分代回收阈值</span><br>threshold = gc.get_threshold()<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;700 表示：0代对象超过 700 个触发一次 GC&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;10  表示：0代 GC 触发 10 次，触发一次 1代 GC&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;10  表示：1代 GC 触发 10 次，触发一次 2代 GC&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前阈值: <span class="hljs-subst">&#123;threshold&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 获取当前每一代的垃圾数量</span><br><span class="hljs-comment"># 结果类似 (count0, count1, count2)</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前各代垃圾数量: <span class="hljs-subst">&#123;gc.get_count()&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="数据结构原理"><a href="#数据结构原理" class="headerlink" title="数据结构原理"></a>数据结构原理</h1><h3 id="1-列表-List-vs-元组-Tuple"><a href="#1-列表-List-vs-元组-Tuple" class="headerlink" title="1. 列表 (List) vs 元组 (Tuple)"></a>1. 列表 (List) vs 元组 (Tuple)</h3><p><strong>面试题</strong>：“List 和 Tuple 有什么区别？为什么 Python 要设计两个看似一样的东西？”</p>
+<h4 id="核心区别："><a href="#核心区别：" class="headerlink" title="核心区别："></a>核心区别：</h4><ol>
+<li><strong>可变性 (Mutability)</strong>：<ul>
+<li><strong>List (<code>[]</code>)</strong>：<strong>可变的（Mutable）</strong>。<ul>
+<li><strong>比喻</strong>：它就像一个**“背包”**。你可以随时往里塞东西、拿东西出来，甚至把里面的苹果换成香蕉。</li>
+</ul>
+</li>
+<li><strong>Tuple (<code>()</code>)</strong>：<strong>不可变的（Immutable）</strong>。<ul>
+<li><strong>比喻</strong>：它就像一个**“琥珀”<strong>或者</strong>“封死的快递箱”**。一旦出厂（创建），里面的东西就定死了。你想改？只能打碎了重新做一个。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>性能 (Performance)</strong>：<ul>
+<li><strong>Tuple 比 List 快</strong>。</li>
+<li><strong>原因</strong>：<ul>
+<li>Python 对 Tuple 做了<strong>内存缓存机制</strong>。当你创建一个 tuple 时，Python 知道它不会变，所以可以放心大胆地分配一段固定的内存，不需要像 List 那样预留额外的空间（为了 append）。</li>
+<li>如果你的数据只读不改（比如配置参数、数据库查出来的结果），请无脑用 Tuple。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>作为字典的 Key</strong>：<ul>
+<li><strong>Tuple 可以</strong>做字典的 Key（只要里面装的也是不可变元素）。</li>
+<li><strong>List 不行</strong>（因为它是可变的，不可哈希）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="2-字典-Dict-的底层原理-——-哈希表-Hash-Table"><a href="#2-字典-Dict-的底层原理-——-哈希表-Hash-Table" class="headerlink" title="2. 字典 (Dict) 的底层原理 —— 哈希表 (Hash Table)"></a>2. 字典 (Dict) 的底层原理 —— 哈希表 (Hash Table)</h3><p><strong>面试题</strong>：“字典为什么查找速度这么快？底层是怎么实现的？”</p>
+<p>这是 Python 面试中<strong>含金量最高</strong>的问题。</p>
+<h4 id="核心原理："><a href="#核心原理：" class="headerlink" title="核心原理："></a>核心原理：</h4><p>字典查找是 <strong>O(1)</strong> 的时间复杂度（也就是<strong>秒查</strong>，不管字典里有 1 万个数据还是 1 亿个，查找速度几乎一样快）。</p>
+<p><strong>比喻：超市储物柜</strong></p>
+<ul>
+<li><strong>Hash 函数</strong>：就是<strong>条形码扫描枪</strong>。</li>
+<li><strong>Key</strong>：你手里的<strong>小票</strong>。</li>
+<li><strong>Value</strong>：柜子里的<strong>包</strong>。</li>
+</ul>
+<p>当你想存东西（<code>dict[&quot;name&quot;] = &quot;亚索&quot;</code>）：</p>
+<ol>
+<li>Python 拿着 “name” 这个 Key，通过 <strong>哈希函数 (hash function)</strong> 算出一个数字（比如 10086）。</li>
+<li>这个数字直接对应内存里的<strong>地址索引</strong>。</li>
+<li>Python 直接把 “亚索” 扔进 10086 号柜子。</li>
+</ol>
+<p>当你想取东西（<code>dict[&quot;name&quot;]</code>）：</p>
+<ol>
+<li>Python 拿着 “name” 再算一次哈希值，算出 10086。</li>
+<li>直接去 10086 号柜子拿数据。</li>
+<li><strong>完全不需要遍历！</strong> 不需要一个个柜子打开看。</li>
+</ol>
+<h4 id="追问：哈希冲突-Hash-Collision"><a href="#追问：哈希冲突-Hash-Collision" class="headerlink" title="追问：哈希冲突 (Hash Collision)"></a>追问：哈希冲突 (Hash Collision)</h4><p><strong>面试题</strong>：“如果两个不同的 Key，算出来的哈希值一样（都要抢 10086 号柜子）怎么办？”</p>
+<ul>
+<li><strong>Java (HashMap)</strong>：采用**“链地址法”**。如果你来了发现 10086 有人了，你在 10086 后面挂个钩子，吊在下面（形成链表）。</li>
+<li><strong>Python (Dict)</strong>：采用**“开放寻址法” (Open Addressing)**。<ul>
+<li><strong>逻辑</strong>：如果你来了发现 10086 被占了，Python 会说：“别急，往后看！”</li>
+<li>它会按照某种规则（比如看 10087、10088…）去找<strong>下一个空的柜子</strong>存进去。</li>
+<li><em>注：Python 3.6+ 之后对字典进行了大量优化（变得有序且更省内存），但核心依然是哈希表。</em></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-列表-List-的底层-——-动态数组"><a href="#3-列表-List-的底层-——-动态数组" class="headerlink" title="3. 列表 (List) 的底层 —— 动态数组"></a>3. 列表 (List) 的底层 —— 动态数组</h3><p><strong>面试题</strong>：“List 是怎么实现动态扩容的？为什么 append 很快，insert 很慢？”</p>
+<h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><p>Python 的 List 不是链表，而是<strong>连续的内存空间（数组）</strong>，里面存的是<strong>指针</strong>（指向具体的对象）。</p>
+<ol>
+<li><strong>为什么 append (尾部插入) 快？</strong><ul>
+<li>List 在初始化时，会<strong>偷偷多申请一点内存</strong>。</li>
+<li>比如你存 3 个数，它实际申请了 4 个坑位。当你 <code>append</code> 第 4 个数时，直接放进去就行，不需要找操作系统要内存。</li>
+</ul>
+</li>
+<li><strong>动态扩容 (Resizing)</strong>：<ul>
+<li>如果你 append 第 5 个数，坑位不够了怎么办？</li>
+<li>Python 会直接申请一个<strong>更大的内存条</strong>（通常是原来的 1.125 倍左右），然后把旧数据<strong>统统复制过去</strong>，再把旧内存扔掉。</li>
+<li>这就是为什么偶尔一次 append 会变慢的原因。</li>
+</ul>
+</li>
+<li><strong>为什么 insert (中间插入) 慢？</strong><ul>
+<li>如果你在 index&#x3D;0 的位置插入一个数据。</li>
+<li>Python 必须把后面所有的数据<strong>全体起立，向后挪一个位置</strong>，给新来的腾地儿。</li>
+<li>数据越多，挪动越慢。所以 List 极其不适合做“队列”使用。</li>
+</ul>
+</li>
+</ol>
 
                 
               </div>
@@ -1045,6 +1205,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2025/12/10/selenium%E5%AD%A6%E4%B9%A0/" title="selenium学习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">selenium学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
