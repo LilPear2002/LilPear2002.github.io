@@ -84,8 +84,6 @@
     
     <tags>
       
-      <tag>Python基础</tag>
-      
       <tag>流程控制</tag>
       
       <tag>数组</tag>
@@ -93,6 +91,8 @@
       <tag>方法</tag>
       
       <tag>基础语法</tag>
+      
+      <tag>Python基础</tag>
       
     </tags>
     
@@ -117,6 +117,8 @@
     
     <tags>
       
+      <tag>Java SE</tag>
+      
       <tag>流程控制</tag>
       
       <tag>数组</tag>
@@ -124,8 +126,6 @@
       <tag>方法</tag>
       
       <tag>基础语法</tag>
-      
-      <tag>Java SE</tag>
       
     </tags>
     
