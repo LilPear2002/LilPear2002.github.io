@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lilpear2002.github.io/img/selenium.jpg">
 <meta property="article:published_time" content="2025-12-10T14:41:38.000Z">
-<meta property="article:modified_time" content="2025-12-11T04:52:27.307Z">
+<meta property="article:modified_time" content="2025-12-11T05:45:34.899Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="Web自动化测试">
 <meta property="article:tag" content="java">
@@ -276,7 +276,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.1k 字
+          9k 字
         
       </span>
     
@@ -287,7 +287,7 @@
         
         
         
-          68 分钟
+          75 分钟
         
       </span>
     
@@ -722,6 +722,52 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver<br><span class="hljs-keyword">from</span> selenium.webdriver.common.by <span class="hljs-keyword">import</span> By<br><span class="hljs-keyword">from</span> selenium.webdriver.common.keys <span class="hljs-keyword">import</span> Keys <span class="hljs-comment"># 引入 Keys</span><br><span class="hljs-keyword">from</span> selenium.webdriver <span class="hljs-keyword">import</span> ActionChains<br><br>driver = webdriver.Chrome()<br>driver.get(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)<br><br><span class="hljs-comment"># 定位搜索框</span><br>search_input = driver.find_element(By.ID, <span class="hljs-string">&quot;kw&quot;</span>)<br><br><span class="hljs-comment"># 1. 正常输入</span><br>search_input.send_keys(<span class="hljs-string">&quot;Python&quot;</span>)<br>time.sleep(<span class="hljs-number">1</span>)<br><br><span class="hljs-comment"># 2. 模拟组合键：Ctrl + A (全选)</span><br><span class="hljs-comment"># key_down(按下) -&gt; send_keys(A) -&gt; key_up(松开)</span><br>ActionChains(driver)\<br>    .key_down(Keys.CONTROL)\<br>    .send_keys(<span class="hljs-string">&quot;a&quot;</span>)\<br>    .key_up(Keys.CONTROL)\<br>    .perform()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;已全选&quot;</span>)<br>time.sleep(<span class="hljs-number">1</span>)<br><br><span class="hljs-comment"># 3. 模拟组合键：Ctrl + X (剪切)</span><br><span class="hljs-comment"># 其实 send_keys 也可以直接传组合键，不用 ActionChains 也可以，这是简便写法：</span><br>search_input.send_keys(Keys.CONTROL, <span class="hljs-string">&#x27;x&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;已剪切&quot;</span>)<br>time.sleep(<span class="hljs-number">1</span>)<br><br><span class="hljs-comment"># 4. 模拟组合键：Ctrl + V (粘贴)</span><br>search_input.send_keys(Keys.CONTROL, <span class="hljs-string">&#x27;v&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;已粘贴&quot;</span>)<br>time.sleep(<span class="hljs-number">1</span>)<br><br><span class="hljs-comment"># 5. 模拟回车键 (提交搜索)</span><br><span class="hljs-comment"># 很多时候不用去找“百度一下”按钮，直接回车更稳</span><br>search_input.send_keys(Keys.ENTER)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;已回车搜索&quot;</span>)<br><br>time.sleep(<span class="hljs-number">3</span>)<br>driver.quit()<br></code></pre></td></tr></table></figure>
 
 <hr>
+<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><p>文件上传分为两种情况，处理方式天差地别：</p>
+<ol>
+<li><strong>标准控件 (<code>&lt;input type=&quot;file&quot;&gt;</code>)</strong>：Selenium 可以轻松搞定。</li>
+<li><strong>非标准控件 (Flash&#x2F;JS&#x2F;Div)</strong>：Selenium <strong>无能为力</strong>，必须借助外挂。</li>
+</ol>
+<hr>
+<h3 id="情况一：标准-Input-标签-90-的情况"><a href="#情况一：标准-Input-标签-90-的情况" class="headerlink" title="情况一：标准 Input 标签 (90% 的情况)"></a>情况一：标准 Input 标签 (90% 的情况)</h3><p>如果网页上的上传按钮对应的 HTML 标签是 <code>&lt;input type=&quot;file&quot; ...&gt;</code>，这是最简单的情况。</p>
+<p><strong>核心秘诀：千万不要点击上传按钮！</strong></p>
+<ul>
+<li><strong>错误做法</strong>：你点击按钮 -&gt; 操作系统弹出一个“文件选择框” -&gt; Selenium 傻眼了（因为它控制不了操作系统窗口）。</li>
+<li><strong>正确做法</strong>：直接把<strong>文件路径</strong> <code>send_keys</code> 给那个 input 元素。</li>
+</ul>
+<h4 id="💻-代码实战"><a href="#💻-代码实战" class="headerlink" title="💻 代码实战"></a>💻 代码实战</h4><p><strong>网址</strong>：<code>https://the-internet.herokuapp.com/upload</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver<br><span class="hljs-keyword">from</span> selenium.webdriver.common.by <span class="hljs-keyword">import</span> By<br><br>driver = webdriver.Chrome()<br>driver.implicitly_wait(<span class="hljs-number">10</span>)<br>driver.get(<span class="hljs-string">&quot;https://the-internet.herokuapp.com/upload&quot;</span>)<br><br><span class="hljs-comment"># 1. 准备文件路径</span><br><span class="hljs-comment"># 建议使用绝对路径，防止因为运行目录不同找不到文件</span><br><span class="hljs-comment"># 假设当前目录下有一个 test.txt</span><br>file_path = os.path.abspath(<span class="hljs-string">&quot;test.txt&quot;</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;准备上传的文件路径: <span class="hljs-subst">&#123;file_path&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 2. 定位上传控件</span><br><span class="hljs-comment"># 注意：我们要找的是那个 input 标签，而不是那个漂亮的“Choose File”按钮</span><br><span class="hljs-comment"># 哪怕 input 是隐藏的，只要能定位到就行</span><br>upload_input = driver.find_element(By.ID, <span class="hljs-string">&quot;file-upload&quot;</span>)<br><br><span class="hljs-comment"># 3. 核心步骤：直接发送路径</span><br><span class="hljs-comment"># 这一步相当于：Selenium 帮你把路径填进去，并自动触发了文件选择</span><br>upload_input.send_keys(file_path)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;已发送文件路径&quot;</span>)<br><br><span class="hljs-comment"># 4. 点击“Upload”按钮 (提交表单)</span><br>driver.find_element(By.ID, <span class="hljs-string">&quot;file-submit&quot;</span>).click()<br><br><span class="hljs-comment"># 5. 验证结果</span><br>uploaded_text = driver.find_element(By.ID, <span class="hljs-string">&quot;uploaded-files&quot;</span>).text<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;页面显示已上传: <span class="hljs-subst">&#123;uploaded_text&#125;</span>&quot;</span>)<br><span class="hljs-keyword">assert</span> <span class="hljs-string">&quot;test.txt&quot;</span> <span class="hljs-keyword">in</span> uploaded_text<br><br>time.sleep(<span class="hljs-number">2</span>)<br>driver.quit()<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="情况二：非标准控件-面试难点"><a href="#情况二：非标准控件-面试难点" class="headerlink" title="情况二：非标准控件 (面试难点)"></a>情况二：非标准控件 (面试难点)</h3><p>有些网站（比如花哨的图片上传插件），找不到 <code>&lt;input&gt;</code> 标签，或者那个标签被复杂的 JS 逻辑包裹，<code>send_keys</code> 不生效。必须点击按钮，弹出 Windows&#x2F;Mac 的文件选择框才能上传。</p>
+<p><strong>Selenium 的局限性</strong>：Selenium 只能控制浏览器，<strong>控制不了操作系统的弹窗</strong>。</p>
+<p><strong>解决方案</strong>：<br>需要引入“外援”来控制鼠标和键盘。</p>
+<h4 id="1-PyAutoGUI-Python-库，推荐"><a href="#1-PyAutoGUI-Python-库，推荐" class="headerlink" title="1. PyAutoGUI (Python 库，推荐)"></a>1. PyAutoGUI (Python 库，推荐)</h4><p>这是一个能控制鼠标键盘的 Python 库。</p>
+<ul>
+<li><strong>思路</strong>：Selenium 点击按钮 -&gt; 弹窗出现 -&gt; PyAutoGUI 输入路径 -&gt; PyAutoGUI 按回车。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 需要先安装: pip install pyautogui</span><br><span class="hljs-keyword">import</span> pyautogui<br><br><span class="hljs-comment"># ... Selenium 点击按钮的代码 ...</span><br>driver.find_element(By.ID, <span class="hljs-string">&quot;upload_btn&quot;</span>).click()<br>time.sleep(<span class="hljs-number">1</span>) <span class="hljs-comment"># 等弹窗出来</span><br><br><span class="hljs-comment"># 使用 PyAutoGUI 操作 Windows 弹窗</span><br>pyautogui.write(<span class="hljs-string">&quot;D:\\test.txt&quot;</span>) <span class="hljs-comment"># 输入路径</span><br>pyautogui.press(<span class="hljs-string">&quot;enter&quot;</span>)        <span class="hljs-comment"># 按回车</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>缺点</strong>：脚本运行时，<strong>鼠标焦点必须在浏览器上</strong>，你不能去干别的事，否则会输错地方。而且在“无头模式”（Headless，后台运行）下无法使用。</li>
+</ul>
+<h4 id="2-AutoIt-Windows-老牌工具"><a href="#2-AutoIt-Windows-老牌工具" class="headerlink" title="2. AutoIt (Windows 老牌工具)"></a>2. AutoIt (Windows 老牌工具)</h4><p>写一个 <code>.exe</code> 脚本来处理弹窗，Python 调用这个 exe。</p>
+<ul>
+<li><strong>缺点</strong>：学习成本高，只能在 Windows 上用，现在用的人越来越少了。</li>
+</ul>
+<hr>
+<p><strong>问：</strong> “如果上传按钮不是 input 标签，或者 input 标签是 hidden（隐藏）的，怎么处理？”</p>
+<p><strong>答：</strong></p>
+<blockquote>
+<p>“如果是 <code>input</code> 标签被 <code>hidden</code> 隐藏了：</p>
+<ol>
+<li>我会先尝试用 JS (<code>execute_script</code>) 把它的 <code>style.display</code> 改为 <code>block</code> 让它显示出来。</li>
+<li>然后直接用 <code>send_keys</code> 上传，这是最稳的。</li>
+</ol>
+<p>如果根本没有 <code>input</code> 标签，必须操作 OS 弹窗：</p>
+<ul>
+<li>我会使用 <strong>PyAutoGUI</strong> 这样的第三方库来模拟键盘输入路径并回车。</li>
+<li>但在 CI&#x2F;CD 流水线（无界面环境）中这会失效，所以我会尽量和开发沟通，让他们提供一个可供自动化调用的上传接口。”</li>
+</ul>
+</blockquote>
 
                 
               </div>
