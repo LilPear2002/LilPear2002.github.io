@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>软件测试基础功能测试小案例</title>
+    <link href="/2025/12/13/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B0%8F%E6%A1%88%E4%BE%8B/"/>
+    <url>/2025/12/13/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B0%8F%E6%A1%88%E4%BE%8B/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Testing</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>软件测试基础</tag>
+      
+      <tag>功能测试</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Playwright学习</title>
     <link href="/2025/12/12/Playwright%E5%AD%A6%E4%B9%A0/"/>
     <url>/2025/12/12/Playwright%E5%AD%A6%E4%B9%A0/</url>
@@ -113,6 +140,8 @@
     
     <tags>
       
+      <tag>Python基础</tag>
+      
       <tag>流程控制</tag>
       
       <tag>数组</tag>
@@ -120,8 +149,6 @@
       <tag>方法</tag>
       
       <tag>基础语法</tag>
-      
-      <tag>Python基础</tag>
       
     </tags>
     
@@ -146,8 +173,6 @@
     
     <tags>
       
-      <tag>Java SE</tag>
-      
       <tag>流程控制</tag>
       
       <tag>数组</tag>
@@ -155,6 +180,8 @@
       <tag>方法</tag>
       
       <tag>基础语法</tag>
+      
+      <tag>Java SE</tag>
       
     </tags>
     
