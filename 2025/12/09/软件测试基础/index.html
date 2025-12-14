@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lilpear2002.github.io/img/test.png">
 <meta property="article:published_time" content="2025-12-09T00:51:01.000Z">
-<meta property="article:modified_time" content="2025-12-13T08:36:29.349Z">
+<meta property="article:modified_time" content="2025-12-13T15:49:13.784Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="软件测试理论">
@@ -274,7 +274,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.7k 字
+          5.7k 字
         
       </span>
     
@@ -285,7 +285,7 @@
         
         
         
-          40 分钟
+          48 分钟
         
       </span>
     
@@ -800,6 +800,81 @@
 </ul>
 </li>
 </ol>
+<hr>
+<h1 id="补充-白盒测试方法"><a href="#补充-白盒测试方法" class="headerlink" title="补充-白盒测试方法"></a>补充-白盒测试方法</h1><p>白盒测试的核心思想是：穷尽代码内部的逻辑路径。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 案例：电商打折逻辑</span><br><span class="hljs-comment"># 如果 消费金额 &gt; 1000 并且 是VIP用户，那么打8折</span><br><span class="hljs-comment"># 如果 消费金额 &gt; 500  或者 是老用户，那么打9折</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_discount</span>(<span class="hljs-params">amount, is_vip, is_old_user</span>):<br>    <span class="hljs-comment"># 判定 A</span><br>    <span class="hljs-keyword">if</span> amount &gt; <span class="hljs-number">1000</span> <span class="hljs-keyword">and</span> is_vip:<br>        discount = <span class="hljs-number">0.8</span><br>    <span class="hljs-comment"># 判定 B</span><br>    <span class="hljs-keyword">elif</span> amount &gt; <span class="hljs-number">500</span> <span class="hljs-keyword">or</span> is_old_user:<br>        discount = <span class="hljs-number">0.9</span><br>    <span class="hljs-keyword">else</span>:<br>        discount = <span class="hljs-number">1.0</span><br>    <br>    <span class="hljs-keyword">return</span> discount<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="1-语句覆盖-Statement-Coverage-——-最弱-🥉"><a href="#1-语句覆盖-Statement-Coverage-——-最弱-🥉" class="headerlink" title="1. 语句覆盖 (Statement Coverage) —— 最弱 🥉"></a>1. 语句覆盖 (Statement Coverage) —— 最弱 🥉</h3><ul>
+<li><strong>定义：</strong> 设计足够多的用例，保证<strong>每一行代码都至少被执行一次</strong>。</li>
+<li><strong>如何做：</strong><ul>
+<li>用例 1：<code>amount=2000, is_vip=True</code> (走到 0.8 折，覆盖了 line 6-7)</li>
+<li>用例 2：<code>amount=600, is_vip=False</code> (走到 0.9 折，覆盖了 line 9-10)</li>
+<li>用例 3：<code>amount=100, is_vip=False, is_old_user=False</code> (走到无折扣，覆盖 line 12)</li>
+</ul>
+</li>
+<li><strong>缺点：</strong> 它的覆盖度最低。比如第一个判断 <code>amount &gt; 1000 and is_vip</code>，如果代码逻辑错写成了 <code>or</code>，语句覆盖也能通过，根本发现不了逻辑错误。</li>
+</ul>
+<h3 id="2-判定覆盖-分支覆盖-Decision-Branch-Coverage-——-标准-🥈"><a href="#2-判定覆盖-分支覆盖-Decision-Branch-Coverage-——-标准-🥈" class="headerlink" title="2. 判定覆盖 &#x2F; 分支覆盖 (Decision&#x2F;Branch Coverage) —— 标准 🥈"></a>2. 判定覆盖 &#x2F; 分支覆盖 (Decision&#x2F;Branch Coverage) —— 标准 🥈</h3><ul>
+<li><strong>定义：</strong> 保证每个 <strong><code>if</code></strong> 语句的 <strong>True</strong> 和 <strong>False</strong> 两个分支都至少被执行一次。</li>
+<li><strong>关注点：</strong> 不关心 <code>if</code> 里面的条件细节，只关心 <code>if</code> 整体的结果是真还是假。</li>
+<li><strong>针对判定 A (<code>amount &gt; 1000 and is_vip</code>)：</strong><ul>
+<li>需要一个 <code>True</code> 的用例（比如：2000, True）。</li>
+<li>需要一个 <code>False</code> 的用例（比如：200, True）。</li>
+</ul>
+</li>
+<li><strong>缺点：</strong> 它把 <code>and</code> 里面的条件当成一个整体。如果 <code>amount &gt; 1000</code> 这个子条件写错了，只要整体结果凑巧对了，测试也就过了。</li>
+</ul>
+<h3 id="3-条件覆盖-Condition-Coverage-——-细节"><a href="#3-条件覆盖-Condition-Coverage-——-细节" class="headerlink" title="3. 条件覆盖 (Condition Coverage) —— 细节"></a>3. 条件覆盖 (Condition Coverage) —— 细节</h3><ul>
+<li><strong>定义：</strong> 不管 <code>if</code> 整体怎么样，我要保证每个<strong>原子条件</strong>（Atomic Condition）的真假都被测到。</li>
+<li><strong>拆解原子条件：</strong><ol>
+<li><code>amount &gt; 1000</code> (取真、取假)</li>
+<li><code>is_vip</code> (取真、取假)</li>
+<li><code>amount &gt; 500</code> (取真、取假)</li>
+<li><code>is_old_user</code> (取真、取假)</li>
+</ol>
+</li>
+<li><strong>如何做：</strong> 设计用例，让上面 4 个小条件分别出现 True 和 False。</li>
+<li><strong>缺点：</strong> 有时候你覆盖了所有小条件的真假，但可能凑不出 <code>if</code> 整体为 True 的情况（虽然概率小，但逻辑上存在）。</li>
+</ul>
+<h3 id="4-路径覆盖-Path-Coverage-——-最强-🥇"><a href="#4-路径覆盖-Path-Coverage-——-最强-🥇" class="headerlink" title="4. 路径覆盖 (Path Coverage) —— 最强 🥇"></a>4. 路径覆盖 (Path Coverage) —— 最强 🥇</h3><ul>
+<li><strong>定义：</strong> 覆盖程序中<strong>所有可能的执行路径</strong>。这是最彻底的测试。</li>
+<li><strong>如何做：</strong> 我们需要画出<strong>控制流图 (Control Flow Graph)</strong>，找出从“开始”到“结束”的所有路线。</li>
+<li><strong>针对案例的路径：</strong><ol>
+<li>路径 1：判定A(真)-&gt;结束</li>
+<li>路径 2：判定A(假)-&gt;判定B(真-&gt;结束</li>
+<li>路径 3：判定A(假) -&gt; 判定B(假) -&gt; 结束</li>
+</ol>
+</li>
+<li><strong>现实中的大坑：</strong> 如果代码里有 <strong>循环 (Loop)</strong>（比如 <code>while</code> 循环 1000 次），路径数量就是天文数字（无穷多），根本测不完。所以通常把循环简化为“执行0次、1次、N次”。</li>
+</ul>
+<hr>
+<h3 id="5-圈复杂度-Cyclomatic-Complexity"><a href="#5-圈复杂度-Cyclomatic-Complexity" class="headerlink" title="5. 圈复杂度 (Cyclomatic Complexity)"></a>5. 圈复杂度 (Cyclomatic Complexity)</h3><p>问：“你怎么判断这段代码难不难测？”</p>
+<p>答：“我会看它的圈复杂度。”</p>
+<ul>
+<li><p><strong>定义：</strong> 衡量代码逻辑复杂程度的一个指标。</p>
+</li>
+<li><p>简单计算公式：</p>
+<p>判定节点数 + 1</p>
+<p>(通俗点说：代码里有多少个 if, while, case, &amp;&amp;, ||，加起来再加 1)</p>
+</li>
+<li><p><strong>意义：</strong></p>
+<ul>
+<li>圈复杂度越高，Bug 可能性越大。</li>
+<li><strong>黄金标准：</strong> 如果一个函数的圈复杂度 <strong>&gt; 10</strong>，说明代码写得太复杂，建议开发重构，或者需要极其严格的测试。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>问：“你平时用白盒测试吗？” 答：</p>
+<blockquote>
+<p>“虽然单元测试主要由开发同学完成，但在我的测试工作中，我会大量运用<strong>白盒思维</strong>：</p>
+<ol>
+<li>在设计用例时，对于复杂逻辑，我会<strong>阅读核心代码</strong>（Code Review）来确保没有遗漏特定的逻辑分支（比如特殊的 if&#x2F;else 组合）。</li>
+<li>执行自动化测试后，我会关注<strong>代码覆盖率</strong>，利用白盒工具发现漏测的代码块。</li>
+<li>在定位 Bug 时，我会通过查看<strong>代码和日志</strong>来精准定位问题根源，而不仅仅是停留在 UI 报错层面。”</li>
+</ol>
+</blockquote>
 
                 
               </div>
