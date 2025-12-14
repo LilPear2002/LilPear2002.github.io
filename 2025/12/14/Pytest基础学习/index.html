@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lilpear2002.github.io/img/pytest.jpg">
 <meta property="article:published_time" content="2025-12-14T13:12:08.000Z">
-<meta property="article:modified_time" content="2025-12-14T15:10:54.826Z">
+<meta property="article:modified_time" content="2025-12-14T15:35:39.282Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="allure">
 <meta property="article:tag" content="fixture">
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          3.4k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          25 分钟
+          29 分钟
         
       </span>
     
@@ -547,7 +547,26 @@
 
 <p>有了这个文件，以后你在终端只需要输入简单的 <code>pytest</code> 四个字母，所有的配置（详细输出、生成报告、路径过滤）都会自动生效。</p>
 <hr>
-<h1 id="Allure基础"><a href="#Allure基础" class="headerlink" title="Allure基础"></a>Allure基础</h1>
+<h1 id="Allure基础"><a href="#Allure基础" class="headerlink" title="Allure基础"></a>Allure基础</h1><p><strong>Allure</strong> 是目前测试圈最顶级的测试报告框架。Allure 的报告支持多语言、由 Java 渲染、交互性极强，并且可以直接对接 Jenkins。</p>
+<hr>
+<h3 id="运行并生成报告"><a href="#运行并生成报告" class="headerlink" title="运行并生成报告"></a>运行并生成报告</h3><p>生成报告分两步走：<strong>运行</strong> -&gt; <strong>渲染</strong>。</p>
+<h4 id="1-修改-pytest-ini（推荐）"><a href="#1-修改-pytest-ini（推荐）" class="headerlink" title="1. 修改 pytest.ini（推荐）"></a>1. 修改 pytest.ini（推荐）</h4><p>为了不用每次都敲长命令，修改你的 <code>pytest.ini</code>，加入 <code>addopts</code> 配置：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[pytest]</span><br><span class="hljs-attr">addopts</span> = -vs --alluredir=./temps --clean-alluredir<br><span class="hljs-attr">testpaths</span> = ./<br><span class="hljs-attr">python_files</span> = test_*.py<br><span class="hljs-attr">python_classes</span> = Test*<br><span class="hljs-attr">python_functions</span> = test_*<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-运行测试"><a href="#2-运行测试" class="headerlink" title="2. 运行测试"></a>2. 运行测试</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pytest<br></code></pre></td></tr></table></figure>
+
+<p>运行完后，项目目录下多了一个 <code>temps</code> 文件夹，里面全是乱码一样的 <code>.json</code> 和 <code>.txt</code> 文件。<strong>这是原始数据，不是直接看的。</strong></p>
+<h4 id="3-渲染并查看报告"><a href="#3-渲染并查看报告" class="headerlink" title="3. 渲染并查看报告"></a>3. 渲染并查看报告</h4><p>在终端输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">allure serve ./temps<br></code></pre></td></tr></table></figure>
+
+<p>*注意：<code>serve</code> 后面跟的是临时数据目录。*执行后，它会自动启动一个临时的 Web 服务（通常是 Java 启动的 Jetty），并自动在默认浏览器打开一个网页。<strong>这就是传说中的 Allure 报告！</strong></p>
+<hr>
+<h3 id="定制化显示"><a href="#定制化显示" class="headerlink" title="定制化显示"></a>定制化显示</h3><p>默认的报告虽然好看，但用例名字都是 <code>test_calc[1-2-3]</code> 这种代码名。需要用装饰器给报告加“元数据”,即加入 Allure 的装饰器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pytest<br><span class="hljs-keyword">import</span> allure  <span class="hljs-comment"># 导入 allure 库</span><br><br><span class="hljs-comment"># 1. Feature: 标注这是哪个大模块</span><br><span class="hljs-meta">@allure.feature(<span class="hljs-params"><span class="hljs-string">&quot;计算器模块&quot;</span></span>)</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCalculator</span>:<br><br>    <span class="hljs-comment"># 2. Story: 标注这是哪个具体功能/用户故事</span><br><span class="hljs-meta">    @allure.story(<span class="hljs-params"><span class="hljs-string">&quot;除法运算功能&quot;</span></span>)</span><br>    <span class="hljs-comment"># 3. Title: 自定义用例标题（支持参数化占位符）</span><br><span class="hljs-meta">    @allure.title(<span class="hljs-params"><span class="hljs-string">&quot;测试用例：&#123;a&#125; 除以 &#123;b&#125;&quot;</span></span>)</span><br><span class="hljs-meta">    @pytest.mark.parametrize(<span class="hljs-params"><span class="hljs-string">&quot;a, b, expected&quot;</span>, [</span></span><br><span class="hljs-params"><span class="hljs-meta">        (<span class="hljs-params"><span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span></span>),</span></span><br><span class="hljs-params"><span class="hljs-meta">        (<span class="hljs-params"><span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">0.3333333333</span></span>),</span></span><br><span class="hljs-params"><span class="hljs-meta">        (<span class="hljs-params"><span class="hljs-number">1</span>, <span class="hljs-number">0</span>, ZeroDivisionError</span>)</span></span><br><span class="hljs-params"><span class="hljs-meta">    ]</span>)</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_div</span>(<span class="hljs-params">self, a, b, expected</span>):<br>        <span class="hljs-comment"># 4. Step: 标注测试步骤，报告里会分层级显示</span><br>        <span class="hljs-keyword">with</span> allure.step(<span class="hljs-string">f&quot;步骤1：准备数据 a=<span class="hljs-subst">&#123;a&#125;</span>, b=<span class="hljs-subst">&#123;b&#125;</span>&quot;</span>):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;准备数据...&quot;</span>)<br>        <br>        <span class="hljs-keyword">with</span> allure.step(<span class="hljs-string">&quot;步骤2：执行计算并断言&quot;</span>):<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(expected, <span class="hljs-built_in">type</span>) <span class="hljs-keyword">and</span> <span class="hljs-built_in">issubclass</span>(expected, Exception):<br>                <span class="hljs-keyword">with</span> pytest.raises(expected):<br>                    <span class="hljs-keyword">assert</span> a / b<br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-keyword">assert</span> a / b == pytest.approx(expected)<br></code></pre></td></tr></table></figure>
+
+<p>报告变得非常清晰：左侧菜单有了“计算器模块”，点进去能看到“除法运算功能”，右侧的步骤里有“步骤1”、“步骤2”，甚至报错时会有红色的堆栈信息。</p>
+<hr>
+
                 
               </div>
             
