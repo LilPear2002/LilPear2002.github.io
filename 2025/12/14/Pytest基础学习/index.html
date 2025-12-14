@@ -1,0 +1,920 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="pytest是一个成熟的全功能Python测试框架，以其简洁的语法和强大的功能受到广泛欢迎">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytest基础学习">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/14/Pytest%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="pytest是一个成熟的全功能Python测试框架，以其简洁的语法和强大的功能受到广泛欢迎">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/pytest.jpg">
+<meta property="article:published_time" content="2025-12-14T13:12:08.000Z">
+<meta property="article:modified_time" content="2025-12-14T15:10:54.826Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="allure">
+<meta property="article:tag" content="fixture">
+<meta property="article:tag" content="pytest">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="单元测试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/pytest.jpg">
+  
+  
+  
+  <title>Pytest基础学习 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-code-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-code-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-lab-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Pytest基础学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-14 21:12" pubdate>
+          2025年12月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Pytest基础学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Pytest基础知识"><a href="#Pytest基础知识" class="headerlink" title="Pytest基础知识"></a>Pytest基础知识</h1><p><code>pytest</code> 是 Python 技术栈的<strong>行业标准</strong>。相比于 Python 自带的 <code>unittest</code>，它更简洁、插件生态更丰富，而且能完美支持后续的 UI 自动化（Selenium&#x2F;Playwright）和接口自动化（Requests）。</p>
+<hr>
+<h3 id="第一阶段：Pytest-基础核心"><a href="#第一阶段：Pytest-基础核心" class="headerlink" title="第一阶段：Pytest 基础核心"></a>第一阶段：Pytest 基础核心</h3><h4 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1. 环境准备"></a>1. 环境准备</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install pytest<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-核心概念：pytest-如何发现测试用例"><a href="#2-核心概念：pytest-如何发现测试用例" class="headerlink" title="2. 核心概念：pytest 如何发现测试用例"></a>2. 核心概念：pytest 如何发现测试用例</h4><p>Pytest 不像 Java 的 JUnit 需要复杂的配置，它完全依靠<strong>命名规则</strong>来自动寻找测试代码。</p>
+<ol>
+<li><strong>文件名</strong>：必须以 <code>test_</code> 开头（推荐）或者 <code>_test</code> 结尾。例如：<code>test_login.py</code>。</li>
+<li><strong>类名</strong>：必须以 <code>Test</code> 开头，且<strong>不能</strong>包含 <code>__init__</code> 方法。</li>
+<li><strong>函数名</strong>：必须以 <code>test_</code> 开头。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># test_demo.py</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">return</span> x + y<br><br><span class="hljs-comment"># 1. 正确的测试用例：以 test_ 开头</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add_01</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在执行用例 01&quot;</span>)<br>    <span class="hljs-keyword">assert</span> add(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) == <span class="hljs-number">3</span>  <span class="hljs-comment"># Python 原生 assert</span><br><br><span class="hljs-comment"># 2. 错误的测试用例：没有以 test_ 开头，pytest 会忽略它</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">add_test_02</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;这个函数不会被运行&quot;</span>)<br>    <span class="hljs-keyword">assert</span> add(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) == <span class="hljs-number">3</span><br><br><span class="hljs-comment"># 3. 故意写一个失败的用例</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add_failed</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在执行用例 02&quot;</span>)<br>    <span class="hljs-keyword">assert</span> add(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>) == <span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li><strong>断言（Assertion）：</strong> Pytest 直接使用 Python 原生的 <code>assert</code> 关键字。不需要像 Java JUnit 那样用 <code>Assert.assertEquals()</code>，也不需要 <code>self.assertEqual()</code>。Pytest 会“重写”断言，在失败时提供非常详细的变量值对比，非常方便。</li>
+</ul>
+<h4 id="3-运行测试（命令行参数）"><a href="#3-运行测试（命令行参数）" class="headerlink" title="3. 运行测试（命令行参数）"></a>3. 运行测试（命令行参数）</h4><p>在终端中，进入该文件所在的目录。</p>
+<p><strong>最基础的运行：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pytest<br></code></pre></td></tr></table></figure>
+
+<p><em>会看到类似 <code>collected 2 items</code> 的提示（因为它只找到了 2 个符合命名规则的函数）。</em></p>
+<p><strong>常用的参数：</strong></p>
+<ol>
+<li><p><strong><code>-v</code> (verbose)</strong>：显示详细信息，包括每个测试用例的文件名和结果。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pytest -v<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong><code>-s</code> (show output)</strong>：默认情况下，如果用例通过，Pytest 会吞掉 <code>print()</code> 的输出。加上 <code>-s</code> 可以看到控制台打印的内容（调试时很有用）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pytest -vs  <span class="hljs-comment"># 常用组合</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong><code>-k &quot;keyword&quot;</code></strong>：只运行匹配名称的用例。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pytest -k <span class="hljs-string">&quot;01&quot;</span>  <span class="hljs-comment"># 只运行名字里带 01 的用例</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="4-运行结果分析"><a href="#4-运行结果分析" class="headerlink" title="4. 运行结果分析"></a>4. 运行结果分析</h4><p>运行后，你会看到几个特定的字符：</p>
+<ul>
+<li><strong><code>.</code> (点)</strong>：代表 <strong>PASSED</strong>（通过）。</li>
+<li><strong><code>F</code></strong>：代表 <strong>FAILED</strong>（失败）。</li>
+<li><strong><code>E</code></strong>：代表 <strong>ERROR</strong>（代码本身报错，而不是断言失败）。</li>
+<li><strong><code>s</code></strong>：代表 <strong>SKIPPED</strong>（跳过）。</li>
+</ul>
+<hr>
+<h3 id="5-断言的类型"><a href="#5-断言的类型" class="headerlink" title="5.断言的类型"></a>5.断言的类型</h3><p>在 <strong>pytest</strong> 中，设计哲学是 <strong>“Less is More”</strong>。它几乎废弃了所有的 <code>assertXxx</code> 方法，<strong>只用一个 Python 原生的 <code>assert</code> 关键字解决 90% 的问题</strong>，剩下的 10% 用专用辅助函数解决。</p>
+<h3 id="1-基础断言（解决-90-的场景）"><a href="#1-基础断言（解决-90-的场景）" class="headerlink" title="1. 基础断言（解决 90% 的场景）"></a>1. 基础断言（解决 90% 的场景）</h3><p>Pytest 会在底层通过“AST 语法树重写”技术，拦截原本的 Python <code>assert</code> 语句。当断言失败时，它不只是抛出 <code>AssertionError</code>，而是会详细展示<strong>表达式两边的具体值</strong>，甚至列出列表&#x2F;字典的差异。只需要写符合 Python 语法的布尔表达式：</p>
+<table>
+<thead>
+<tr>
+<th><strong>场景</strong></th>
+<th><strong>unittest &#x2F; Java 风格 (旧)</strong></th>
+<th><strong>pytest 风格 (新)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>值相等</strong></td>
+<td><code>assertEqual(x, y)</code></td>
+<td><code>assert x == y</code></td>
+</tr>
+<tr>
+<td><strong>值不相等</strong></td>
+<td><code>assertNotEqual(x, y)</code></td>
+<td><code>assert x != y</code></td>
+</tr>
+<tr>
+<td><strong>包含</strong></td>
+<td><code>assertIn(x, list)</code></td>
+<td><code>assert x in list</code></td>
+</tr>
+<tr>
+<td><strong>不包含</strong></td>
+<td><code>assertNotIn(x, list)</code></td>
+<td><code>assert x not in list</code></td>
+</tr>
+<tr>
+<td><strong>真&#x2F;假</strong></td>
+<td><code>assertTrue(x)</code></td>
+<td><code>assert x</code></td>
+</tr>
+<tr>
+<td><strong>大小比较</strong></td>
+<td><code>assertGreater(x, y)</code></td>
+<td><code>assert x &gt; y</code></td>
+</tr>
+<tr>
+<td><strong>地址相等</strong></td>
+<td>assertSame(x, y)</td>
+<td>assert x is y</td>
+</tr>
+<tr>
+<td><strong>地址不相等</strong></td>
+<td>assertNotSame(x, y)</td>
+<td>assert x is not y</td>
+</tr>
+</tbody></table>
+<p><strong>示例代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_basic_assertions</span>():<br>    <span class="hljs-comment"># 1. 字符串比较</span><br>    <span class="hljs-keyword">assert</span> <span class="hljs-string">&quot;class&quot;</span> <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;classic&quot;</span><br><br>    <span class="hljs-comment"># 2. 列表/字典比较（非常强大，失败时会显示具体哪个元素不同）</span><br>    a = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]<br>    b = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]<br>    <span class="hljs-keyword">assert</span> a == [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]<br>    <span class="hljs-keyword">assert</span> a == b<br>    <span class="hljs-keyword">assert</span> a <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> b<br><br>    res_dict = &#123;<span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-number">200</span>, <span class="hljs-string">&quot;msg&quot;</span>: <span class="hljs-string">&quot;success&quot;</span>&#125;<br>    <span class="hljs-keyword">assert</span> res_dict[<span class="hljs-string">&quot;code&quot;</span>] == <span class="hljs-number">200</span><br><br>    <span class="hljs-comment"># 3. 添加自定义报错信息（可选）</span><br>    <span class="hljs-comment"># 格式：assert 表达式, &quot;报错信息&quot;</span><br>    x = <span class="hljs-number">10</span><br>    <span class="hljs-comment"># assert x &gt; 100, f&quot;x 的值 &#123;x&#125; 竟然没有大于 100！&quot;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-浮点数断言（特殊场景）"><a href="#2-浮点数断言（特殊场景）" class="headerlink" title="2. 浮点数断言（特殊场景）"></a>2. 浮点数断言（特殊场景）</h3><p>计算机中 <code>0.1 + 0.2</code> 并不严格等于 <code>0.3</code>（精度问题）。如果做算法或金融计算，直接用 <code>==</code> 会报错。Pytest 提供了 <code>pytest.approx</code> 来解决这个问题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pytest<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_float_compare</span>():<br>    <span class="hljs-comment"># 这在 python 中通常是 False，因为结果是 0.30000000000000004</span><br>    <span class="hljs-comment"># assert 0.1 + 0.2 == 0.3  &lt;-- 这样写会失败</span><br>    <br>    <span class="hljs-comment"># 正确写法：使用 pytest.approx</span><br>    <span class="hljs-keyword">assert</span> <span class="hljs-number">0.1</span> + <span class="hljs-number">0.2</span> == pytest.approx(<span class="hljs-number">0.3</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-异常断言（预期代码会报错）"><a href="#3-异常断言（预期代码会报错）" class="headerlink" title="3. 异常断言（预期代码会报错）"></a>3. 异常断言（预期代码会报错）</h3><p>做测试时，我们不仅要测“成功”，还要测“失败”。比如：<em>当用户输入非法参数时，程序是否按预期抛出了异常？</em> 如果程序没报错，反而是 Bug。这需要使用 <code>pytest.raises</code> 上下文管理器。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pytest<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">divide</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">if</span> y == <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;除数不能为0&quot;</span>)<br>    <span class="hljs-keyword">return</span> x / y<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_exception</span>():<br>    <span class="hljs-comment"># 场景：我们要断言 divide(1, 0) 一定会抛出 ValueError</span><br>    <span class="hljs-comment"># 如果代码执行完没有抛出异常，这个测试用例就会 FAILED</span><br>    <span class="hljs-keyword">with</span> pytest.raises(ValueError):<br>        divide(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>)<br><br>    <span class="hljs-comment"># 进阶：断言抛出的异常信息（msg）是否正确</span><br>    <span class="hljs-keyword">with</span> pytest.raises(ValueError) <span class="hljs-keyword">as</span> excinfo:<br>        divide(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>)<br>    <span class="hljs-comment"># excinfo.value 是捕获到的异常对象</span><br>    <span class="hljs-keyword">assert</span> <span class="hljs-string">&quot;除数不能为0&quot;</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">str</span>(excinfo.value)<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>绝大多数时候</strong>：直接写 <code>assert 表达式</code>。</li>
+<li><strong>遇到小数</strong>：用 <code>assert x == pytest.approx(y)</code>。</li>
+<li><strong>预测代码崩溃&#x2F;报错</strong>：用 <code>with pytest.raises(ErrorType):</code>。</li>
+</ol>
+<hr>
+<h1 id="Fixtrue基础"><a href="#Fixtrue基础" class="headerlink" title="Fixtrue基础"></a>Fixtrue基础</h1><h3 id="什么是-Fixture？"><a href="#什么是-Fixture？" class="headerlink" title="什么是 Fixture？"></a>什么是 Fixture？</h3><p>在 <code>unittest</code> 中，如果要在测试前做准备（比如连数据库），测试后做清理（比如断开数据库），必须写固定的 <code>setUp()</code> 和 <code>tearDown()</code> 方法。两个问题：</p>
+<ol>
+<li><strong>太死板</strong>：所有用例都会执行它，没法挑着用。</li>
+<li><strong>难复用</strong>：跨文件的复用很麻烦。</li>
+</ol>
+<p>Fixture 的本质是：依赖注入（Dependency Injection）。需要什么配置，就在测试函数的参数里写上那个 Fixture 的名字，Pytest 会自动把在这个东西准备好并“注入”进去。</p>
+<hr>
+<h3 id="核心知识点-1：定义与调用"><a href="#核心知识点-1：定义与调用" class="headerlink" title="核心知识点 1：定义与调用"></a>核心知识点 1：定义与调用</h3><p>使用 <code>@pytest.fixture</code> 装饰器来定义。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pytest<br><br><span class="hljs-comment"># 1. 定义一个 fixture</span><br><span class="hljs-comment"># 假设这是一个模拟登录的功能</span><br><span class="hljs-meta">@pytest.fixture()</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">login_data</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n[Setup] 正在准备登录数据...&quot;</span>)<br>    data = &#123;<span class="hljs-string">&quot;token&quot;</span>: <span class="hljs-string">&quot;abc12345&quot;</span>, <span class="hljs-string">&quot;user&quot;</span>: <span class="hljs-string">&quot;admin&quot;</span>&#125;<br>    <span class="hljs-keyword">return</span> data<br><br><span class="hljs-comment"># 2. 调用 fixture</span><br><span class="hljs-comment"># 只需要把 fixture 的函数名作为参数传给测试用例即可！</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_cart</span>(<span class="hljs-params">login_data</span>):<br>    <span class="hljs-comment"># Pytest 会先运行 login_data函数，把返回值赋给这里的参数</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在测试购物车...&quot;</span>)<br>    <span class="hljs-comment"># 可以直接使用 fixture 的返回值</span><br>    <span class="hljs-keyword">assert</span> login_data[<span class="hljs-string">&quot;user&quot;</span>] == <span class="hljs-string">&quot;admin&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_search</span>():<br>    <span class="hljs-comment"># 这个用例没有加参数，所以不会执行登录操作</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在测试搜索（不需要登录）...&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>解析：</strong></p>
+<ul>
+<li><code>test_cart</code> 加上了 <code>login_data</code> 参数，Pytest 就知道：“哦，运行这个用例前，我得先去运行 <code>login_data</code> 这个函数。”</li>
+<li><code>test_search</code> 没加，就不运行。这就是<strong>按需分配</strong>。</li>
+</ul>
+<hr>
+<h3 id="核心知识点-2：-yield（前后置分离）"><a href="#核心知识点-2：-yield（前后置分离）" class="headerlink" title="核心知识点 2： yield（前后置分离）"></a>核心知识点 2： yield（前后置分离）</h3><p>问：<em>“Pytest 怎么做 Teardown（清理操作）？”</em></p>
+<p>答案是：<strong>使用 <code>yield</code> 关键字。</strong></p>
+<p>Fixture 函数中：</p>
+<ul>
+<li><code>yield</code> <strong>之前</strong>的代码：相当于 <code>setUp</code>（前置）。</li>
+<li><code>yield</code> <strong>之后</strong>的代码：相当于 <code>tearDown</code>（后置）。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@pytest.fixture(<span class="hljs-params">scope=<span class="hljs-string">&quot;function&quot;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">driver</span>():<br>    service = Service(executable_path=<span class="hljs-string">&quot;D:\\develop\\chromedriver-win64\\chromedriver.exe&quot;</span>)<br>    driver = webdriver.Chrome(service=service)<br>    driver.get(<span class="hljs-string">&quot;https://www.baidu.com/ &quot;</span>)<br>    driver.maximize_window()<br>    <span class="hljs-keyword">yield</span> driver<br>    driver.quit()<br></code></pre></td></tr></table></figure>
+
+<p>在每个测试函数开始时： 启动 Chrome 浏览器。 打开百度首页并最大化窗口。 将 <code>driver</code>对象提供给测试函数使用。在每个测试函数结束后： 关闭浏览器。</p>
+<hr>
+<h3 id="核心知识点-3：作用域（Scope）——-性能优化的关键"><a href="#核心知识点-3：作用域（Scope）——-性能优化的关键" class="headerlink" title="核心知识点 3：作用域（Scope）—— 性能优化的关键"></a>核心知识点 3：作用域（Scope）—— 性能优化的关键</h3><p>默认情况下，Fixture 是 <code>function</code> 级别的。也就是说，<strong>每个</strong>调用它的测试用例运行前，它都会从头跑一遍。</p>
+<p>有时候很浪费。比如“打开浏览器”或者“登录”，不希望跑 10 个用例就打开 10 次浏览器。我希望打开一次，跑完 10 个用例，再关闭。</p>
+<p>这时就需要配置 <code>scope</code> 参数：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Scope 级别</strong></th>
+<th><strong>含义</strong></th>
+<th><strong>生命周期</strong></th>
+<th><strong>适用场景</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>function</strong> (默认)</td>
+<td>函数级</td>
+<td>每个测试函数执行一次</td>
+<td>需重置的数据，如计算器归零</td>
+</tr>
+<tr>
+<td><strong>class</strong></td>
+<td>类级</td>
+<td>每个测试类执行一次</td>
+<td>测试类中共用的简单配置</td>
+</tr>
+<tr>
+<td><strong>module</strong></td>
+<td>模块级</td>
+<td>每个 .py 文件执行一次</td>
+<td>单个文件内的全局配置</td>
+</tr>
+<tr>
+<td><strong>session</strong></td>
+<td>会话级</td>
+<td><strong>整个自动化脚本只执行一次</strong></td>
+<td><strong>最常用！</strong> 初始化数据库连接、登录获取Token、启动浏览器</td>
+</tr>
+</tbody></table>
+<p><strong>代码示例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 这是一个只执行一次的 fixture</span><br><span class="hljs-meta">@pytest.fixture(<span class="hljs-params">scope=<span class="hljs-string">&quot;session&quot;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">global_config</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&gt;&gt;&gt; [Session Start] 读取全局配置...&quot;</span>)<br>    <span class="hljs-keyword">yield</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&gt;&gt;&gt; [Session End] 清理全局资源...&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="核心知识点-4：conftest-py-——-共享之王"><a href="#核心知识点-4：conftest-py-——-共享之王" class="headerlink" title="核心知识点 4：conftest.py —— 共享之王"></a>核心知识点 4：conftest.py —— 共享之王</h3><p>如果有 10 个测试文件（<code>test_a.py</code>, <code>test_b.py</code>…）都需要用到 <code>login</code> 这个 fixture，怎么办？</p>
+<p>不需要在每个文件里都定义一遍，也不需要 import。只需要在项目根目录下创建一个名为 conftest.py 的文件。</p>
+<p><strong>规则：</strong></p>
+<ol>
+<li>文件名是 <code>conftest.py</code>。</li>
+<li>Pytest 会自动读取它里面的 fixture。</li>
+<li>所有测试文件都可以直接使用里面定义的 fixture，就像它们定义在本地一样。</li>
+</ol>
+<p><strong>项目结构示例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">project/<br>├── conftest.py      &lt;-- 定义 fixture: login, db_conn<br>├── test_case1.py    &lt;-- 直接在参数里写 login<br>└── test_case2.py    &lt;-- 直接在参数里写 db_conn<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="parametrize基础"><a href="#parametrize基础" class="headerlink" title="parametrize基础"></a>parametrize基础</h1><p>数据驱动（Data-Driven Testing） </p>
+<hr>
+<h3 id="1-核心神器：-pytest-mark-parametrize"><a href="#1-核心神器：-pytest-mark-parametrize" class="headerlink" title="1. 核心神器：@pytest.mark.parametrize"></a>1. 核心神器：@pytest.mark.parametrize</h3><p>它的作用是：<strong>参数化</strong>。它可以让同一段测试代码，根据输入数据的不同，自动生成多条测试用例。</p>
+<h4 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@pytest.mark.parametrize(<span class="hljs-params"><span class="hljs-string">&quot;变量名字符串&quot;</span>, [数据列表]</span>)</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="实战演练：模拟登录测试"><a href="#实战演练：模拟登录测试" class="headerlink" title="实战演练：模拟登录测试"></a>实战演练：模拟登录测试</h4><p>假设有一个登录函数，我们需要测试：</p>
+<ol>
+<li>账号密码正确 -&gt; 成功</li>
+<li>密码错误 -&gt; 失败</li>
+<li>账号为空 -&gt; 失败</li>
+</ol>
+<p>不使用参数化（笨办法）：写 3 个函数，代码重复率极高。</p>
+<p><strong>使用参数化（聪明办法）：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pytest<br><br><span class="hljs-comment"># 假设的业务代码</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">login</span>(<span class="hljs-params">username, password</span>):<br>    <span class="hljs-keyword">if</span> username == <span class="hljs-string">&quot;admin&quot;</span> <span class="hljs-keyword">and</span> password == <span class="hljs-string">&quot;123456&quot;</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;success&quot;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;fail&quot;</span><br><br><span class="hljs-comment"># 数据驱动测试</span><br><span class="hljs-comment"># 1. 第一个参数：变量名，用字符串表示，逗号隔开，必须和下面函数参数名一致</span><br><span class="hljs-comment"># 2. 第二个参数：一个列表，列表里的每个元素是一个元组（代表一组测试数据）</span><br><span class="hljs-meta">@pytest.mark.parametrize(<span class="hljs-params"><span class="hljs-string">&quot;user, pwd, expected&quot;</span>, [</span></span><br><span class="hljs-params"><span class="hljs-meta">    (<span class="hljs-params"><span class="hljs-string">&quot;admin&quot;</span>, <span class="hljs-string">&quot;123456&quot;</span>, <span class="hljs-string">&quot;success&quot;</span></span>),  <span class="hljs-comment"># 用例1</span></span></span><br><span class="hljs-params"><span class="hljs-meta">    (<span class="hljs-params"><span class="hljs-string">&quot;admin&quot;</span>, <span class="hljs-string">&quot;wrong&quot;</span>, <span class="hljs-string">&quot;fail&quot;</span></span>),      <span class="hljs-comment"># 用例2</span></span></span><br><span class="hljs-params"><span class="hljs-meta">    (<span class="hljs-params"><span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;123456&quot;</span>, <span class="hljs-string">&quot;fail&quot;</span></span>)           <span class="hljs-comment"># 用例3</span></span></span><br><span class="hljs-params"><span class="hljs-meta">]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_login_logic</span>(<span class="hljs-params">user, pwd, expected</span>):<br>    <span class="hljs-comment"># Pytest 会自动循环 3 次，每次提取一组数据传进来</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n测试数据: 用户=<span class="hljs-subst">&#123;user&#125;</span>, 密码=<span class="hljs-subst">&#123;pwd&#125;</span>&quot;</span>)<br>    res = login(user, pwd)<br>    <span class="hljs-keyword">assert</span> res == expected<br></code></pre></td></tr></table></figure>
+
+<p>运行结果：显示 collected 3 items。即它自动把1个函数变成了3个独立的测试用例运行！</p>
+<hr>
+<h3 id="2-进阶技巧：笛卡尔积（组合测试）"><a href="#2-进阶技巧：笛卡尔积（组合测试）" class="headerlink" title="2. 进阶技巧：笛卡尔积（组合测试）"></a>2. 进阶技巧：笛卡尔积（组合测试）</h3><p><em>“如果我要测 3 种手机系统（iOS, Android, Harmony）搭配 2 种网络环境（WiFi, 5G），一共 6 种组合，怎么写最简单？”</em></p>
+<p>不需要手动列出 6 个元组，只需要<strong>堆叠装饰器</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@pytest.mark.parametrize(<span class="hljs-params"><span class="hljs-string">&quot;os&quot;</span>, [<span class="hljs-string">&quot;iOS&quot;</span>, <span class="hljs-string">&quot;Android&quot;</span>, <span class="hljs-string">&quot;Harmony&quot;</span>]</span>)</span><br><span class="hljs-meta">@pytest.mark.parametrize(<span class="hljs-params"><span class="hljs-string">&quot;net&quot;</span>, [<span class="hljs-string">&quot;WiFi&quot;</span>, <span class="hljs-string">&quot;5G&quot;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_mobile_env</span>(<span class="hljs-params">os, net</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前环境: <span class="hljs-subst">&#123;os&#125;</span> + <span class="hljs-subst">&#123;net&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>结果</strong>：Pytest 会自动算出所有组合，生成 6 条用例。</p>
+<hr>
+<h3 id="3-全局配置文件：pytest-ini"><a href="#3-全局配置文件：pytest-ini" class="headerlink" title="3. 全局配置文件：pytest.ini"></a>3. 全局配置文件：pytest.ini</h3><p>在实际工作中，不会每次都敲 pytest -vs，也不会希望 Pytest 去扫描所有文件夹。我们需要一个“管家”。</p>
+<p>在项目<strong>根目录</strong>下创建一个名为 <code>pytest.ini</code> 的文件（注意：Windows下文件内尽量不要出现中文注释，容易报编码错误，或者保存为 ANSI 格式）。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[pytest]</span><br><span class="hljs-comment">; 1. 默认命令行参数</span><br><span class="hljs-comment">; 以后直接敲 pytest 就行，不需要敲 pytest -vs 了</span><br><span class="hljs-attr">addopts</span> = -vs --html=./report.html<br><br><span class="hljs-comment">; 2. 指定测试用例的搜索目录</span><br><span class="hljs-comment">; 告诉 pytest 只去 testcases 目录下找，别去 venv 目录下瞎找，提升速度</span><br><span class="hljs-attr">testpaths</span> = ./testcases<br><br><span class="hljs-comment">; 3. 修改文件搜索规则（如果你非要以 check_ 开头）</span><br><span class="hljs-attr">python_files</span> = test_*.py check_*.py<br><span class="hljs-attr">python_classes</span> = Test* Check*<br><span class="hljs-attr">python_functions</span> = test_* check_*<br><br><span class="hljs-comment">; 4. 注册自定义标记（为了消除警告）</span><br><span class="hljs-attr">markers</span> =<br>    smoke: 冒烟测试<br>    user_manage: 用户管理模块<br></code></pre></td></tr></table></figure>
+
+<p>有了这个文件，以后你在终端只需要输入简单的 <code>pytest</code> 四个字母，所有的配置（详细输出、生成报告、路径过滤）都会自动生效。</p>
+<hr>
+<h1 id="Allure基础"><a href="#Allure基础" class="headerlink" title="Allure基础"></a>Allure基础</h1>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Testing/" class="category-chain-item">Testing</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/python/" class="print-no-link">#python</a>
+      
+        <a href="/tags/pytest/" class="print-no-link">#pytest</a>
+      
+        <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="print-no-link">#单元测试</a>
+      
+        <a href="/tags/fixture/" class="print-no-link">#fixture</a>
+      
+        <a href="/tags/allure/" class="print-no-link">#allure</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Pytest基础学习</div>
+      <div>https://lilpear2002.github.io/2025/12/14/Pytest基础学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/13/APP%E6%B5%8B%E8%AF%95/" title="APP测试">
+                        <span class="hidden-mobile">APP测试</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
