@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>Apifox学习</title>
+    <link href="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/"/>
+    <url>/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/</url>
+    
+    <content type="html"><![CDATA[<p> • 接口是软件组件之间相互通信的协议和桥梁。</p><p> • 前端（如浏览器）通过调用接口来获取数据或执行操作。 </p><p> • 后端处理请求并通过接口返回结果。</p><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/image1.png" class="" title="HTTP协议"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/image2.png" class="" title="url解析"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/image3.png" class="" title="请求"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/image4.png" class="" title="状态码"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/image5.png" class="" title="响应"><h1 id="Query、Body、Header"><a href="#Query、Body、Header" class="headerlink" title="Query、Body、Header"></a>Query、Body、Header</h1><p>API文档介绍：</p><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/image6.png" class="" title="API文档"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/query.png" class="" title="query"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/body.png" class="" title="body"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/header.png" class="" title="header"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/image7.png" class="" title="区别"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/image8.png" class="" title="GET请求"><img src="/2025/12/15/Apifox%E5%AD%A6%E4%B9%A0/image9.png" class="" title="POST请求"><p>Postman 的 <code>raw</code> 模式更灵活，适合快速调试一段随便粘贴的代码；但 Apifox 的 <code>json</code> 模式更规范，因为它把 JSON 当作<strong>数据模型</strong>来管理，这对于我们做<strong>自动化测试</strong>和<strong>维护接口文档</strong>非常有帮助，因为我们可以直接引用定义好的数据结构，而不是每次都复制粘贴一堆文本</p><hr><h1 id="断言验证"><a href="#断言验证" class="headerlink" title="断言验证"></a>断言验证</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>Testing</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>接口测试</tag>
+      
+      <tag>自动化测试</tag>
+      
+      <tag>性能测试</tag>
+      
+      <tag>Mock</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Postman学习</title>
     <link href="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/"/>
     <url>/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/</url>
@@ -115,9 +146,9 @@
     
     <tags>
       
-      <tag>APP测试理论基础</tag>
-      
       <tag>python</tag>
+      
+      <tag>APP测试理论基础</tag>
       
       <tag>Appium</tag>
       
@@ -171,11 +202,11 @@
     
     <tags>
       
-      <tag>python</tag>
-      
       <tag>Web自动化测试</tag>
       
       <tag>playwright</tag>
+      
+      <tag>python</tag>
       
     </tags>
     
@@ -200,9 +231,9 @@
     
     <tags>
       
-      <tag>python</tag>
-      
       <tag>Web自动化测试</tag>
+      
+      <tag>python</tag>
       
       <tag>selenium</tag>
       
