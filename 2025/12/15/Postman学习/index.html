@@ -1,0 +1,952 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="掌握Postman进行接口测试、自动化断言、参数化测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Postman学习">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="掌握Postman进行接口测试、自动化断言、参数化测试">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/postman.png">
+<meta property="article:published_time" content="2025-12-15T07:09:52.000Z">
+<meta property="article:modified_time" content="2025-12-15T09:30:47.255Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="接口测试">
+<meta property="article:tag" content="自动化测试">
+<meta property="article:tag" content="请求响应">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/postman.png">
+  
+  
+  
+  <title>Postman学习 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-code-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-code-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-lab-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Postman学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-15 15:09" pubdate>
+          2025年12月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Postman学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="API接口测试基础"><a href="#API接口测试基础" class="headerlink" title="API接口测试基础"></a>API接口测试基础</h1><p>稳定的练习网站：<strong>JSONPlaceholder</strong>。<a target="_blank" rel="noopener" href="https://jsonplaceholder.typicode.com.它模拟了一个博客系统(有帖子/">https://jsonplaceholder.typicode.com。它模拟了一个博客系统（有帖子</a> <code>posts</code>，评论 <code>comments</code>，用户 <code>users</code> 等）。</p>
+<hr>
+<h2 id="GET-请求-获取数据"><a href="#GET-请求-获取数据" class="headerlink" title="GET 请求 - 获取数据"></a>GET 请求 - 获取数据</h2><img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image1.png" srcset="/img/loading.gif" lazyload class="" title="GET请求">
+
+<hr>
+<h2 id="第二步：POST-请求（增）-提交数据"><a href="#第二步：POST-请求（增）-提交数据" class="headerlink" title="第二步：POST 请求（增）- 提交数据"></a>第二步：POST 请求（增）- 提交数据</h2><img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image4.png" srcset="/img/loading.gif" lazyload class="" title="POST请求1">
+
+<img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image5.png" srcset="/img/loading.gif" lazyload class="" title="POST请求2">
+
+<hr>
+<h2 id="第三步：PUT-请求（改）-修改数据"><a href="#第三步：PUT-请求（改）-修改数据" class="headerlink" title="第三步：PUT 请求（改）- 修改数据"></a>第三步：PUT 请求（改）- 修改数据</h2><img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image2.png" srcset="/img/loading.gif" lazyload class="" title="PUT请求1">
+
+<img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image3.png" srcset="/img/loading.gif" lazyload class="" title="PUT请求2">
+
+<hr>
+<h2 id="第四步：DELETE-请求（删）-删除数据"><a href="#第四步：DELETE-请求（删）-删除数据" class="headerlink" title="第四步：DELETE 请求（删）- 删除数据"></a>第四步：DELETE 请求（删）- 删除数据</h2><img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image6.png" srcset="/img/loading.gif" lazyload class="" title="DELETE请求">
+
+<hr>
+<p>注意：在此网址进行测试POST请求和PUT请求时，JSON内容除了输入到raw中，还输入到form-data中也能测试通过</p>
+<p>虽然在这个练习网站（JSONPlaceholder）上两者都能跑通，但在<strong>真实的实习工作中，它们是完全不同的东西</strong>。如果混用，90%的情况下后端会报错。这个问题直击了<strong>后端开发与接口测试的核心：数据传输格式（Content-Type）</strong>。：</p>
+<h3 id="1-本质区别：数据的“包装”方式不同"><a href="#1-本质区别：数据的“包装”方式不同" class="headerlink" title="1. 本质区别：数据的“包装”方式不同"></a>1. 本质区别：数据的“包装”方式不同</h3><ul>
+<li><strong>Raw (JSON)</strong>：就像<strong>寄一封信</strong>。内容必须按照严格的语法（JSON格式）写在纸上。它不仅能写简单的“姓名：小明”，还能写复杂的嵌套结构（比如“爱好”里包含一个列表）。</li>
+<li><strong>Form-data</strong>：就像<strong>填一张表格</strong>，或者<strong>寄一个包裹</strong>。它是一格一格填写的（键值对）。它最大的特点是<strong>可以夹带附件（上传文件）</strong>。</li>
+</ul>
+<h3 id="2-细节：HTTP-Header（请求头）"><a href="#2-细节：HTTP-Header（请求头）" class="headerlink" title="2. 细节：HTTP Header（请求头）"></a>2. 细节：HTTP Header（请求头）</h3><ol>
+<li>选中 <strong>Body</strong> -&gt; <strong>raw (JSON)</strong>，然后点击 Request 区域（中间部分）的 <strong>Headers</strong> 标签。<ul>
+<li>Postman 自动加了一行：<code>Content-Type: application/json</code>。</li>
+<li>这是告诉服务器：“我发给你的是 JSON 字符串。”</li>
+</ul>
+</li>
+<li>选中 <strong>Body</strong> -&gt; <strong>form-data</strong>，再去 <strong>Headers</strong> 标签看。<ul>
+<li>Postman 在发送时会加上：<code>Content-Type: multipart/form-data; boundary=...</code>。</li>
+<li>这是告诉服务器：“我发给你的是表单数据，可能包含文件。”</li>
+</ul>
+</li>
+</ol>
+<p>而 <code>jsonplaceholder</code> 是一个<strong>模拟服务器</strong>，它的设计初衷就是为了方便大家测试，所以它非常“宽容”。它的后端逻辑大概是：“不管你给我 JSON 还是 Form-data，只要能解析出 <code>title</code> 和 <code>body</code>，我就算你成功。”</p>
+<p><strong>但在真实开发中：</strong></p>
+<ul>
+<li>如果后端（例如 Java Spring Boot）代码写的是 <code>@RequestBody User user</code>，它<strong>只接受 JSON</strong>。你如果用 form-data 发送，会直接报 <strong>415 Unsupported Media Type</strong> 或者 <strong>400 Bad Request</strong>。</li>
+<li>如果后端写的是 <code>@RequestParam</code> 或者涉及到文件上传，它才接受 form-data。</li>
+</ul>
+<h3 id="3-总结：什么时候用哪个？"><a href="#3-总结：什么时候用哪个？" class="headerlink" title="3. 总结：什么时候用哪个？"></a>3. 总结：什么时候用哪个？</h3><table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>这里的 raw (JSON)</strong></th>
+<th><strong>这里的 form-data</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>全称</strong></td>
+<td><code>application/json</code></td>
+<td><code>multipart/form-data</code></td>
+</tr>
+<tr>
+<td><strong>主要用途</strong></td>
+<td><strong>最常用</strong>。用于发送复杂的结构化数据。</td>
+<td>主要用于<strong>文件上传</strong>（图片、文档）。</td>
+</tr>
+<tr>
+<td><strong>能否嵌套</strong></td>
+<td>能（对象套数组，数组套对象）。</td>
+<td>很难，通常只能是扁平的键值对。</td>
+</tr>
+<tr>
+<td><strong>实习建议</strong></td>
+<td><strong>95%的接口都用这个</strong>。</td>
+<td>只有测“上传头像&#x2F;文件”功能时才用这个。</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="断言验证"><a href="#断言验证" class="headerlink" title="断言验证"></a>断言验证</h1><h2 id="检查状态码"><a href="#检查状态码" class="headerlink" title="检查状态码"></a>检查状态码</h2><p>服务器是否正常响应了？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// pm.test 是定义一个测试用例，引号内是测试的名字</span><br>pm.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;状态码必须是 200&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-comment">// pm.response.to.have.status(200) 是具体的判断逻辑</span><br>    pm.<span class="hljs-property">response</span>.<span class="hljs-property">to</span>.<span class="hljs-property">have</span>.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image7.png" srcset="/img/loading.gif" lazyload class="" title="状态码断言">
+
+<h2 id="检查返回数据"><a href="#检查返回数据" class="headerlink" title="检查返回数据"></a>检查返回数据</h2><p>光看状态码是不够的。有时候服务器报错也会返回 200（假成功）。需要检查内容是否对得上。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 1. 先把返回的 JSON 字符串转换成 JS 对象，方便操作</span><br><span class="hljs-keyword">var</span> jsonData = pm.<span class="hljs-property">response</span>.<span class="hljs-title function_">json</span>();<br><br><span class="hljs-comment">// 2. 编写断言</span><br>pm.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;检查返回的 ID 是否为 1&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-comment">// expect(实际值).to.eql(期望值)</span><br>    pm.<span class="hljs-title function_">expect</span>(jsonData.<span class="hljs-property">id</span>).<span class="hljs-property">to</span>.<span class="hljs-title function_">eql</span>(<span class="hljs-number">1</span>);<br>&#125;);<br><br><span class="hljs-comment">// 3. 再加一个：检查 Title 是否存在（不为空）</span><br>pm.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;检查 Title 字段是否存在&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    pm.<span class="hljs-title function_">expect</span>(jsonData.<span class="hljs-property">title</span>).<span class="hljs-property">to</span>.<span class="hljs-property">exist</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image8.png" srcset="/img/loading.gif" lazyload class="" title="返回数据断言">
+
+<h2 id="检查响应时间"><a href="#检查响应时间" class="headerlink" title="检查响应时间"></a>检查响应时间</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js">pm.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;响应时间必须小于 500ms&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    pm.<span class="hljs-title function_">expect</span>(pm.<span class="hljs-property">response</span>.<span class="hljs-property">responseTime</span>).<span class="hljs-property">to</span>.<span class="hljs-property">be</span>.<span class="hljs-title function_">below</span>(<span class="hljs-number">500</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image9.png" srcset="/img/loading.gif" lazyload class="" title="响应时间断言">
+
+<hr>
+<p>问：“Postman 的断言是用什么语法写的？”</p>
+<p>回答：是基于 JavaScript 的，使用了 Chai Assertion Library (Chai 断言库) 的语法，比如 pm.expect().to.eql()。</p>
+<p>问“你在 Postman 中怎么验证接口返回数据的正确性？”</p>
+<p>回答：使用 <code>pm.test</code> 编写断言脚本，结合 <code>pm.response.json()</code> 解析响应体，使用 Chai 断言库语法（expect…to.eql）来校验关键字段的值和数据类型，同时也会校验 Status Code 和响应时间。</p>
+<hr>
+<h1 id="参数化测试：使用变量、数据驱动"><a href="#参数化测试：使用变量、数据驱动" class="headerlink" title="参数化测试：使用变量、数据驱动"></a><strong>参数化测试</strong>：使用变量、数据驱动</h1><p>三步走：<strong>环境&#x2F;全局变量</strong> -&gt; <strong>接口关联（动态变量）</strong> -&gt; <strong>数据驱动（CSV&#x2F;JSON）</strong>。</p>
+<hr>
+<h2 id="第一步：使用环境变量-Environment-Variables"><a href="#第一步：使用环境变量-Environment-Variables" class="headerlink" title="第一步：使用环境变量 (Environment Variables)"></a>第一步：使用环境变量 (Environment Variables)</h2><p><strong>场景</strong>：每次都在 URL 里写 <code>https://jsonplaceholder.typicode.com</code>。如果明天公司把测试环境换成了 <code>http://192.168.1.100</code>，不可能去修改几十个接口。</p>
+<ol>
+<li><p><strong>创建环境</strong>：</p>
+<ul>
+<li>Postman 右上角，默认应该是 “No Environment”。</li>
+<li>点击右边的“眼睛图标” (Environment quick look) -&gt; <strong>Add</strong>。</li>
+<li>Name 填：<code>Dev Environment</code>。</li>
+<li><strong>Variable</strong>: <code>host</code></li>
+<li><strong>Current Value</strong>: <code>https://jsonplaceholder.typicode.com</code></li>
+<li>点击 <strong>Save</strong>，然后关闭弹窗。</li>
+</ul>
+<img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image10.png" srcset="/img/loading.gif" lazyload class="" title="环境变量设置">
+</li>
+<li><p><strong>选择环境</strong>：</p>
+<ul>
+<li>在右上角下拉框选择刚才创建的 <code>Dev Environment</code>。</li>
+</ul>
+</li>
+<li><p><strong>引用变量</strong>：</p>
+<ul>
+<li>回到GET 请求。</li>
+<li>把 URL 里的 <code>https://jsonplaceholder.typicode.com</code> 删掉，替换为 <code>&#123;&#123;host&#125;&#125;</code>。</li>
+<li>现在的 URL 应该是：<code>&#123;&#123;host&#125;&#125;/posts/1</code>。</li>
+</ul>
+</li>
+<li><p><strong>发送</strong>：点击 Send。如果依然成功返回 200，说明变量引用成功。</p>
+</li>
+</ol>
+<img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image11.png" srcset="/img/loading.gif" lazyload class="" title="引用变量">
+
+<hr>
+<h2 id="第二步：接口关联（动态获取变量）"><a href="#第二步：接口关联（动态获取变量）" class="headerlink" title="第二步：接口关联（动态获取变量）"></a>第二步：接口关联（动态获取变量）</h2><ol>
+<li><strong>接口A（POST）</strong> 创建了一个帖子，服务器生成了 <code>id: 101</code>。</li>
+<li><strong>接口B（GET）</strong> 想要查询刚才生成的那个帖子。</li>
+<li>你需要把 A 的<strong>输出</strong>，变成 B 的<strong>输入</strong>。</li>
+</ol>
+<p><strong>操作步骤</strong>：</p>
+<ol>
+<li><p><strong>在 POST 请求中提取数据</strong>：</p>
+<ul>
+<li>打开之前的 POST 请求 (<code>&#123;&#123;host&#125;&#125;/posts</code>)。</li>
+<li>进入 <strong>Tests</strong> 标签页。</li>
+<li>输入以下代码，把服务器返回的 ID 存入环境变量：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 1. 解析返回的 JSON</span><br><span class="hljs-keyword">var</span> jsonData = pm.<span class="hljs-property">response</span>.<span class="hljs-title function_">json</span>();<br><br><span class="hljs-comment">// 2. 打印一下看看（养成看 Console 的习惯）</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;服务器生成的新ID是: &quot;</span> + jsonData.<span class="hljs-property">id</span>);<br><br><span class="hljs-comment">// 3. 把这个 ID 设置为环境变量 &#x27;new_post_id&#x27;</span><br>pm.<span class="hljs-property">environment</span>.<span class="hljs-title function_">set</span>(<span class="hljs-string">&quot;new_post_id&quot;</span>, jsonData.<span class="hljs-property">id</span>);<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>运行 POST</strong>：点击 Send。</p>
+<ul>
+<li><em>验证</em>：点击右上角的“眼睛图标”，你应该能看到 <code>new_post_id</code> 已经出现在列表里了，值通常是 101。</li>
+</ul>
+</li>
+<li><p><strong>在 GET 请求中使用数据</strong>：</p>
+<ul>
+<li>新建或修改一个 GET 请求。</li>
+<li>URL 写成：<code>&#123;&#123;host&#125;&#125;/posts/&#123;&#123;new_post_id&#125;&#125;</code></li>
+<li>点击 Send。</li>
+</ul>
+</li>
+</ol>
+<p><strong>原理</strong>：Postman 会先解析 <code>&#123;&#123;new_post_id&#125;&#125;</code> 为 101，然后再发送请求。</p>
+<img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image12.png" srcset="/img/loading.gif" lazyload class="" title="接口关联">
+
+<hr>
+<h2 id="第三步：数据驱动测试-Data-Driven-Testing"><a href="#第三步：数据驱动测试-Data-Driven-Testing" class="headerlink" title="第三步：数据驱动测试 (Data-Driven Testing)"></a>第三步：数据驱动测试 (Data-Driven Testing)</h2><p><strong>场景</strong>：测试“发布帖子”的功能。需要测试以下 3 种情况：</p>
+<ol>
+<li>标题正常，内容正常。</li>
+<li>标题为空（预期报错或处理）。</li>
+<li>标题超长（预期截断或报错）。</li>
+</ol>
+<p>不需要写 3 个请求，只需要写 <strong>1 个请求 + 1 个数据文件</strong>。</p>
+<ol>
+<li>准备数据文件 (CSV)</li>
+</ol>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs subunit">title_case,body_case,user_id<br><span class="hljs-keyword">Test </span>Normal,This is normal content,1<br><span class="hljs-keyword">Test </span>Empty,,1<br><span class="hljs-keyword">Test </span>Special,Special #$% Characters,2<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>修改 POST 请求为“参数化”</li>
+</ol>
+<p>回到你的 POST 请求，修改 Body 中的数据，把写死的内容改成变量：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&#123;&#123;title_case&#125;&#125;&quot;</span><span class="hljs-punctuation">,</span> <br>    <span class="hljs-attr">&quot;body&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&#123;&#123;body_case&#125;&#125;&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#123;</span>user_id<span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>*(注意：JSON 中的字符串需要引号，数字不需要，但 </p>
+<figure class="highlight nim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nim">&#123;<span class="hljs-meta">&#123;...&#125;</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p> 只是文本替换，所以如果是字符串类型，外面要保留引号)</p>
+<ol start="3">
+<li>修改断言 (Tests)</li>
+</ol>
+<p>因为数据变了，断言也要动态化。修改 Tests 脚本：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> jsonData = pm.<span class="hljs-property">response</span>.<span class="hljs-title function_">json</span>();<br><span class="hljs-comment">// pm.iterationData.get(&quot;csv表头&quot;) 用来获取当前这行 CSV 的数据</span><br><span class="hljs-keyword">var</span> expectedTitle = pm.<span class="hljs-property">iterationData</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;title_case&quot;</span>);<br><br>pm.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;检查标题是否匹配&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-comment">// 验证返回的 title 是否等于 CSV 里写的 title</span><br>    pm.<span class="hljs-title function_">expect</span>(jsonData.<span class="hljs-property">title</span>).<span class="hljs-property">to</span>.<span class="hljs-title function_">eql</span>(expectedTitle);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p><strong>4. 启动 Collection Runner (集合运行器)</strong></p>
+<ol>
+<li>保存好请求，确保它在某个 Collection（集合）里。</li>
+<li>点击左侧集合名称旁边的 <code>...</code> -&gt; <strong>Run collection</strong>。</li>
+<li><strong>关键步骤</strong>：<ul>
+<li>在 <strong>Data</strong> 选项处，点击 <strong>Select File</strong>，上传刚才的 <code>test_data.csv</code>。</li>
+<li>看到 <strong>Iterations</strong> 自动变成了 3 (因为它识别出了有3行数据)。</li>
+<li>点击 <strong>Preview</strong> 确认数据读取无误。</li>
+</ul>
+</li>
+<li>点击 <strong>Run …</strong>。</li>
+</ol>
+<img src="/2025/12/15/Postman%E5%AD%A6%E4%B9%A0/image13.png" srcset="/img/loading.gif" lazyload class="" title="集合运行">
+
+<hr>
+<h1 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h1><p>测开工程师需要把这些测试<strong>集成到代码流水线（CI&#x2F;CD）中。服务器上通常没有图形界面（GUI），所以我们需要学会命令行运行 Postman</strong>。要学习的工具叫 <strong>Newman</strong>。</p>
+<h3 id="命令行运行-Newman-——-自动化集成的基础"><a href="#命令行运行-Newman-——-自动化集成的基础" class="headerlink" title="命令行运行 (Newman) —— 自动化集成的基础"></a>命令行运行 (Newman) —— 自动化集成的基础</h3><h4 id="第一步：准备“原料”-导出-JSON"><a href="#第一步：准备“原料”-导出-JSON" class="headerlink" title="第一步：准备“原料” (导出 JSON)"></a>第一步：准备“原料” (导出 JSON)</h4><p>要在命令行跑测试，需要先把 Postman 里的东西“搬”出来。需要导出两个文件：</p>
+<ol>
+<li><strong>导出集合 (Collection)</strong>：<ul>
+<li>点击左侧的 <code>...</code>。</li>
+<li>选择 <strong>Export</strong>。</li>
+<li>选择 <strong>Collection v2.1</strong> (默认推荐)，点击 <strong>Export</strong>。</li>
+<li>保存为 <code>my_collection.json</code>。</li>
+</ul>
+</li>
+<li><strong>导出环境 (Environment)</strong> (如果你用了环境变量的话)：<ul>
+<li>点击左侧边栏的 <strong>Environments</strong>。</li>
+<li>点击你的 <code>Dev Environment</code> 旁边的 <code>...</code> -&gt; <strong>Export</strong>。</li>
+<li>保存为 <code>dev_env.json</code>。</li>
+</ul>
+</li>
+<li><strong>准备数据</strong>：<ul>
+<li>把你刚才的 <code>test.csv</code> 也放在同一个文件夹里。</li>
+</ul>
+</li>
+</ol>
+<p>现在你的文件夹里应该有三个文件：<code>my_collection.json</code>, <code>dev_env.json</code>, <code>test.csv</code>。</p>
+<h4 id="第二步：安装-Newman"><a href="#第二步：安装-Newman" class="headerlink" title="第二步：安装 Newman"></a>第二步：安装 Newman</h4><p>Newman 是 Postman 的命令行引擎，它是基于 Node.js 的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install -g newman<br></code></pre></td></tr></table></figure>
+
+<p><em>(如果安装成功，输入 <code>newman -v</code> 应该能看到版本号)</em></p>
+<h4 id="第三步：在命令行运行测试"><a href="#第三步：在命令行运行测试" class="headerlink" title="第三步：在命令行运行测试"></a>第三步：在命令行运行测试</h4><p>这是最帅的一步。假设你现在在那个存放了三个文件的目录下，输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">newman run my_collection.json -e dev_env.json -d test.csv<br></code></pre></td></tr></table></figure>
+
+<p><strong>命令解析</strong>：</p>
+<ul>
+<li><code>run</code>: 运行指令。</li>
+<li><code>my_collection.json</code>: 指定要跑哪个集合。</li>
+<li><code>-e</code>: 指定环境文件 (Environment)。</li>
+<li><code>-d</code>: 指定数据文件 (Data)。</li>
+</ul>
+<p>观察结果：在黑色的终端窗口里看到酷炫的 ASCII 表格，显示每一条请求的执行结果、断言通过情况、以及最终的统计报表。</p>
+<p>问：“你如何将接口测试集成到 Jenkins 或 GitLab CI 中？”</p>
+<p>回答：</p>
+<blockquote>
+<p>“先在 Postman 本地调试好 Collection 和断言，然后导出为 JSON 文件。在 CI&#x2F;CD 流水线中，使用 <strong>Newman</strong> 命令行工具来运行这些脚本，并生成 HTML 或 JUnit 格式的测试报告（使用 <code>-r html</code> 参数），如果测试失败，流水线就会自动报错阻断。”</p>
+</blockquote>
+<hr>
+<h3 id="第五阶段：代码生成-Code-Snippet-——-偷懒神器"><a href="#第五阶段：代码生成-Code-Snippet-——-偷懒神器" class="headerlink" title="第五阶段：代码生成 (Code Snippet) —— 偷懒神器"></a>第五阶段：代码生成 (Code Snippet) —— 偷懒神器</h3><p>作为测开，经常需要写 Python 脚本来做更复杂的逻辑（比如造数据、清洗数据库）。如果已经在 Postman 里调通了一个复杂的接口（Header 巨多、Body 巨复杂），不想手动去写 Python <code>requests</code> 代码，怎么办？</p>
+<ol>
+<li>回到 Postman，点击你配置好的 <strong>POST 请求</strong>。</li>
+<li>在右侧边栏（就是刚才我们找 Tests Snippets 的那个地方），上面有一个图标是 <code>&lt; / &gt;</code> (Code)。点击它。</li>
+<li>你会看到一个下拉菜单，默认可能是 <code>cURL</code>。</li>
+<li>下拉选择 <strong>Python - Requests</strong>。</li>
+</ol>
+<p>Postman 自动帮你生成了完整的 Python 代码！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><br>url = <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts&quot;</span><br><br>payload = json.dumps(&#123;<br>  <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;&#123;&#123;title_case&#125;&#125;&quot;</span>,<br>  <span class="hljs-string">&quot;body&quot;</span>: <span class="hljs-string">&quot;&#123;&#123;body_case&#125;&#125;&quot;</span>,<br>  <span class="hljs-string">&quot;userId&quot;</span>: <span class="hljs-number">1</span><br>&#125;)<br>headers = &#123;<br>  <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span><br>&#125;<br><br>response = requests.request(<span class="hljs-string">&quot;POST&quot;</span>, url, headers=headers, data=payload)<br><br><span class="hljs-built_in">print</span>(response.text)<br></code></pre></td></tr></table></figure>
+
+<p>可以直接复制这段代码到 PyCharm&#x2F;VS Code 里去用。支持 Java (OkHttp&#x2F;Unirest)、Go 等各种语言。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Testing/" class="category-chain-item">Testing</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/" class="print-no-link">#接口测试</a>
+      
+        <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" class="print-no-link">#自动化测试</a>
+      
+        <a href="/tags/%E8%AF%B7%E6%B1%82%E5%93%8D%E5%BA%94/" class="print-no-link">#请求响应</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Postman学习</div>
+      <div>https://lilpear2002.github.io/2025/12/15/Postman学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/15/django%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="django基础学习">
+                        <span class="hidden-mobile">django基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
