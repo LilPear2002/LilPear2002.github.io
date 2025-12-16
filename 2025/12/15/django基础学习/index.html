@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lilpear2002.github.io/img/django.jpg">
 <meta property="article:published_time" content="2025-12-15T03:06:57.000Z">
-<meta property="article:modified_time" content="2025-12-15T09:53:54.376Z">
+<meta property="article:modified_time" content="2025-12-16T02:11:02.207Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="Django">
 <meta property="article:tag" content="ORM">
@@ -170,6 +170,30 @@
           
           
             <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-code-fill"></i>
+                <span>算法</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
               <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
                 <i class="iconfont icon-bookmark-fill"></i>
                 <span>Java项目</span>
@@ -277,7 +301,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.6k 字
+          7.3k 字
         
       </span>
     
@@ -288,7 +312,7 @@
         
         
         
-          47 分钟
+          62 分钟
         
       </span>
     
@@ -710,7 +734,160 @@ Django 的模版语言（DTL）核心就两点：
 
 
 <hr>
-<h1 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h1>
+<h1 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h1><h2 id="ORM基础概念与模型创建"><a href="#ORM基础概念与模型创建" class="headerlink" title="ORM基础概念与模型创建"></a>ORM基础概念与模型创建</h2><p><strong>ORM (Object Relational Mapping)</strong> 把 Python 的<strong>类 (Class)</strong> 映射成数据库里的<strong>表 (Table)</strong>。</p>
+<p>只需要定义一个 Python 类，Django 就会自动帮建表、帮写 <code>SELECT/INSERT</code> 语句。</p>
+<img src="/2025/12/15/django%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image3.png" srcset="/img/loading.gif" lazyload class="" title="ORM">
+
+<p>先在settings.py中配置好数据库信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">DATABASES = &#123;<br>    <span class="hljs-string">&quot;default&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;ENGINE&quot;</span>: <span class="hljs-string">&quot;django.db.backends.mysql&quot;</span>,  <span class="hljs-comment"># 使用 MySQL 数据库</span><br>        <span class="hljs-string">&quot;NAME&quot;</span>: <span class="hljs-string">&#x27;database_demo&#x27;</span>,  <span class="hljs-comment"># 数据库名称</span><br>        <span class="hljs-string">&quot;USER&quot;</span>: <span class="hljs-string">&#x27;root&#x27;</span>,           <span class="hljs-comment"># 数据库用户名</span><br>        <span class="hljs-string">&quot;PASSWORD&quot;</span>: <span class="hljs-string">&#x27;123456&#x27;</span>,       <span class="hljs-comment"># 数据库密码</span><br>        <span class="hljs-string">&quot;HOST&quot;</span>: <span class="hljs-string">&#x27;localhost&#x27;</span>,      <span class="hljs-comment"># 数据库主机地址</span><br>        <span class="hljs-string">&quot;PORT&quot;</span>: <span class="hljs-string">&#x27;3306&#x27;</span>,           <span class="hljs-comment"># 数据库端口</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ORM 模型一般都是放在app 的 models.py 文件中。每个 app 都可以拥有自己的模型。并且要在 settings.py 的 INSTALLED_APP 中进行安装。以下是一个简单的书籍模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span>(models.Model):<br>    name = models.CharField(max_length=<span class="hljs-number">100</span>)<br>    author = models.CharField(max_length=<span class="hljs-number">20</span>)<br>    pub_time = models.DateTimeField(auto_now_add=<span class="hljs-literal">True</span>)<br>    price = models.FloatField(default=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+
+<p>执行两步命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">python manage.py makemigrations<br>python manage.py migrate<br></code></pre></td></tr></table></figure>
+
+<h2 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">add_book</span>(<span class="hljs-params">request</span>):<br>    <span class="hljs-comment"># book = Book(name=&quot;Django入门&quot;, author=&quot;张三&quot;, price=59.9)</span><br>    book = Book(name=<span class="hljs-string">&quot;水浒传&quot;</span>, author=<span class="hljs-string">&quot;施耐庵&quot;</span>, price=<span class="hljs-number">39.9</span>)<br>    book.save()<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">f&quot;图书 <span class="hljs-subst">&#123;book.name&#125;</span> 添加成功，ID为 <span class="hljs-subst">&#123;book.<span class="hljs-built_in">id</span>&#125;</span>&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">query_book</span>(<span class="hljs-params">request</span>):<br>    <span class="hljs-comment"># books = Book.objects.all()  # 获取所有对象</span><br>    books = Book.objects.<span class="hljs-built_in">filter</span>(name=<span class="hljs-string">&quot;Django入门&quot;</span>)  <span class="hljs-comment"># 条件查询</span><br>    <span class="hljs-keyword">for</span> book <span class="hljs-keyword">in</span> books:<br>        <span class="hljs-built_in">print</span>(book.name, book.author, book.price)<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;查询图书成功&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_book</span>(<span class="hljs-params">request</span>):<br>    book_id = request.GET.get(<span class="hljs-string">&quot;id&quot;</span>)<br>    <span class="hljs-keyword">try</span>:<br>        book = Book.objects.get(<span class="hljs-built_in">id</span>=book_id)  <span class="hljs-comment"># 获取单个对象</span><br>        <span class="hljs-built_in">print</span>(book.name, book.author, book.price)<br>        <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">f&quot;图书名称: <span class="hljs-subst">&#123;book.name&#125;</span>, 作者: <span class="hljs-subst">&#123;book.author&#125;</span>, 价格: <span class="hljs-subst">&#123;book.price&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">except</span> Book.DoesNotExist:<br>        <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;图书不存在&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">order_book</span>(<span class="hljs-params">request</span>):<br>    <span class="hljs-comment"># books = Book.objects.order_by(&quot;-price&quot;)  # 降序</span><br>    books = Book.objects.order_by(<span class="hljs-string">&quot;price&quot;</span>)  <span class="hljs-comment"># 升序</span><br>    <span class="hljs-keyword">for</span> book <span class="hljs-keyword">in</span> books:<br>        <span class="hljs-built_in">print</span>(book.name, book.author, book.price)<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;排序图书成功&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">update_book</span>(<span class="hljs-params">request</span>):<br>    book = Book.objects.first()<br>    book.price = <span class="hljs-number">49.9</span><br>    book.save()<br>    <span class="hljs-built_in">print</span>(book.name, book.author, book.price)<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">f&quot;图书 <span class="hljs-subst">&#123;book.name&#125;</span> 更新成功，新的价格为 <span class="hljs-subst">&#123;book.price&#125;</span>&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">delete_book</span>(<span class="hljs-params">request</span>):<br>    book = Book.objects.first()<br>    book.delete()<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;删除图书成功&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="常见Field及其参数"><a href="#常见Field及其参数" class="headerlink" title="常见Field及其参数"></a>常见Field及其参数</h2><h3 id="一、-核心字段类型-Field-Types"><a href="#一、-核心字段类型-Field-Types" class="headerlink" title="一、 核心字段类型 (Field Types)"></a>一、 核心字段类型 (Field Types)</h3><h4 id="1-文本类"><a href="#1-文本类" class="headerlink" title="1. 文本类"></a>1. 文本类</h4><ul>
+<li><strong><code>CharField</code></strong>: 短文本。<ul>
+<li><strong>必填参数</strong>: <code>max_length</code> (最大长度)。</li>
+<li><em>场景</em>: 用例名称、接口 URL、创建人姓名。</li>
+</ul>
+</li>
+<li><strong><code>TextField</code></strong>: 长文本（无长度限制）。<ul>
+<li><em>场景</em>: <strong>异常堆栈信息 (Stack Trace)</strong>、断言失败的详细日志、备注。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-数字类"><a href="#2-数字类" class="headerlink" title="2. 数字类"></a>2. 数字类</h4><ul>
+<li><strong><code>IntegerField</code></strong>: 整数。<ul>
+<li><em>场景</em>: 优先级 (1, 2, 3)、重试次数。</li>
+</ul>
+</li>
+<li><strong><code>DecimalField</code></strong>: 高精度小数 (比 Float 更准)。<ul>
+<li><strong>必填参数</strong>: <code>max_digits</code> (总位数), <code>decimal_places</code> (小数位)。</li>
+<li><em>场景</em>: <strong>代码覆盖率 (85.5%)</strong>、交易金额测试。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-时间类-面试常考"><a href="#3-时间类-面试常考" class="headerlink" title="3. 时间类 (面试常考)"></a>3. 时间类 (面试常考)</h4><ul>
+<li><strong><code>DateTimeField</code></strong>: 日期+时间 (YYYY-MM-DD HH:MM:SS)。</li>
+<li><strong><code>DateField</code></strong>: 仅日期。<ul>
+<li><em>关键参数区分</em>:<ul>
+<li><code>auto_now_add=True</code>: <strong>创建时</strong>自动填当前时间（用于“创建时间”）。</li>
+<li><code>auto_now=True</code>: <strong>每次保存(save)时</strong>自动更新为当前时间（用于“最后更新时间”）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-逻辑与结构类"><a href="#4-逻辑与结构类" class="headerlink" title="4. 逻辑与结构类"></a>4. 逻辑与结构类</h4><ul>
+<li><strong><code>BooleanField</code></strong>: 布尔值 (True&#x2F;False)。<ul>
+<li><em>场景</em>: 是否通过 (is_passed)、是否删除 (is_deleted)。</li>
+</ul>
+</li>
+<li><strong><code>JSONField</code></strong>: 直接存 JSON 字典或列表。<ul>
+<li><em>场景</em>: <strong>接口请求头 (Headers)</strong>、<strong>接口返回体 (Response Body)</strong>、配置参数。</li>
+<li><em>注意</em>: 在 MySQL 5.7+ 和 PostgreSQL 中是原生的，性能很好；在 SQLite 中存为文本。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="二、-通用参数-Options-——-几乎所有-Field-都能用"><a href="#二、-通用参数-Options-——-几乎所有-Field-都能用" class="headerlink" title="二、 通用参数 (Options) —— 几乎所有 Field 都能用"></a>二、 通用参数 (Options) —— 几乎所有 Field 都能用</h3><p>这是最容易混淆的地方，尤其是 <code>null</code> 和 <code>blank</code>。</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>解释</strong></th>
+<th><strong>常用值</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>verbose_name</code></strong></td>
+<td>给字段起个“人话”名字，显示在 Admin 后台。</td>
+<td><code>verbose_name=&quot;用例优先级&quot;</code></td>
+</tr>
+<tr>
+<td><strong><code>default</code></strong></td>
+<td>默认值。</td>
+<td><code>default=0</code> 或 <code>default=&quot;GET&quot;</code></td>
+</tr>
+<tr>
+<td><strong><code>choices</code></strong></td>
+<td><strong>枚举</strong>。把输入框变成下拉框，限制输入范围。</td>
+<td>(见下方代码示例)</td>
+</tr>
+<tr>
+<td><strong><code>unique</code></strong></td>
+<td>唯一性约束。</td>
+<td><code>unique=True</code> (如用例编号不能重复)</td>
+</tr>
+<tr>
+<td><strong><code>null=True</code></strong></td>
+<td><strong>数据库层面</strong>：允许存 NULL。</td>
+<td>默认是 False (不允许空)。</td>
+</tr>
+<tr>
+<td><strong><code>blank=True</code></strong></td>
+<td><strong>表单验证层面</strong>：允许前端传空值。</td>
+<td>默认是 False (必填)。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>经验之谈</strong>：</p>
+<ul>
+<li>如果是字符串 (<code>CharField</code>&#x2F;<code>TextField</code>)，通常设 <code>blank=True, default=&#39;&#39;</code>，而<strong>不要</strong>设 <code>null=True</code>（Django 惯例不推荐字符串存 NULL）。</li>
+<li>如果是数字、外键，想留空，必须同时设 <code>null=True, blank=True</code>。</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="Meta常用配置"><a href="#Meta常用配置" class="headerlink" title="Meta常用配置"></a>Meta常用配置</h2><p>Field 定义了表里有<strong>什么数据</strong>（列），而 Meta 定义了这张表<strong>如何表现</strong>（行为）</p>
+<h3 id="verbose-name"><a href="#verbose-name" class="headerlink" title="verbose_name"></a>verbose_name</h3><p>如果不写，Admin 后台会显示 <code>TestCase</code>，写了就显示 <code>测试用例</code>。</p>
+<ul>
+<li><strong><code>verbose_name</code></strong>: 单数名称。</li>
+<li><strong><code>verbose_name_plural</code></strong>: 复数名称。如果不写，Django 会自动在单数后面加个 “s”（变成 <code>测试用例s</code>，很难看）。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCase</span>(models.Model):<br>    <span class="hljs-comment"># ... 字段 ...</span><br>    <br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Meta</span>:<br>        verbose_name = <span class="hljs-string">&quot;测试用例&quot;</span><br>        verbose_name_plural = <span class="hljs-string">&quot;测试用例&quot;</span>  <span class="hljs-comment"># 通常设为和单数一样</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="ordering"><a href="#ordering" class="headerlink" title="ordering"></a>ordering</h3><p>查数据时，返回的数据顺序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Meta</span>:<br>        <span class="hljs-comment"># 负号表示倒序 (DESC)，即创建时间越晚排越前</span><br>        ordering = [<span class="hljs-string">&#x27;-created_time&#x27;</span>] <br>        <br>        <span class="hljs-comment"># 如果只想按id正序排</span><br>        <span class="hljs-comment"># ordering = [&#x27;id&#x27;]</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：排序会增加数据库开销，如果数据量极大（百万级），建议在代码里按需排序，而不是设为全局默认。</p>
+<h3 id="unique-together"><a href="#unique-together" class="headerlink" title="unique_together"></a>unique_together</h3><p>联合唯一索引.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Meta</span>:<br>        <span class="hljs-comment"># 这是一个列表的列表（因为可以有多组联合约束）</span><br>        unique_together = [<br>            <span class="hljs-comment"># 联合约束：项目ID + 用例名称 必须唯一</span><br>            (<span class="hljs-string">&#x27;project&#x27;</span>, <span class="hljs-string">&#x27;name&#x27;</span>),<br>        ]<br></code></pre></td></tr></table></figure>
+
+<h3 id="abstract-True"><a href="#abstract-True" class="headerlink" title="abstract &#x3D; True"></a>abstract &#x3D; True</h3><p>发现 <code>Project</code>、<code>TestCase</code>、<code>TestReport</code> 这几张表，都需要 <code>created_time</code> 和 <code>updated_time</code> 这两个字段。不想在每个类里都复制粘贴一遍代码。</p>
+<p><strong>解决方案</strong>：创建一个公共父类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 1. 定义一个基类，不对应数据库表</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BaseModel</span>(models.Model):<br>    created_time = models.DateTimeField(auto_now_add=<span class="hljs-literal">True</span>, verbose_name=<span class="hljs-string">&quot;创建时间&quot;</span>)<br>    updated_time = models.DateTimeField(auto_now=<span class="hljs-literal">True</span>, verbose_name=<span class="hljs-string">&quot;更新时间&quot;</span>)<br>    description = models.TextField(blank=<span class="hljs-literal">True</span>, verbose_name=<span class="hljs-string">&quot;描述&quot;</span>)<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Meta</span>:<br>        abstract = <span class="hljs-literal">True</span>  <span class="hljs-comment"># 关键！告诉Django不要给这个类建表，它只是用来被继承的</span><br><br><span class="hljs-comment"># 2. 其他模型直接继承它</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Project</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<br>    name = models.CharField(...)<br>    <span class="hljs-comment"># 自动拥有 created_time, updated_time, description</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCase</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<br>    name = models.CharField(...)<br>    <span class="hljs-comment"># 自动拥有 created_time, updated_time, description</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="db-table"><a href="#db-table" class="headerlink" title="db_table"></a>db_table</h3><p>Django 默认生成的表名是 <code>app名_model名</code>.而db_table即定义表的名字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Meta</span>:<br>        db_table = <span class="hljs-string">&quot;t_test_case&quot;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="外键和表关系"><a href="#外键和表关系" class="headerlink" title="外键和表关系"></a>外键和表关系</h2><h3 id="1-ForeignKey-一对多"><a href="#1-ForeignKey-一对多" class="headerlink" title="1. ForeignKey (一对多)"></a>1. <code>ForeignKey</code> (一对多)</h3><p>最常用的。比如：一个用例属于一个项目。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">project = models.ForeignKey(to=<span class="hljs-string">&quot;Project&quot;</span>, on_delete=models.CASCADE)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>必填参数 <code>on_delete</code> (级联删除策略)</strong> <ul>
+<li><code>models.CASCADE</code>: <strong>级联删除</strong>。项目删了，它底下的用例<strong>全删</strong>。（最常用）</li>
+<li><code>models.SET_NULL</code>: 项目删了，用例保留，但 project 字段变为 Null。（需要配合 <code>null=True</code>）</li>
+<li><code>models.PROTECT</code>: 保护模式。如果项目下有用例，<strong>禁止删除</strong>该项目（报错）。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(models.Model):<br>    username = models.CharField(max_length=<span class="hljs-number">20</span>)<br>    password = models.CharField(max_length=<span class="hljs-number">100</span>)<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span>(models.Model):<br>    title = models.CharField(max_length=<span class="hljs-number">100</span>)<br>    content = models.TextField()<br><br>    <span class="hljs-comment"># 外键关联 在数据库中字段是user_id 与User的id关联</span><br>    author = models.ForeignKey(<span class="hljs-string">&quot;User&quot;</span>, on_delete=models.CASCADE)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">article_test</span>(<span class="hljs-params">request</span>):<br>    user = User(username=<span class="hljs-string">&quot;xiaoli&quot;</span>, password=<span class="hljs-string">&quot;123456&quot;</span>)<br>    user.save()<br>    article = Article(title=<span class="hljs-string">&quot;测试标题&quot;</span>, content=<span class="hljs-string">&quot;测试内容&quot;</span>, author=user)<br>    article.save()<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;This is article test page.&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">article_author_name</span>(<span class="hljs-params">request</span>):<br>    article = Article.objects.first()<br>    <span class="hljs-comment"># 关键：article.author 是一个外键关联的模型对象 是一个User对象</span><br>    <span class="hljs-built_in">print</span>(article.author.username)<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">f&quot;作者名称: <span class="hljs-subst">&#123;article.author.username&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-ManyToManyField-多对多"><a href="#2-ManyToManyField-多对多" class="headerlink" title="2. ManyToManyField (多对多)"></a>2. <code>ManyToManyField</code> (多对多)</h3><p>比如：一个用例可以贴多个 <strong>Tag</strong>（标签），一个 Tag 也可以标在这个用例上。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">tags = models.ManyToManyField(<span class="hljs-string">&quot;Tag&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>Django 会自动帮你建一张中间表，不用你操心。</li>
+</ul>
+<h3 id="3-OneToOneField-一对一"><a href="#3-OneToOneField-一对一" class="headerlink" title="3. OneToOneField (一对一)"></a>3. <code>OneToOneField</code> (一对一)</h3><p>用得少。比如：User 表不够用了，搞个 UserProfile 表存扩展信息。</p>
+
                 
               </div>
             
