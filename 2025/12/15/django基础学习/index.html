@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lilpear2002.github.io/img/django.jpg">
 <meta property="article:published_time" content="2025-12-15T03:06:57.000Z">
-<meta property="article:modified_time" content="2025-12-16T02:54:46.052Z">
+<meta property="article:modified_time" content="2025-12-17T06:56:49.530Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="Django">
 <meta property="article:tag" content="ORM">
@@ -301,7 +301,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.4k 字
+          12k 字
         
       </span>
     
@@ -312,7 +312,7 @@
         
         
         
-          62 分钟
+          102 分钟
         
       </span>
     
@@ -878,7 +878,7 @@ Django 的模版语言（DTL）核心就两点：
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(models.Model):<br>    username = models.CharField(max_length=<span class="hljs-number">20</span>)<br>    password = models.CharField(max_length=<span class="hljs-number">100</span>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span>(models.Model):<br>    title = models.CharField(max_length=<span class="hljs-number">100</span>)<br>    content = models.TextField()<br><br>    <span class="hljs-comment"># 外键关联 在数据库中字段是user_id 与User的id关联</span><br>    author = models.ForeignKey(<span class="hljs-string">&quot;User&quot;</span>, on_delete=models.CASCADE)<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">article_test</span>(<span class="hljs-params">request</span>):<br>    user = User(username=<span class="hljs-string">&quot;xiaoli&quot;</span>, password=<span class="hljs-string">&quot;123456&quot;</span>)<br>    user.save()<br>    article = Article(title=<span class="hljs-string">&quot;测试标题&quot;</span>, content=<span class="hljs-string">&quot;测试内容&quot;</span>, author=user)<br>    article.save()<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;This is article test page.&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">article_author_name</span>(<span class="hljs-params">request</span>):<br>    article = Article.objects.first()<br>    <span class="hljs-comment"># 关键：article.author 是一个外键关联的模型对象 是一个User对象</span><br>    <span class="hljs-built_in">print</span>(article.author.username)<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">f&quot;作者名称: <span class="hljs-subst">&#123;article.author.username&#125;</span>&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">user_articles</span>(<span class="hljs-params">request</span>):<br>    user = User.objects.first()<br>    <span class="hljs-comment"># user.article_set</span><br>    articles = user.article_set.<span class="hljs-built_in">all</span>()<br>    <span class="hljs-keyword">for</span> article <span class="hljs-keyword">in</span> articles:<br>        <span class="hljs-built_in">print</span>(article.title, article.content)<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;用户文章列表&quot;</span>)<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">article_test</span>(<span class="hljs-params">request</span>):<br>    user = User(username=<span class="hljs-string">&quot;xiaoli&quot;</span>, password=<span class="hljs-string">&quot;123456&quot;</span>)<br>    user.save()<br>    article = Article(title=<span class="hljs-string">&quot;测试标题&quot;</span>, content=<span class="hljs-string">&quot;测试内容&quot;</span>, author=user)<br>    article.save()<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;This is article test page.&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">article_author_name</span>(<span class="hljs-params">request</span>):<br>    article = Article.objects.first()<br>    <span class="hljs-comment"># 正向查询：直接用点号 . 即可</span><br>    <span class="hljs-comment"># 关键：article.author 是一个外键关联的模型对象 是一个User对象</span><br>    <span class="hljs-built_in">print</span>(article.author.username)<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">f&quot;作者名称: <span class="hljs-subst">&#123;article.author.username&#125;</span>&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">user_articles</span>(<span class="hljs-params">request</span>):<br>    user = User.objects.first()<br>    <span class="hljs-comment"># user.article_set</span><br>    <span class="hljs-comment"># 获取该用户的所有article信息</span><br>    articles = user.article_set.<span class="hljs-built_in">all</span>()<br>    <span class="hljs-keyword">for</span> article <span class="hljs-keyword">in</span> articles:<br>        <span class="hljs-built_in">print</span>(article.title, article.content)<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;用户文章列表&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 <h3 id="2-ManyToManyField-多对多"><a href="#2-ManyToManyField-多对多" class="headerlink" title="2. ManyToManyField (多对多)"></a>2. <code>ManyToManyField</code> (多对多)</h3><p>比如：一个用例可以贴多个 <strong>Tag</strong>（标签），一个 Tag 也可以标在这个用例上。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span>(models.Model):<br>    title = models.CharField(max_length=<span class="hljs-number">100</span>)<br>    content = models.TextField()<br>    tags = models.ManyToManyField(<span class="hljs-string">&quot;Tag&quot;</span>,related_name=<span class="hljs-string">&quot;articles&quot;</span>)<br>    <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Tag</span>(models.Model):<br>	name = models.CharField(max_length=<span class="hljs-number">50</span>)	<br></code></pre></td></tr></table></figure>
@@ -889,6 +889,321 @@ Django 的模版语言（DTL）核心就两点：
 <h3 id="3-OneToOneField-一对一"><a href="#3-OneToOneField-一对一" class="headerlink" title="3. OneToOneField (一对一)"></a>3. <code>OneToOneField</code> (一对一)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(models.Model):<br>    username = models.CharField(max_length=<span class="hljs-number">20</span>)<br>    password = models.CharField(max_length=<span class="hljs-number">100</span>)<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserExtension</span>(models.Model):  <br>    birthday = models.DateTimeField(null=<span class="hljs-literal">True</span>)  <br>    school = models.CharField(blank=<span class="hljs-literal">True</span>,max_length=<span class="hljs-number">50</span>)  <br>    user = models.OneToOneField(<span class="hljs-string">&quot;User&quot;</span>, on_delete=models.CASCADE)<br></code></pre></td></tr></table></figure>
 
 <p>用得少。比如：User 表不够用了，搞个 UserProfile 表存扩展信息。</p>
+<hr>
+<h2 id="查询操作"><a href="#查询操作" class="headerlink" title="查询操作"></a>查询操作</h2><h3 id="基础查询与“双下划线魔法”-Field-Lookups"><a href="#基础查询与“双下划线魔法”-Field-Lookups" class="headerlink" title="基础查询与“双下划线魔法” (Field Lookups)"></a>基础查询与“双下划线魔法” (Field Lookups)</h3><p>Django 的精髓在于字段名后面接 <code>__操作符</code>。这在底层会翻译成 SQL 的 <code>WHERE</code> 子句。</p>
+<h4 id="1-模糊匹配-LIKE"><a href="#1-模糊匹配-LIKE" class="headerlink" title="1. 模糊匹配 (LIKE)"></a>1. 模糊匹配 (<code>LIKE</code>)</h4><p>找出名字里包含 “登录” 的用例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># SQL: ... WHERE name LIKE &#x27;%登录%&#x27;;</span><br>cases = TestCase.objects.<span class="hljs-built_in">filter</span>(name__contains=<span class="hljs-string">&quot;登录&quot;</span>)<br><br><span class="hljs-comment"># 忽略大小写 (Case Insensitive)</span><br>cases = TestCase.objects.<span class="hljs-built_in">filter</span>(name__icontains=<span class="hljs-string">&quot;login&quot;</span>) <br></code></pre></td></tr></table></figure>
+
+<h4 id="2-比较运算"><a href="#2-比较运算" class="headerlink" title="2. 比较运算 (&gt;, &lt;, IN)"></a>2. 比较运算 (<code>&gt;</code>, <code>&lt;</code>, <code>IN</code>)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># id 大于 10 的</span><br>TestCase.objects.<span class="hljs-built_in">filter</span>(id__gt=<span class="hljs-number">10</span>) <span class="hljs-comment"># gt = greater than</span><br><br><span class="hljs-comment"># 优先级 小于等于 2 的 (P1和P2)</span><br>TestCase.objects.<span class="hljs-built_in">filter</span>(priority__lte=<span class="hljs-number">2</span>) <span class="hljs-comment"># lte = less than or equal</span><br><br><span class="hljs-comment"># 批量查询：id 在 [1, 3, 5] 中的</span><br>TestCase.objects.<span class="hljs-built_in">filter</span>(id__in=[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>])<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-日期查询-Date"><a href="#3-日期查询-Date" class="headerlink" title="3. 日期查询 (Date)"></a>3. 日期查询 (Date)</h4><p>这是测开做“测试周报”统计时最常用的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 找出 2024年 之后创建的数据</span><br>TestCase.objects.<span class="hljs-built_in">filter</span>(created_time__year__gte=<span class="hljs-number">2024</span>)<br><br><span class="hljs-comment"># 找出 12月 的数据</span><br>TestCase.objects.<span class="hljs-built_in">filter</span>(created_time__month=<span class="hljs-number">12</span>)<br></code></pre></td></tr></table></figure>
+
+<p>……</p>
+<hr>
+<h3 id="Q-对象与-F-对象"><a href="#Q-对象与-F-对象" class="headerlink" title="Q 对象与 F 对象"></a>Q 对象与 F 对象</h3><h4 id="1-Q-对象-复杂逻辑-OR"><a href="#1-Q-对象-复杂逻辑-OR" class="headerlink" title="1. Q 对象 (复杂逻辑 OR)"></a>1. Q 对象 (复杂逻辑 OR)</h4><p>filter() 里的多个参数默认是 AND 关系。如果我要 OR（或）怎么办？</p>
+<p>比如：找出 “P1级别” 或者 “失败” 的用例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.db.models <span class="hljs-keyword">import</span> Q<br><br><span class="hljs-comment"># | 代表 OR, &amp; 代表 AND, ~ 代表 NOT</span><br>cases = TestCase.objects.<span class="hljs-built_in">filter</span>(Q(priority=<span class="hljs-number">1</span>) | Q(is_passed=<span class="hljs-literal">False</span>))<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-F-对象-字段间比较"><a href="#2-F-对象-字段间比较" class="headerlink" title="2. F 对象 (字段间比较)"></a>2. F 对象 (字段间比较)</h4><p>filter() 通常是拿字段和常量比。如果我要拿字段和字段比呢？</p>
+<p>场景：找出所有被修改过的用例（即 updated_time 大于 created_time）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.db.models <span class="hljs-keyword">import</span> F<br><br><span class="hljs-comment"># F(&#x27;字段名&#x27;) 获取字段的值</span><br>cases = TestCase.objects.<span class="hljs-built_in">filter</span>(updated_time__gt=F(<span class="hljs-string">&#x27;created_time&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="查看原生-SQL"><a href="#查看原生-SQL" class="headerlink" title="查看原生 SQL"></a>查看原生 SQL</h3><p>.query知道 Django 到底执行了什么 SQL</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">qs = TestCase.objects.<span class="hljs-built_in">filter</span>(name__contains=<span class="hljs-string">&quot;登录&quot;</span>, priority=<span class="hljs-number">1</span>)<br><br><span class="hljs-comment"># 直接打印 query 属性</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(qs.query))<br></code></pre></td></tr></table></figure>
+
+<p>会看到类似这样的输出：SELECT … FROM case_manager_testcase WHERE name LIKE %登录% AND priority &#x3D; 1</p>
+<hr>
+<h2 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h2><p>在 Django 中，聚合主要涉及两个核心方法：</p>
+<ol>
+<li><strong><code>aggregate()</code></strong>: <strong>整表聚合</strong>。把一堆数据“拍扁”成一个字典（例如：算全公司的 Bug 总数）。</li>
+<li><strong><code>annotate()</code></strong>: <strong>分组聚合 (Group By)</strong>。给每一行数据挂载一个统计值（例如：算<strong>每个</strong>项目下有多少条用例）。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.db.models <span class="hljs-keyword">import</span> Count, Sum, Avg, Max, Min<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="一、-aggregate-——-算总账"><a href="#一、-aggregate-——-算总账" class="headerlink" title="一、 aggregate() —— 算总账"></a>一、 <code>aggregate()</code> —— 算总账</h3><p>它的作用是对当前的 QuerySet 进行计算，返回一个<strong>字典 (Dictionary)</strong>。它不再返回模型对象列表了。</p>
+<p><strong>场景</strong>：测试平台首页的“数据概览”。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.db.models <span class="hljs-keyword">import</span> Count, Avg<br><br><span class="hljs-comment"># 1. 统计总共有多少条用例</span><br><span class="hljs-comment"># SQL: SELECT COUNT(id) FROM test_case;</span><br>res = TestCase.objects.aggregate(total_cases=Count(<span class="hljs-string">&#x27;id&#x27;</span>))<br><span class="hljs-built_in">print</span>(res) <br><span class="hljs-comment"># 输出: &#123;&#x27;total_cases&#x27;: 105&#125;</span><br><br><span class="hljs-comment"># 2. 统计所有用例优先级的平均值 (虽然这没啥业务意义，仅作演示)</span><br><span class="hljs-comment"># SQL: SELECT AVG(priority) FROM test_case;</span><br>res = TestCase.objects.aggregate(avg_priority=Avg(<span class="hljs-string">&#x27;priority&#x27;</span>))<br><span class="hljs-built_in">print</span>(res)<br><span class="hljs-comment"># 输出: &#123;&#x27;avg_priority&#x27;: 1.8&#125;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果不给参数起名字（ <code>total_cases</code>），Django 会自动生成 <code>id__count</code> 这种名字。</p>
+</blockquote>
+<hr>
+<h3 id="二、-annotate-——-给每个对象“贴标签”-Group-By"><a href="#二、-annotate-——-给每个对象“贴标签”-Group-By" class="headerlink" title="二、 annotate() —— 给每个对象“贴标签” (Group By)"></a>二、 <code>annotate()</code> —— 给每个对象“贴标签” (Group By)</h3><p>它的本质是 SQL 的 GROUP BY。它返回的依然是 QuerySet (列表)，但是列表里的每个对象多了一个属性。</p>
+<p><strong>场景</strong>：在“项目列表”页，直接显示每个项目下面有多少条用例。</p>
+<h4 id="1-基础用法-反向关联统计"><a href="#1-基础用法-反向关联统计" class="headerlink" title="1. 基础用法 (反向关联统计)"></a>1. 基础用法 (反向关联统计)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 我们查的是 Project，但我们要统计它底下的 testcase 数量</span><br>projects = Project.objects.annotate(case_count=Count(<span class="hljs-string">&#x27;testcase&#x27;</span>))<br><br><span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> projects:<br>    <span class="hljs-comment"># 此时 p 对象多了一个属性 case_count</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;项目: <span class="hljs-subst">&#123;p.name&#125;</span>, 用例数: <span class="hljs-subst">&#123;p.case_count&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># SQL 翻译:</span><br><span class="hljs-comment"># SELECT project.*, COUNT(test_case.id) </span><br><span class="hljs-comment"># FROM project </span><br><span class="hljs-comment"># LEFT OUTER JOIN test_case ON (...) </span><br><span class="hljs-comment"># GROUP BY project.id;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2-结合-values-实现真正的-Group-By"><a href="#2-结合-values-实现真正的-Group-By" class="headerlink" title="2. 结合 values() 实现真正的 Group By"></a>2. 结合 <code>values()</code> 实现真正的 Group By</h4><p>如果你不想拿对象，只想拿“统计报表”，比如**“按优先级统计用例数量”**（有多少P1，多少P2…）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 1. values(&#x27;priority&#x27;): 先按 priority 字段分组</span><br><span class="hljs-comment"># 2. annotate(...): 对每一组进行统计</span><br>report = TestCase.objects.values(<span class="hljs-string">&#x27;priority&#x27;</span>).annotate(count=Count(<span class="hljs-string">&#x27;id&#x27;</span>))<br><br><span class="hljs-built_in">print</span>(report)<br><span class="hljs-comment"># 输出 (QuerySet其实是字典列表): </span><br><span class="hljs-comment"># &lt;QuerySet [</span><br><span class="hljs-comment">#    &#123;&#x27;priority&#x27;: 1, &#x27;count&#x27;: 12&#125;, </span><br><span class="hljs-comment">#    &#123;&#x27;priority&#x27;: 2, &#x27;count&#x27;: 50&#125;, </span><br><span class="hljs-comment">#    &#123;&#x27;priority&#x27;: 3, &#x27;count&#x27;: 8&#125;</span><br><span class="hljs-comment"># ]&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="条件聚合-Conditional-Aggregation"><a href="#条件聚合-Conditional-Aggregation" class="headerlink" title="条件聚合 (Conditional Aggregation)"></a>条件聚合 (Conditional Aggregation)</h3><p>在聚合函数里加 filter。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.db.models <span class="hljs-keyword">import</span> Q<br><br><span class="hljs-comment"># 统计每个项目下的：1. 总用例数  2. 失败用例数</span><br>projects = Project.objects.annotate(<br>    total=Count(<span class="hljs-string">&#x27;testcase&#x27;</span>),<br>    failed_count=Count(<span class="hljs-string">&#x27;testcase&#x27;</span>, <span class="hljs-built_in">filter</span>=Q(testcase__is_passed=<span class="hljs-literal">False</span>))<br>)<br><br><span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> projects:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;项目: <span class="hljs-subst">&#123;p.name&#125;</span>, 总数: <span class="hljs-subst">&#123;p.total&#125;</span>, 失败: <span class="hljs-subst">&#123;p.failed_count&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>这行代码在 SQL 层面会被翻译成高级的 <code>CASE WHEN ... THEN ...</code> 语句，性能极高。</p>
+<table>
+<thead>
+<tr>
+<th><strong>方法</strong></th>
+<th><strong>返回类型</strong></th>
+<th><strong>SQL 类比</strong></th>
+<th><strong>适用场景</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>aggregate</code></strong></td>
+<td><strong>字典 (Dict)</strong></td>
+<td><code>SELECT COUNT(*) ...</code></td>
+<td>首页大盘数据，算全站总和&#x2F;平均值。</td>
+</tr>
+<tr>
+<td><strong><code>annotate</code></strong></td>
+<td><strong>QuerySet (List)</strong></td>
+<td><code>GROUP BY</code></td>
+<td>列表页，每一行数据都要带一个统计值（如：文章的点赞数、项目的用例数）。</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h1><h2 id="表单验证"><a href="#表单验证" class="headerlink" title="表单验证"></a>表单验证</h2><h3 id="一、-表单概述-Forms-Overview"><a href="#一、-表单概述-Forms-Overview" class="headerlink" title="一、 表单概述 (Forms Overview)"></a>一、 表单概述 (Forms Overview)</h3><p>Django 的表单系统主要做三件事：</p>
+<ol>
+<li><strong>生成 HTML</strong>：把 Python 类自动变成 HTML 代码（比如 <code>&lt;input type=&quot;text&quot;&gt;</code>）（不常用）</li>
+<li><strong>验证数据</strong>：这是核心！检查用户填的是不是邮箱？密码够不够长？</li>
+<li><strong>清洗数据</strong>：把用户填的纯文本 <code>&quot;1&quot;</code> 变成 Python 的整数 <code>1</code>。</li>
+</ol>
+<h4 id="普通表单-forms-Form"><a href="#普通表单-forms-Form" class="headerlink" title="普通表单 (forms.Form)"></a>普通表单 (<code>forms.Form</code>)</h4><p>这就像之前用 <code>JsonResponse</code> 手写 API 一样，是完全自定义的，不一定非要和数据库挂钩。</p>
+<p><strong>场景</strong>：比如一个“运行测试用例”的表单，只需要用户填一个“运行环境”和“重试次数”，这些不需要存数据库，只是为了触发任务。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django <span class="hljs-keyword">import</span> forms<br><span class="hljs-keyword">from</span> django.core <span class="hljs-keyword">import</span> validators<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MessageBoardForm</span>(forms.Form):<br>    title = forms.CharField(min_length=<span class="hljs-number">2</span>, max_length=<span class="hljs-number">20</span>, label=<span class="hljs-string">&#x27;标题&#x27;</span>, error_messages=&#123;<br>        <span class="hljs-string">&#x27;min_length&#x27;</span>: <span class="hljs-string">&#x27;标题长度不能少于2个字符&#x27;</span>,<br>        <span class="hljs-string">&#x27;max_length&#x27;</span>: <span class="hljs-string">&#x27;标题长度不能超过20个字符&#x27;</span>,<br>    &#125;)<br>    content = forms.CharField(widget=forms.Textarea, label=<span class="hljs-string">&#x27;内容&#x27;</span>)<br>    email = forms.EmailField(label=<span class="hljs-string">&#x27;邮箱&#x27;</span>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">RegisterForm</span>(forms.Form):<br>    telephone = forms.CharField(validators=[validators.RegexValidator(<span class="hljs-string">r&#x27;^1[3-9]\d&#123;9&#125;$&#x27;</span>, <span class="hljs-string">&#x27;请输入正确的手机号！&#x27;</span>)], label=<span class="hljs-string">&#x27;手机号&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="二、-核心：数据验证-Validation"><a href="#二、-核心：数据验证-Validation" class="headerlink" title="二、 核心：数据验证 (Validation)"></a>二、 核心：数据验证 (Validation)</h3><p>这是 Form 最强大的地方。验证分为两层：<strong>字段级验证</strong> 和 <strong>表单级（整体）验证</strong>。</p>
+<h4 id="1-字段级验证-clean"><a href="#1-字段级验证-clean" class="headerlink" title="1. 字段级验证 (clean_&lt;fieldname&gt;)"></a>1. 字段级验证 (<code>clean_&lt;fieldname&gt;</code>)</h4><p><strong>规则</strong>：定义方法名为 <code>clean_字段名</code>。 <strong>场景</strong>：检查“重试次数”不能是奇数（假设业务规定）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">clean_retry_times</span>(<span class="hljs-params">self</span>):<br>    <span class="hljs-comment"># 1. 取出该字段的值</span><br>    data = <span class="hljs-variable language_">self</span>.cleaned_data[<span class="hljs-string">&#x27;retry_times&#x27;</span>]<br>    <br>    <span class="hljs-comment"># 2. 判断逻辑</span><br>    <span class="hljs-keyword">if</span> data % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>:<br>        <span class="hljs-comment"># 3. 抛出异常 -&gt; 前端会显示红色错误提示</span><br>        <span class="hljs-keyword">raise</span> forms.ValidationError(<span class="hljs-string">&quot;重试次数必须是偶数！&quot;</span>)<br>        <br>    <span class="hljs-comment"># 4. 必须返回清洗后的值</span><br>    <span class="hljs-keyword">return</span> data<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-表单级验证-clean"><a href="#2-表单级验证-clean" class="headerlink" title="2. 表单级验证 (clean)"></a>2. 表单级验证 (<code>clean</code>)</h4><p><strong>规则</strong>：定义方法名为 <code>clean</code>。 <strong>场景</strong>：跨字段验证。比如“如果是生产环境，重试次数必须为 0”。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">clean</span>(<span class="hljs-params">self</span>):<br>    <span class="hljs-comment"># 1. 获取所有已通过字段级验证的数据</span><br>    cleaned_data = <span class="hljs-built_in">super</span>().clean()<br>    <br>    env = cleaned_data.get(<span class="hljs-string">&#x27;environment&#x27;</span>)<br>    retry = cleaned_data.get(<span class="hljs-string">&#x27;retry_times&#x27;</span>)<br><br>    <span class="hljs-comment"># 2. 跨字段逻辑判断</span><br>    <span class="hljs-keyword">if</span> env == <span class="hljs-string">&#x27;prod&#x27;</span> <span class="hljs-keyword">and</span> retry &gt; <span class="hljs-number">0</span>:<br>        <span class="hljs-comment"># 这里的报错属于整个表单的错误，不是某个字段的</span><br>        <span class="hljs-keyword">raise</span> forms.ValidationError(<span class="hljs-string">&quot;危险操作：生产环境禁止重试！&quot;</span>)<br>        <br>    <span class="hljs-keyword">return</span> cleaned_data<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="ModelForm"><a href="#ModelForm" class="headerlink" title="ModelForm"></a>ModelForm</h2><p>如果要写的表单和数据库模型（Model）几乎一模一样，手写一遍 <code>forms.Form</code> 没必要。<strong>ModelForm</strong> 直接根据 Model 生成表单。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django <span class="hljs-keyword">import</span> forms<br><span class="hljs-keyword">from</span> .models <span class="hljs-keyword">import</span> TestCase<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCaseForm</span>(forms.ModelForm):<br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Meta</span>:<br>        <span class="hljs-comment"># 1. 绑定模型</span><br>        model = TestCase<br>        <span class="hljs-comment"># 2. 指定要显示的字段 (&#x27;__all__&#x27; 表示所有)</span><br>        fields = [<span class="hljs-string">&#x27;project&#x27;</span>, <span class="hljs-string">&#x27;name&#x27;</span>, <span class="hljs-string">&#x27;method&#x27;</span>, <span class="hljs-string">&#x27;url&#x27;</span>, <span class="hljs-string">&#x27;priority&#x27;</span>]<br>        <span class="hljs-comment"># 3. 自定义控件样式 (比如加个 Bootstrap 的 class)</span><br>        widgets = &#123;<br>            <span class="hljs-string">&#x27;name&#x27;</span>: forms.TextInput(attrs=&#123;<span class="hljs-string">&#x27;class&#x27;</span>: <span class="hljs-string">&#x27;form-control&#x27;</span>, <span class="hljs-string">&#x27;placeholder&#x27;</span>: <span class="hljs-string">&#x27;请输入用例名&#x27;</span>&#125;),<br>            <span class="hljs-string">&#x27;url&#x27;</span>: forms.TextInput(attrs=&#123;<span class="hljs-string">&#x27;class&#x27;</span>: <span class="hljs-string">&#x27;form-control&#x27;</span>&#125;),<br>        &#125;<br>        <br>    <span class="hljs-comment"># ModelForm 依然可以写自定义验证！</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">clean_name</span>(<span class="hljs-params">self</span>):<br>        name = <span class="hljs-variable language_">self</span>.cleaned_data[<span class="hljs-string">&#x27;name&#x27;</span>]<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;搞事&quot;</span> <span class="hljs-keyword">in</span> name:<br>            <span class="hljs-keyword">raise</span> forms.ValidationError(<span class="hljs-string">&quot;用例名称包含敏感词！&quot;</span>)<br>        <span class="hljs-keyword">return</span> name<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="save-方法"><a href="#save-方法" class="headerlink" title="save() 方法"></a>save() 方法</h3><p>ModelForm 最方便的是它自带 <code>save()</code> 方法。</p>
+<ul>
+<li><strong>Create (新增)</strong>: <code>form.save()</code> 会直接插入数据库。</li>
+<li><strong>Update (更新)</strong>: 如果初始化时传了 <code>instance</code>，<code>save()</code> 就是更新。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.shortcuts <span class="hljs-keyword">import</span> render, redirect, get_object_or_404<br><span class="hljs-keyword">from</span> .forms <span class="hljs-keyword">import</span> TestCaseForm<br><span class="hljs-keyword">from</span> .models <span class="hljs-keyword">import</span> TestCase<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_case</span>(<span class="hljs-params">request</span>):<br>    <span class="hljs-comment"># POST 请求：用户提交了表单</span><br>    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:<br>        form = TestCaseForm(request.POST) <span class="hljs-comment"># 绑定数据</span><br>        <span class="hljs-keyword">if</span> form.is_valid(): <span class="hljs-comment"># 触发上面的 clean_... 方法</span><br>            form.save() <span class="hljs-comment"># 存入数据库！</span><br>            <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">&#x27;/case/list/&#x27;</span>) <span class="hljs-comment"># 跳转</span><br>    <br>    <span class="hljs-comment"># GET 请求：用户想要看空表单</span><br>    <span class="hljs-keyword">else</span>:<br>        form = TestCaseForm()<br>    <br>    <span class="hljs-keyword">return</span> render(request, <span class="hljs-string">&#x27;create_case.html&#x27;</span>, &#123;<span class="hljs-string">&#x27;form&#x27;</span>: form&#125;)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">edit_case</span>(<span class="hljs-params">request, case_id</span>):<br>    <span class="hljs-comment"># 查出旧数据</span><br>    <span class="hljs-keyword">case</span> = get_object_or_404(TestCase, pk=case_id)<br>    <br>    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:<br>        <span class="hljs-comment"># 注意：这里传了 instance=case，表示是“更新”而不是“新建”</span><br>        form = TestCaseForm(request.POST, instance=<span class="hljs-keyword">case</span>)<br>        <span class="hljs-keyword">if</span> form.is_valid():<br>            form.save() <span class="hljs-comment"># 更新数据库</span><br>            <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">&#x27;/case/list/&#x27;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-comment"># GET 请求：表单里会预先填好旧数据</span><br>        form = TestCaseForm(instance=<span class="hljs-keyword">case</span>)<br>        <br>    <span class="hljs-keyword">return</span> render(request, <span class="hljs-string">&#x27;edit_case.html&#x27;</span>, &#123;<span class="hljs-string">&#x27;form&#x27;</span>: form&#125;)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Session-与-Cookie"><a href="#Session-与-Cookie" class="headerlink" title="Session 与 Cookie"></a>Session 与 Cookie</h1><p>在 Web 开发中，最核心的痛点是：HTTP 协议是无状态的（Stateless）。也就是说，你刚请求了“登录接口”，紧接着去请求“个人主页”，服务器根本记不住“刚才那个请求是你发的”。服务器对待每一次请求都像接待新客人一样。为了让服务器“记住你”，就诞生了 Cookie 和 Session。</p>
+<hr>
+<h3 id="一、-核心概念与形象比喻"><a href="#一、-核心概念与形象比喻" class="headerlink" title="一、 核心概念与形象比喻"></a>一、 核心概念与形象比喻</h3><p>我用**“去医院看病”**来比喻，非常直观：</p>
+<h4 id="1-Cookie-就诊卡"><a href="#1-Cookie-就诊卡" class="headerlink" title="1. Cookie (就诊卡)"></a>1. Cookie (就诊卡)</h4><ul>
+<li><strong>定义</strong>：存储在**客户端（浏览器）**的一小段文本信息。</li>
+<li><strong>比喻</strong>：你的<strong>就诊卡</strong>。<ul>
+<li>卡在你手里（浏览器）。</li>
+<li>卡上只有一串编号（Session ID），或者简单的名字信息。</li>
+<li><strong>特点</strong>：不安全（别人捡到了能冒充你），容量小（存不了CT片子），每次看病（发请求）都要递给医生。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-Session-病历档案"><a href="#2-Session-病历档案" class="headerlink" title="2. Session (病历档案)"></a>2. Session (病历档案)</h4><ul>
+<li><strong>定义</strong>：存储在**服务端（服务器数据库&#x2F;内存）**的数据。</li>
+<li><strong>比喻</strong>：医院电脑里的<strong>病历记录</strong>。<ul>
+<li>数据在医院手里（服务器）。</li>
+<li>里面详细记录了你的病情、开的药、你是谁（用户详细信息）。</li>
+<li><strong>特点</strong>：安全（在服务器大楼里），容量大。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-它们如何配合？-核心流程"><a href="#3-它们如何配合？-核心流程" class="headerlink" title="3. 它们如何配合？ (核心流程)"></a>3. 它们如何配合？ (核心流程)</h4><ol>
+<li><strong>挂号（登录）</strong>：你给医院信息，医院创建一个病历（Session），生成一个编号 <code>10086</code>。</li>
+<li><strong>发卡（Set-Cookie）</strong>：医院把写着 <code>10086</code> 的卡（Cookie）给你。</li>
+<li><strong>看病（后续请求）</strong>：你再次去找医生，不用废话，直接刷卡（发送 Cookie）。</li>
+<li><strong>查档（Session Lookup）</strong>：医生通过卡号 <code>10086</code>，去电脑里调出你的档案（Session）</li>
+</ol>
+<hr>
+<h3 id="二、-Django-中的具体实现"><a href="#二、-Django-中的具体实现" class="headerlink" title="二、 Django 中的具体实现"></a>二、 Django 中的具体实现</h3><p>Django 把这一切封装好，不需要手动操作 Cookie，只需要操作 <strong><code>request.session</code></strong> 字典即可。</p>
+<h4 id="1-开启-Session-默认已开启"><a href="#1-开启-Session-默认已开启" class="headerlink" title="1. 开启 Session (默认已开启)"></a>1. 开启 Session (默认已开启)</h4><p>在 <code>settings.py</code> 中，确保这两行是存在的（默认就有）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">INSTALLED_APPS = [<br>    ...<br>    <span class="hljs-string">&#x27;django.contrib.sessions&#x27;</span>, <span class="hljs-comment"># 负责 Session 逻辑</span><br>]<br><br>MIDDLEWARE = [<br>    ...<br>    <span class="hljs-string">&#x27;django.contrib.sessions.middleware.SessionMiddleware&#x27;</span>, <span class="hljs-comment"># 负责在请求和响应中植入 Cookie</span><br>]<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-代码实战：模拟登录与获取信息"><a href="#2-代码实战：模拟登录与获取信息" class="headerlink" title="2. 代码实战：模拟登录与获取信息"></a>2. 代码实战：模拟登录与获取信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.http <span class="hljs-keyword">import</span> JsonResponse<br><br><span class="hljs-comment"># 1. 登录 (写入 Session)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">login</span>(<span class="hljs-params">request</span>):<br>    <span class="hljs-comment"># 假设校验账号密码成功后...</span><br>    <br>    <span class="hljs-comment"># 这一步，Django 自动做了三件事：</span><br>    <span class="hljs-comment"># 1. 生成一个随机字符串 (Session ID)</span><br>    <span class="hljs-comment"># 2. 在数据库 django_session 表里存入 key=&#x27;user_name&#x27;, value=&#x27;xiaoli&#x27;</span><br>    <span class="hljs-comment"># 3. 给浏览器发一个指令：请把 Session ID 存到 Cookie 里</span><br>    request.session[<span class="hljs-string">&#x27;user_id&#x27;</span>] = <span class="hljs-number">1001</span><br>    request.session[<span class="hljs-string">&#x27;user_name&#x27;</span>] = <span class="hljs-string">&#x27;xiaoli&#x27;</span><br>    request.session[<span class="hljs-string">&#x27;is_login&#x27;</span>] = <span class="hljs-literal">True</span><br>    <br>    <span class="hljs-keyword">return</span> JsonResponse(&#123;<span class="hljs-string">&quot;msg&quot;</span>: <span class="hljs-string">&quot;登录成功&quot;</span>&#125;)<br><br><span class="hljs-comment"># 2. 只有登录才能看的页面 (读取 Session)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">user_info</span>(<span class="hljs-params">request</span>):<br>    <span class="hljs-comment"># 从 Session 中取值 (Django 会自动根据 Cookie 里的 ID 去数据库查)</span><br>    is_login = request.session.get(<span class="hljs-string">&#x27;is_login&#x27;</span>, <span class="hljs-literal">False</span>)<br>    <br>    <span class="hljs-keyword">if</span> is_login:<br>        name = request.session.get(<span class="hljs-string">&#x27;user_name&#x27;</span>)<br>        <span class="hljs-keyword">return</span> JsonResponse(&#123;<span class="hljs-string">&quot;msg&quot;</span>: <span class="hljs-string">f&quot;欢迎回来，<span class="hljs-subst">&#123;name&#125;</span>&quot;</span>&#125;)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> JsonResponse(&#123;<span class="hljs-string">&quot;msg&quot;</span>: <span class="hljs-string">&quot;请先登录&quot;</span>&#125;, status=<span class="hljs-number">403</span>)<br><br><span class="hljs-comment"># 3. 退出 (清除 Session)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">logout</span>(<span class="hljs-params">request</span>):<br>    <span class="hljs-comment"># 清空服务器端的记录，并告诉浏览器删除 Cookie</span><br>    request.session.flush()<br>    <span class="hljs-keyword">return</span> JsonResponse(&#123;<span class="hljs-string">&quot;msg&quot;</span>: <span class="hljs-string">&quot;退出成功&quot;</span>&#125;)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="1-Session-存在哪？"><a href="#1-Session-存在哪？" class="headerlink" title="1. Session 存在哪？"></a>1. Session 存在哪？</h4><ul>
+<li><strong>默认</strong>：存在数据库里的 <strong><code>django_session</code></strong> 表。<ul>
+<li>可以去数据库看看，每次登录，这里就会多一行乱码一样的数据（加密的）。</li>
+</ul>
+</li>
+<li><strong>优化</strong>：大厂高并发时，通常存在 <strong>Redis</strong> 里（速度更快）。<ul>
+<li>配置：<code>SESSION_ENGINE = &#39;django.contrib.sessions.backends.cache&#39;</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-Cookie-里的-sessionid"><a href="#2-Cookie-里的-sessionid" class="headerlink" title="2. Cookie 里的 sessionid"></a>2. Cookie 里的 <code>sessionid</code></h4><p>当登录 Django 成功后，按 F12 打开浏览器开发者工具 -&gt; Application -&gt; Cookies。</p>
+<p>会看到一个叫 sessionid 的 Key。</p>
+<ul>
+<li>这就是“就诊卡号”。</li>
+<li>如果你手动把这个 value 删了，刷新页面，你就变成“未登录”状态了。</li>
+</ul>
+<h4 id="3-CSRF-Token-Django-的保镖"><a href="#3-CSRF-Token-Django-的保镖" class="headerlink" title="3. CSRF Token (Django 的保镖)"></a>3. CSRF Token (Django 的保镖)</h4><p>会发现在 Cookie 里除了 sessionid，通常还有一个 csrftoken。</p>
+<p>这是 Django 为了防止 跨站请求伪造攻击 自动生成的。</p>
+<ul>
+<li><strong>测试坑点</strong>：如果你用 Postman 或 Python 代码（Requests）去测 Django 的 POST 接口，往往会报 <code>403 Forbidden</code>。</li>
+<li><strong>解决</strong>：测试时通常会在 <code>settings.py</code> 的 <code>MIDDLEWARE</code> 里暂时注释掉 <code>CsrfViewMiddleware</code>，或者在请求头里带上 Token。</li>
+</ul>
+<hr>
+<h3 id="Token-vs-Session"><a href="#Token-vs-Session" class="headerlink" title="Token vs Session"></a>Token vs Session</h3><p>这是<strong>前后端分离</strong>（FastAPI&#x2F;DRF）和<strong>传统模式</strong>（Django Template）最大的区别。</p>
+<ul>
+<li><strong>Session 模式 (传统)</strong>：<ul>
+<li>状态存在<strong>服务端</strong>。</li>
+<li>依赖 Cookie（浏览器会自动带上）。</li>
+<li>缺点：服务器压力大；如果不做特殊处理，不支持手机 App（App 没有浏览器那样的 Cookie 机制）。</li>
+</ul>
+</li>
+<li><strong>Token 模式 (现代，如 JWT)</strong>：<ul>
+<li>状态存在<strong>客户端</strong>。</li>
+<li>登录成功后，服务器发给你一串很长的加密字符串（Token）。</li>
+<li>以后每次请求，你都要<strong>手动</strong>在 Header 里带上 <code>Authorization: Bearer &lt;token&gt;</code>。</li>
+<li><strong>优点</strong>：服务器不用存数据（省内存），完美支持 App 和前后端分离。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h1><h3 id="一、-什么是-CSRF？（攻击原理）"><a href="#一、-什么是-CSRF？（攻击原理）" class="headerlink" title="一、 什么是 CSRF？（攻击原理）"></a>一、 什么是 CSRF？（攻击原理）</h3><p>全称：Cross-Site Request Forgery 核心逻辑：“盗用你的身份，以你的名义发送恶意请求。”</p>
+<p>CSRF：利用浏览器**“自动携带 Cookie”**的特性，骗过服务器。</p>
+<ol>
+<li>用户登录受信任网站 A，并在本地生成 Cookie。</li>
+<li>在不登出的情况下，用户访问恶意网站 B。</li>
+<li>网站 B 的页面里隐藏了一段代码（比如一个自动提交的表单），向网站 A 发送请求（比如 <code>POST /transfer_money</code>）。</li>
+<li>浏览器发现是发给网站 A 的，于是<strong>自动</strong>把网站 A 的 Cookie 贴上去。</li>
+<li>网站 A 收到请求，以为是用户自愿操作的，执行成功。</li>
+</ol>
+<hr>
+<h3 id="Django-如何防御？（Token-机制）"><a href="#Django-如何防御？（Token-机制）" class="headerlink" title="Django 如何防御？（Token 机制）"></a>Django 如何防御？（Token 机制）</h3><p>Django 的防御策略非常简单粗暴：<strong>“暗号（Token）”</strong>。</p>
+<p>它不再单单信任 Cookie，而是要求每次发送 <code>POST/PUT/DELETE</code> 请求时，必须带上一个<strong>随机生成的、一次性的字符串（CSRF Token）</strong>。</p>
+<h4 id="防御流程："><a href="#防御流程：" class="headerlink" title="防御流程："></a>防御流程：</h4><ol>
+<li><strong>发号</strong>：当你访问表单页面时，Django 会在 HTML 里藏一个 <code>&lt;input type=&quot;hidden&quot; name=&quot;csrfmiddlewaretoken&quot; value=&quot;随机乱码&quot;&gt;</code>。同时，Cookie 里也会存一份。</li>
+<li><strong>核对</strong>：当你提交表单时，Django 后端会做两件事：<ul>
+<li>拿你提交上来的 <code>value</code>。</li>
+<li>拿 Cookie 里的 <code>secret</code>。</li>
+<li><strong>比对</strong>：如果两者对不上，或者没带 Token，直接丢弃请求，返回 <strong>403 Forbidden</strong>。</li>
+</ul>
+</li>
+</ol>
+<p><strong>恶意网站 B 拿不到这个 Token</strong>（受限于浏览器的同源策略，它读不到网站 A 的 DOM 和 Cookie），所以它的伪造请求会失败。</p>
+<hr>
+<p>在写代码或测试时，会在这三种场景遇到 CSRF 问题：</p>
+<h4 id="场景-1：传统-Django-模版-Template"><a href="#场景-1：传统-Django-模版-Template" class="headerlink" title="场景 1：传统 Django 模版 (Template)"></a>场景 1：传统 Django 模版 (Template)</h4><p>这是最标准的用法。必须在每一个 <code>form</code> 标签里手动加上 tag。</p>
+
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;/login/&quot;</span>&gt;</span><br>    &#123;% csrf_token %&#125;<br>    <br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;username&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>提交<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p><em>如果忘了加这一行，提交时必报 403。</em></p>
+<h4 id="场景-2：前后端分离-Vue-React-Django-AJAX"><a href="#场景-2：前后端分离-Vue-React-Django-AJAX" class="headerlink" title="场景 2：前后端分离 (Vue&#x2F;React + Django) &#x2F; AJAX"></a>场景 2：前后端分离 (Vue&#x2F;React + Django) &#x2F; AJAX</h4><p>前端代码不在 Django 模版里，没法用 csrf_token。</p>
+<p>做法：前端（JS）需要从 Cookie 里读取 csrftoken，并在发送请求（Axios&#x2F;Fetch）时，把它放到 HTTP Header 里。</p>
+<ul>
+<li><strong>Header Key</strong>: <code>X-CSRFToken</code></li>
+<li><strong>Header Value</strong>: 从 Cookie <code>csrftoken</code> 字段读出来的值。</li>
+</ul>
+<h4 id="场景-3：DRF-接口与自动化测试"><a href="#场景-3：DRF-接口与自动化测试" class="headerlink" title="场景 3：DRF 接口与自动化测试"></a>场景 3：DRF 接口与自动化测试</h4><p><strong>“现在的 DRF 接口开发，还需要 CSRF 防御吗？”</strong></p>
+<p><strong>答案：看认证方式。</strong></p>
+<ol>
+<li><strong>如果用 SessionAuthentication (Session 认证)</strong>：<ul>
+<li><strong>需要！</strong> 因为 Session 依赖 Cookie，浏览器会自动带，所以容易被 CSRF。</li>
+<li>DRF 会强制检查 CSRF Token。</li>
+</ul>
+</li>
+<li><strong>如果用 TokenAuthentication &#x2F; JWT (Token 认证)</strong>：<ul>
+<li><strong>不需要！</strong></li>
+<li>因为 JWT 是放在 Header (<code>Authorization: Bearer &lt;token&gt;</code>) 里的。浏览器<strong>不会自动</strong>给恶意网站发出的请求带上 Header。恶意网站没有你的 Token，也就造不出请求。</li>
+<li>所以，大部分纯 API 项目，通常会<strong>关闭 CSRF 检查</strong>。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>有时候做测试工具，或者对接第三方回调（比如微信支付回调），对方发过来请求肯定没有你的 Token，这时需要局部关闭检查。</p>
+<p>使用装饰器 <strong><code>@csrf_exempt</code></strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.views.decorators.csrf <span class="hljs-keyword">import</span> csrf_exempt<br><span class="hljs-keyword">from</span> django.http <span class="hljs-keyword">import</span> JsonResponse<br><br><span class="hljs-meta">@csrf_exempt  </span><span class="hljs-comment"># 给这个视图发“免检金牌”</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_webhook</span>(<span class="hljs-params">request</span>):<br>    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:<br>        <span class="hljs-keyword">return</span> JsonResponse(&#123;<span class="hljs-string">&quot;msg&quot;</span>: <span class="hljs-string">&quot;即便没有Token，我也能通过！&quot;</span>&#125;)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="自动化测试脚本怎么绕过？"><a href="#自动化测试脚本怎么绕过？" class="headerlink" title="自动化测试脚本怎么绕过？"></a>自动化测试脚本怎么绕过？</h3><p>你在写 Python 脚本（requests&#x2F;pytest）测接口时，经常被 403 拦住。解决方案有二：</p>
+<h4 id="方法-A：做一个守规矩的“良民”"><a href="#方法-A：做一个守规矩的“良民”" class="headerlink" title="方法 A：做一个守规矩的“良民”"></a>方法 A：做一个守规矩的“良民”</h4><p>先请求一次 GET 拿到 Cookies，再从 Cookies 里提取 Token 发 POST。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br>client = requests.Session()<br><br><span class="hljs-comment"># 1. 先访问首页或登录页，获取 cookie (里面包含 csrftoken)</span><br>client.get(<span class="hljs-string">&quot;http://127.0.0.1:8000/api/login/&quot;</span>)<br><br><span class="hljs-comment"># 2. 从 cookie 中提取 token</span><br>token = client.cookies[<span class="hljs-string">&#x27;csrftoken&#x27;</span>]<br><br><span class="hljs-comment"># 3. 手动带在 Header 里发送 POST</span><br>headers = &#123;<span class="hljs-string">&#x27;X-CSRFToken&#x27;</span>: token&#125;<br>resp = client.post(<span class="hljs-string">&quot;http://127.0.0.1:8000/api/cases/&quot;</span>, data=&#123;...&#125;, headers=headers)<br></code></pre></td></tr></table></figure>
+
+<h4 id="方法-B：使用-Django-提供的-APIClient-推荐"><a href="#方法-B：使用-Django-提供的-APIClient-推荐" class="headerlink" title="方法 B：使用 Django 提供的 APIClient (推荐)"></a>方法 B：使用 Django 提供的 <code>APIClient</code> (推荐)</h4><p>如果是在 Django 项目内部写 <code>tests.py</code>，不要用 <code>requests</code>，用 DRF 自带的测试客户端，它会自动帮你处理 CSRF。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> rest_framework.test <span class="hljs-keyword">import</span> APIClient<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_create_case</span>():<br>    client = APIClient()<br>    <span class="hljs-comment"># APIClient 会自动忽略 CSRF 检查，或者自动填充</span><br>    resp = client.post(<span class="hljs-string">&#x27;/api/cases/&#x27;</span>, &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;test&#x27;</span>&#125;, <span class="hljs-built_in">format</span>=<span class="hljs-string">&#x27;json&#x27;</span>)<br>    <span class="hljs-keyword">assert</span> resp.status_code == <span class="hljs-number">201</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="DRF"><a href="#DRF" class="headerlink" title="DRF"></a>DRF</h1><p><strong>Django REST Framework (DRF)</strong> 能在短时间内，为一个只有数据库模型的系统，生成一套标准的、带页面文档的、支持增删改查（CRUD）的 RESTful API。<strong>Serializer（序列化器）、ViewSet（视图集）、Router（路由）</strong>。</p>
+<hr>
+<h3 id="1-安装与注册"><a href="#1-安装与注册" class="headerlink" title="1. 安装与注册"></a>1. 安装与注册</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install djangorestframework markdown django-filter<br></code></pre></td></tr></table></figure>
+
+<p>然后去 <code>TestPlatform/settings.py</code>，把 <code>rest_framework</code> 注册进去：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">INSTALLED_APPS = [<br>    ...<br>    <span class="hljs-string">&#x27;case_manager&#x27;</span>,<br>    <span class="hljs-string">&#x27;rest_framework&#x27;</span>, <span class="hljs-comment"># 必须加这个，否则报错</span><br>]<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-核心组件一：Serializer-序列化器"><a href="#2-核心组件一：Serializer-序列化器" class="headerlink" title="2. 核心组件一：Serializer (序列化器)"></a>2. 核心组件一：Serializer (序列化器)</h3><p><strong>它的作用</strong>：<strong>翻译官</strong>。</p>
+<ul>
+<li><strong>把模型变成 JSON (序列化)</strong>：数据库查出来的 <code>TestCase</code> 对象 -&gt; 前端能懂的 JSON。</li>
+<li><strong>把 JSON 变成模型 (反序列化)</strong>：前端发来的 JSON -&gt; 存入数据库前的数据校验和清洗。</li>
+</ul>
+<p><strong>类比 FastAPI</strong>：它就等于 FastAPI 里的 <strong>Pydantic Model</strong> (<code>class UserSchema(BaseModel): ...</code>)。</p>
+<p>在 <code>case_manager</code> 下新建 <code>serializers.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> rest_framework <span class="hljs-keyword">import</span> serializers<br><span class="hljs-keyword">from</span> .models <span class="hljs-keyword">import</span> TestCase, Project<br><br><span class="hljs-comment"># 写法极其类似 ModelForm</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ProjectSerializer</span>(serializers.ModelSerializer):<br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Meta</span>:<br>        model = Project<br>        fields = <span class="hljs-string">&#x27;__all__&#x27;</span> <span class="hljs-comment"># 偷懒写法：所有字段都序列化</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCaseSerializer</span>(serializers.ModelSerializer):<br>    <span class="hljs-comment"># 我们可以增加一些只读字段，或者嵌套显示</span><br>    <span class="hljs-comment"># 比如：我想在返回用例时，直接看到项目的名字，而不是只有一个 project_id</span><br>    project_name = serializers.CharField(source=<span class="hljs-string">&#x27;project.name&#x27;</span>, read_only=<span class="hljs-literal">True</span>)<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Meta</span>:<br>        model = TestCase<br>        <span class="hljs-comment"># 指定我要暴露给接口的字段</span><br>        fields = [<span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;name&#x27;</span>, <span class="hljs-string">&#x27;method&#x27;</span>, <span class="hljs-string">&#x27;url&#x27;</span>, <span class="hljs-string">&#x27;priority&#x27;</span>, <span class="hljs-string">&#x27;is_passed&#x27;</span>, <span class="hljs-string">&#x27;project&#x27;</span>, <span class="hljs-string">&#x27;project_name&#x27;</span>, <span class="hljs-string">&#x27;created_time&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-核心组件二：ViewSet-视图集"><a href="#3-核心组件二：ViewSet-视图集" class="headerlink" title="3. 核心组件二：ViewSet (视图集)"></a>3. 核心组件二：ViewSet (视图集)</h3><p>它的作用：全能管家。</p>
+<p>ModelViewSet 一个类直接送你 5 个接口：列表(List)、详情(Retrieve)、创建(Create)、更新(Update)、删除(Destroy)。</p>
+<p> <code>case_manager/views.py</code>，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> rest_framework <span class="hljs-keyword">import</span> viewsets<br><span class="hljs-keyword">from</span> .models <span class="hljs-keyword">import</span> TestCase, Project<br><span class="hljs-keyword">from</span> .serializers <span class="hljs-keyword">import</span> TestCaseSerializer, ProjectSerializer<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ProjectViewSet</span>(viewsets.ModelViewSet):<br>    queryset = Project.objects.<span class="hljs-built_in">all</span>()<br>    serializer_class = ProjectSerializer<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCaseViewSet</span>(viewsets.ModelViewSet):<br>    queryset = TestCase.objects.<span class="hljs-built_in">all</span>().order_by(<span class="hljs-string">&#x27;-created_time&#x27;</span>) <span class="hljs-comment"># 定义查什么数据</span><br>    serializer_class = TestCaseSerializer <span class="hljs-comment"># 定义用哪个翻译官</span><br>    <br>    <span class="hljs-comment"># 你甚至可以直接加搜索功能</span><br>    search_fields = [<span class="hljs-string">&#x27;name&#x27;</span>, <span class="hljs-string">&#x27;url&#x27;</span>] <br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-核心组件三：Router-自动路由"><a href="#4-核心组件三：Router-自动路由" class="headerlink" title="4. 核心组件三：Router (自动路由)"></a>4. 核心组件三：Router (自动路由)</h3><p>它的作用：自动导航。</p>
+<p>不需要再写 path(‘case&#x2F;list&#x2F;‘, …) 这种死板的路由了。Router 会自动帮你生成符合 RESTful 规范的 URL。</p>
+<p>修改 <code>case_manager/urls.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.urls <span class="hljs-keyword">import</span> path, include<br><span class="hljs-keyword">from</span> rest_framework.routers <span class="hljs-keyword">import</span> DefaultRouter<br><span class="hljs-keyword">from</span> . <span class="hljs-keyword">import</span> views<br><br><span class="hljs-comment"># 创建一个路由器</span><br>router = DefaultRouter()<br><br><span class="hljs-comment"># 注册我们的视图集</span><br><span class="hljs-comment"># r&#x27;projects&#x27; 是 URL 前缀</span><br>router.register(<span class="hljs-string">r&#x27;projects&#x27;</span>, views.ProjectViewSet) <br>router.register(<span class="hljs-string">r&#x27;cases&#x27;</span>, views.TestCaseViewSet)<br><br>urlpatterns = [<br>    <span class="hljs-comment"># router.urls 会自动生成一堆 URL，我们把它们包进来</span><br>    path(<span class="hljs-string">&#x27;api/&#x27;</span>, include(router.urls)),<br>]<br></code></pre></td></tr></table></figure>
+
+<p><em>(注：记得确保主项目 <code>TestPlatform/urls.py</code> 里包含了这个文件的路由)</em></p>
+<hr>
+<h3 id="对比-FastAPI"><a href="#对比-FastAPI" class="headerlink" title="对比 FastAPI"></a>对比 FastAPI</h3><table>
+<thead>
+<tr>
+<th><strong>概念</strong></th>
+<th><strong>FastAPI</strong></th>
+<th><strong>Django DRF</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数据校验&#x2F;定义</strong></td>
+<td><code>Pydantic BaseModel</code></td>
+<td><code>Serializer</code></td>
+<td>DRF 直接跟 ORM 绑定，省代码</td>
+</tr>
+<tr>
+<td><strong>路由定义</strong></td>
+<td><code>@app.get(&quot;/items&quot;)</code></td>
+<td><code>Router</code> + <code>urls.py</code></td>
+<td>DRF 自动生成一套 CRUD</td>
+</tr>
+<tr>
+<td><strong>依赖注入</strong></td>
+<td><code>Depends()</code></td>
+<td><code>Mixin</code> &#x2F; <code>Permission</code></td>
+<td>Django 用类继承来实现复用</td>
+</tr>
+<tr>
+<td><strong>文档</strong></td>
+<td>Swagger UI (<code>/docs</code>)</td>
+<td>Browsable API &#x2F; Swagger (需插件)</td>
+<td>DRF 自带的界面适合调试</td>
+</tr>
+</tbody></table>
 <hr>
 
                 
