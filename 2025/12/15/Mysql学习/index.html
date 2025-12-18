@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lilpear2002.github.io/img/mysql.png">
 <meta property="article:published_time" content="2025-12-15T13:53:48.000Z">
-<meta property="article:modified_time" content="2025-12-16T14:28:46.734Z">
+<meta property="article:modified_time" content="2025-12-17T15:39:18.048Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="SQL语句">
 <meta property="article:tag" content="mysql">
@@ -301,7 +301,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4k 字
+          7.5k 字
         
       </span>
     
@@ -312,7 +312,7 @@
         
         
         
-          34 分钟
+          63 分钟
         
       </span>
     
@@ -623,7 +623,7 @@
 <li><strong>外层 WHERE</strong>：最后筛选出标签 <code>&lt;= 2</code> 的数据。</li>
 </ol>
 <hr>
-<h2 id="LAG-和LEAD"><a href="#LAG-和LEAD" class="headerlink" title="LAG()和LEAD()&#96;"></a>LAG()<code>和</code>LEAD()&#96;</h2><ul>
+<h2 id="LAG-和LEAD"><a href="#LAG-和LEAD" class="headerlink" title="LAG()和LEAD()"></a>LAG()<code>和</code>LEAD()</h2><ul>
 <li><code>LAG(col, n)</code>: 向前看 n 行。</li>
 <li><code>LEAD(col, n)</code>: 向后看 n 行.</li>
 </ul>
@@ -751,6 +751,358 @@
 <p>答：Oracle 默认是 Read Committed (RC)。</p>
 </blockquote>
 <hr>
+<h1 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h1><h3 id="一、-什么是存储引擎？"><a href="#一、-什么是存储引擎？" class="headerlink" title="一、 什么是存储引擎？"></a>一、 什么是存储引擎？</h3><p>想象开了一家<strong>银行（MySQL Server）</strong>。</p>
+<ul>
+<li><strong>Server 层（老板）</strong>：负责接待客户（连接器）、听懂客户需求（分析器）、制定存取款计划（优化器）。<strong>这层决定了 SQL 语法怎么写。</strong></li>
+<li><strong>存储引擎层（柜员）</strong>：老板不干苦力，真正负责<strong>把钱存进保险柜</strong>或者<strong>从保险柜拿钱</strong>的人是柜员。</li>
+</ul>
+<p>柜员是**可插拔（Pluggable）**的。可以根据业务需求，随时换掉柜员。</p>
+<ul>
+<li>想存钱安全、不出错？用 <strong>InnoDB</strong>（细心严谨的柜员）。</li>
+<li>想存取速度极快、不关心记账细节？用 <strong>MyISAM</strong>（动作飞快的柜员）。</li>
+</ul>
+<hr>
+<h3 id="二、-两大主角：InnoDB-vs-MyISAM"><a href="#二、-两大主角：InnoDB-vs-MyISAM" class="headerlink" title="二、 两大主角：InnoDB vs MyISAM"></a>二、 两大主角：InnoDB vs MyISAM</h3><h4 id="1-InnoDB-默认引擎，老大哥"><a href="#1-InnoDB-默认引擎，老大哥" class="headerlink" title="1. InnoDB (默认引擎，老大哥)"></a>1. InnoDB (默认引擎，老大哥)</h4><p>从 MySQL 5.5 版本开始，它就是默认引擎了。</p>
+<ul>
+<li><strong>特点</strong>：稳重、安全。</li>
+<li><strong>必杀技</strong>：<ol>
+<li><strong>支持事务 (ACID)</strong>：支持回滚，崩了能恢复。</li>
+<li><strong>行级锁 (Row Lock)</strong>：你改你的行，我改我的行，互不干扰（并发高）。</li>
+<li><strong>支持外键</strong>：保证数据完整性。</li>
+</ol>
+</li>
+<li><strong>适用场景</strong>：几乎所有现代业务（支付、电商、用户系统）。<strong>测开工作中遇到的表 95% 都是 InnoDB。</strong></li>
+</ul>
+<h4 id="2-MyISAM-老前辈，已逐渐淘汰"><a href="#2-MyISAM-老前辈，已逐渐淘汰" class="headerlink" title="2. MyISAM (老前辈，已逐渐淘汰)"></a>2. MyISAM (老前辈，已逐渐淘汰)</h4><p>MySQL 5.5 之前的默认引擎。</p>
+<ul>
+<li><strong>特点</strong>：简单、快（某些特定场景下）。</li>
+<li><strong>必杀技</strong>：<ol>
+<li><strong>不支持事务</strong>：崩了数据就丢了，没法回滚。</li>
+<li><strong>表级锁 (Table Lock)</strong>：一个人写数据，整张表锁死，其他人全得等着（并发极差）。</li>
+<li><strong>文件小</strong>：存储结构简单，省磁盘空间。</li>
+</ol>
+</li>
+<li><strong>适用场景</strong>：极少写的纯读业务（比如纯展示的日志归档、旧版博客文章表）。</li>
+</ul>
+<hr>
+<h3 id="三、-面试高频-PK-表（背下来）"><a href="#三、-面试高频-PK-表（背下来）" class="headerlink" title="三、 面试高频 PK 表（背下来）"></a>三、 面试高频 PK 表（背下来）</h3><p>这是测开面试中<strong>区分度很高</strong>的考点，特别是关于 <code>Count(*)</code> 和锁的区别。</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>InnoDB (推荐)</strong></th>
+<th><strong>MyISAM (过时)</strong></th>
+<th><strong>测开面试解读</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>事务 (Transaction)</strong></td>
+<td>✅ <strong>支持</strong></td>
+<td>❌ 不支持</td>
+<td>只要涉及钱&#x2F;核心数据，必须选 InnoDB。</td>
+</tr>
+<tr>
+<td><strong>锁机制 (Locking)</strong></td>
+<td><strong>行锁</strong> (Row)</td>
+<td><strong>表锁</strong> (Table)</td>
+<td>MyISAM 在高并发写入时会死锁或排长队。</td>
+</tr>
+<tr>
+<td><strong>外键 (Foreign Key)</strong></td>
+<td>✅ 支持</td>
+<td>❌ 不支持</td>
+<td>只有 InnoDB 能利用数据库层面做外键约束测试。</td>
+</tr>
+<tr>
+<td><strong>Count(*) 效率</strong></td>
+<td><strong>慢</strong> (要一行行扫描)</td>
+<td><strong>极快</strong> (内部存了一个计数器)</td>
+<td>如果业务需要频繁查总数且对精确度要求不高，MyISAM 有优势。</td>
+</tr>
+<tr>
+<td><strong>崩溃恢复</strong></td>
+<td>✅ 自动恢复 (Redo Log)</td>
+<td>❌ 容易损坏</td>
+<td>突然断电测试：InnoDB 数据还在，MyISAM 可能文件损坏。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 面试官陷阱题：</p>
+<p>问：SELECT COUNT(*) FROM table 哪个引擎快？</p>
+<p>答：如果不加 WHERE 条件，MyISAM 快。因为它内部直接存了总行数，拿出来就是 O(1)。而 InnoDB 因为有多版本并发控制（MVCC），它不确定此刻有多少行对当前事务可见，所以必须一行行去数。</p>
+</blockquote>
+<hr>
+<h3 id="四、-测开实战中的应用"><a href="#四、-测开实战中的应用" class="headerlink" title="四、 测开实战中的应用"></a>四、 测开实战中的应用</h3><p><strong>场景 1：并发性能测试瓶颈分析</strong></p>
+<ul>
+<li><strong>现象</strong>：你在做压测，发现并发上不去，大量请求超时。</li>
+<li><strong>排查</strong>：你去看数据库监控，发现数据库锁等待严重。</li>
+<li><strong>原因</strong>：开发人员建表时偷懒或者复制粘贴，用了默认的 <strong>MyISAM</strong> 引擎。结果一个用户修改数据，整张表锁住了，导致 TPS（每秒事务数）极低。</li>
+<li><strong>你的价值</strong>：指出这个问题，建议改为 InnoDB，性能瞬间提升。</li>
+</ul>
+<p><strong>场景 2：脏数据清理</strong></p>
+<ul>
+<li><strong>操作</strong>：我们之前说的 <code>BEGIN</code> … <code>ROLLBACK</code> 清理测试数据大法。</li>
+<li><strong>前提</strong>：表必须是 <strong>InnoDB</strong>。如果你在一个 MyISAM 表上执行 <code>ROLLBACK</code>，MySQL 不会报错，但数据<strong>根本撤销不回来</strong>（因为不支持事务）。这会让你的自动化脚本变得不可靠。</li>
+</ul>
+<hr>
+<h3 id="五、-动手看看"><a href="#五、-动手看看" class="headerlink" title="五、 动手看看"></a>五、 动手看看</h3><p><strong>1. 查看当前支持的引擎：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SHOW</span> ENGINES;<br><span class="hljs-comment">-- 你会看到 InnoDB 是 DEFAULT，支持 Transactions。</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>2. 查看某张表用的是什么引擎：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SHOW</span> <span class="hljs-keyword">CREATE TABLE</span> table_name;<br><span class="hljs-comment">-- 结果里会有一句 ENGINE=InnoDB</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>3. 修改引擎（危险操作，生产环境慎用）：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER TABLE</span> table_name ENGINE <span class="hljs-operator">=</span> InnoDB;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>除非有极其特殊的理由（比如只读不写、为了省空间），否则无脑选 InnoDB。看到 MyISAM 的表要警惕“并发性能差”和“事务回滚失效”的问题。</p>
+<hr>
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><h2 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h2><h3 id="一、-什么是索引？"><a href="#一、-什么是索引？" class="headerlink" title="一、 什么是索引？"></a>一、 什么是索引？</h3><p><strong>索引就是一本“字典的目录”。</strong></p>
+<ul>
+<li><p>没有索引（全表扫描）：</p>
+<p>想在一本 1000 页的乱序书里找一个名字LiHongXiang。只能从第 1 页翻到第 1000 页。如果运气不好在最后一页，就要翻 1000 次（IO 操作）。</p>
+<ul>
+<li><em>效率</em>：O(N)</li>
+</ul>
+</li>
+<li><p>有索引：</p>
+<p>先查目录，拼音 L -&gt; Li -&gt; 找到页码 520。你直接翻到 520 页。可能只需要翻 3 次。</p>
+<ul>
+<li><em>效率</em>：O(\log N)</li>
+</ul>
+</li>
+<li><p><strong>好处</strong>：查询（SELECT）快得飞起。</p>
+</li>
+<li><p><strong>坏处</strong>：写入（INSERT&#x2F;UPDATE&#x2F;DELETE）<strong>变慢</strong>。</p>
+<ul>
+<li><em>为什么？</em> 因为每存一条数据，不仅要写数据表，还要去修改目录（重新排序）。</li>
+<li>所以如果发现<strong>批量插入测试数据</strong>特别慢，第一时间检查是不是表上的索引建太多了。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="二、-索引的数据结构：为什么是-B-树？"><a href="#二、-索引的数据结构：为什么是-B-树？" class="headerlink" title="二、 索引的数据结构：为什么是 B+ 树？"></a>二、 索引的数据结构：为什么是 B+ 树？</h3><p>MySQL 的 InnoDB 引擎，索引底层使用的是 <strong>B+ 树</strong>。</p>
+<p>为什么不用哈希表？为什么不用二叉树？</p>
+<ol>
+<li><strong>哈希表 (Hash)</strong>：<ul>
+<li>虽然查 <code>WHERE id = 1</code> 极快（O(1)），但它不支持<strong>范围查询</strong>。</li>
+<li>想查 <code>WHERE score &gt; 60</code>，哈希表就瞎了，因为它存的数据是无序散列的。</li>
+</ul>
+</li>
+<li><strong>二叉树 (Binary Tree)</strong>：<ul>
+<li>如果数据很多，树会变得<strong>非常高（瘦高）</strong>。</li>
+<li>每一层节点都需要一次磁盘 IO。树太高，IO 次数多，速度就慢。</li>
+</ul>
+</li>
+</ol>
+<p>B+ 树的超能力：它是一种多路平衡查找树。简单说，它长得**“矮胖”**。</p>
+<ul>
+<li><strong>矮胖</strong>：即使存千万级的数据，树的高度通常也只有 3 层左右。这意味着查任何数据只需要 3 次磁盘 IO。</li>
+<li><strong>叶子节点手拉手</strong>：注意看图的最下面，所有的数据都存在<strong>叶子节点</strong>（Leaf Nodes），而且叶子之间用<strong>双向链表</strong>连起来了。<ul>
+<li>这就是为什么 MySQL 范围查询（<code>BETWEEN</code>, <code>&gt;</code>, <code>&lt;</code>）特别快的原因——找到起点，顺着链表往下拿就行了。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="三、-InnoDB-的两大索引分类（面试核心）"><a href="#三、-InnoDB-的两大索引分类（面试核心）" class="headerlink" title="三、 InnoDB 的两大索引分类（面试核心）"></a>三、 InnoDB 的两大索引分类（面试核心）</h3><p>在 InnoDB 引擎中，根据<strong>叶子节点存的内容不同</strong>，索引分为两类。搞懂这个，就理解了为什么有些 SQL 慢，有些快。</p>
+<h4 id="1-聚簇索引-Clustered-Index-——-“主索引”"><a href="#1-聚簇索引-Clustered-Index-——-“主索引”" class="headerlink" title="1. 聚簇索引 (Clustered Index) —— “主索引”"></a>1. 聚簇索引 (Clustered Index) —— “主索引”</h4><ul>
+<li><strong>地位</strong>：它是<strong>唯一的</strong>，也是<strong>最高贵</strong>的。</li>
+<li><strong>Key</strong>：主键 ID (Primary Key)。</li>
+<li><strong>Value</strong>：<strong>整行数据</strong>（所有字段都在这里）。</li>
+<li><strong>物理存储</strong>：在 InnoDB 里，<strong>数据本身就是按聚簇索引组织的</strong>。找到了主键，就找到了这一行完整的数据。</li>
+</ul>
+<h4 id="2-辅助索引-Secondary-Index-——-“非聚簇索引”"><a href="#2-辅助索引-Secondary-Index-——-“非聚簇索引”" class="headerlink" title="2. 辅助索引 (Secondary Index) —— “非聚簇索引”"></a>2. 辅助索引 (Secondary Index) —— “非聚簇索引”</h4><ul>
+<li><strong>地位</strong>：除了主键以外的索引（比如你给 <code>name</code> 字段建的索引）。</li>
+<li><strong>Key</strong>：你索引的那个字段（如 <code>name</code>）。</li>
+<li><strong>Value</strong>：<strong>主键 ID</strong> (注意！这里不存完整数据，只存主键值)。</li>
+</ul>
+<hr>
+<h3 id="四、-关键概念：回表-Back-to-Table"><a href="#四、-关键概念：回表-Back-to-Table" class="headerlink" title="四、 关键概念：回表 (Back to Table)"></a>四、 关键概念：回表 (Back to Table)</h3><p>这是测开面试中判断你是否懂原理的“试金石”。</p>
+<p>表 users 有两个索引：主键 id（聚簇），和 name（辅助）。</p>
+<p>执行：SELECT * FROM users WHERE name &#x3D; ‘Li’;</p>
+<p><strong>数据库经历了什么？</strong></p>
+<ol>
+<li><strong>第一步（查辅助索引）</strong>：<ul>
+<li>去 <code>name</code> 的 B+ 树里找 <code>&#39;Li&#39;</code>。</li>
+<li>找到了！拿到它对应的 Value —— 主键 ID（比如 <code>id = 101</code>）。</li>
+</ul>
+</li>
+<li><strong>第二步（回表）</strong>：<ul>
+<li>手里拿着 <code>id = 101</code>，再去 <strong>聚簇索引</strong> 的 B+ 树里找。</li>
+<li>找到了 <code>101</code> 对应的叶子节点。</li>
+<li>读取出这一行的<strong>完整数据</strong>（包含 <code>age</code>, <code>email</code> 等其他字段）。</li>
+</ul>
+</li>
+<li><strong>返回结果</strong>。</li>
+</ol>
+<p>结论：查询辅助索引通常需要扫描两棵树（除非只查 ID）。这就是所谓的“回表”。</p>
+<hr>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>刚才讲存储引擎时，把引擎比作“柜员”。数据结构，就是这个柜员整理档案的方法。</p>
+<p><strong>数据库也是软件</strong>。MySQL 的存储引擎在把数据写到硬盘（或者内存）上时，必须选择一种方式来组织这些数据，否则数据就是一堆乱码。<strong>这种“组织方式”，就叫索引的数据结构。</strong></p>
+<p><strong>不同的存储引擎，选择了不同的数据结构作为自己的“核心武器”。</strong></p>
+<ul>
+<li><strong>InnoDB 引擎</strong>：<ul>
+<li><strong>选择的数据结构</strong>：<strong>B+ 树</strong>。</li>
+<li><em>为什么？</em> 因为它要支持<strong>范围查询</strong>（<code>&gt; 20</code> 岁的人），也要支持<strong>排序</strong>。树结构最适合。而且 B+ 树把数据都放在叶子节点用链表连起来，扫表特别快。</li>
+</ul>
+</li>
+<li><strong>Memory 引擎</strong>：<ul>
+<li><strong>选择的数据结构</strong>：<strong>哈希表 (Hash)</strong>。</li>
+<li><em>为什么？</em> 因为它是做临时表用的，全在内存里，追求极致的快（$O(1)$），而且通常不需要查范围（很少有人会问“缓存里大于 10 的数有哪些”）。</li>
+</ul>
+</li>
+<li><strong>MyISAM 引擎</strong>：<ul>
+<li><strong>选择的数据结构</strong>：也是 <strong>B+ 树</strong>。</li>
+<li><em>但在实现上有区别</em>：InnoDB 是把数据藏在树里（聚簇）；MyISAM 是树和数据分开放（树的叶子节点存的是数据的<strong>物理地址指针</strong>，而不是数据本身）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="为什么是-B-树？"><a href="#为什么是-B-树？" class="headerlink" title="为什么是 B+ 树？"></a>为什么是 B+ 树？</h3><ol>
+<li><strong>二叉查找树 (BST)</strong>：<ul>
+<li><em>原理</em>：左边比我小，右边比我大。</li>
+<li><em>缺陷</em>：如果我有 1, 2, 3, 4, 5… 存进去，树会退化成一个“链表”（一根棍子）。找 100 要翻 100 次。太慢。</li>
+</ul>
+</li>
+<li><strong>平衡二叉树 (AVL) &#x2F; 红黑树</strong>：<ul>
+<li><em>原理</em>：会自动旋转，保证左右平衡。</li>
+<li><em>缺陷</em>：一个节点只存一个数。如果有 1000 万数据，树会<strong>很高</strong>（几十层）。</li>
+<li><em>致命伤</em>：数据库的数据存在硬盘上。访问一层节点 &#x3D; 读一次硬盘。树高 20 层 &#x3D; 读 20 次硬盘 &#x3D; 极慢。</li>
+</ul>
+</li>
+<li><strong>B 树 (B-Tree)</strong>：<ul>
+<li><em>原理</em>：为了把树变<strong>矮</strong>，我让一个节点能存<strong>很多个</strong>数（比如一个节点存 1000 个数）。这样树就只有 3-4 层了。</li>
+<li><em>缺陷</em>：B 树的中间节点里也存了数据（Data）。这导致一个节点能存的索引（Key）变少了（被 Data 占了地盘）。</li>
+</ul>
+</li>
+<li><strong>B+ 树 (最终形态)</strong>：<ul>
+<li><em>改良</em>：<ol>
+<li><strong>非叶子节点只存索引 (Key)</strong>，不存数据。这样一行能存更多的索引值，树就更矮更胖。</li>
+<li><strong>所有数据都落在叶子节点</strong>。</li>
+<li><strong>叶子节点之间有指针连接</strong>。</li>
+</ol>
+</li>
+<li><em>结果</em>：查任何数据都只要 2-3 次磁盘 IO。完美。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="建索引"><a href="#建索引" class="headerlink" title="建索引"></a>建索引</h2><h3 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h3><p>假设表名是 <code>users</code>，字段是 <code>name</code>。</p>
+<ul>
+<li><p><strong>方式 A：建表时直接加（最常用）</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE TABLE</span> users (<br>    id <span class="hljs-type">INT</span> <span class="hljs-keyword">PRIMARY KEY</span>,<br>    name <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">50</span>),<br>    age <span class="hljs-type">INT</span>,<br>    KEY idx_name (name)  <span class="hljs-comment">-- 创建一个名为 idx_name 的普通索引</span><br>);<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>方式 B：表建好了再补加（ALTER）</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER TABLE</span> users <span class="hljs-keyword">ADD</span> INDEX idx_name_age (name, age);<br><span class="hljs-comment">-- 这是一个“组合索引”，同时索引了 name 和 age 两个字段</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>方式 C：创建唯一索引（既加速又约束唯一性）</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">UNIQUE</span> INDEX idx_email <span class="hljs-keyword">ON</span> users(email);<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>删除索引：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> INDEX idx_name <span class="hljs-keyword">ON</span> users;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="组合索引与“最左前缀原则”"><a href="#组合索引与“最左前缀原则”" class="headerlink" title="组合索引与“最左前缀原则”"></a>组合索引与“最左前缀原则”</h3><p><strong>如何创建出能“命中”的索引，避免全表扫描。<strong>这里有一个核心概念叫</strong>组合索引（Composite Index）</strong>，以及随之而来的<strong>最左前缀原则</strong>。</p>
+<p>有一个<strong>组合索引</strong>：INDEX idx_abc (a, b, c)。</p>
+<p>这相当于建立了一个目录，它是先按 a 排序，a 一样时按 b 排序，b 还一样时按 c 排序。</p>
+<p><strong>最左前缀原则（Leftmost Prefix Principle）</strong>：查询时，MySQL 会从索引的最左边开始匹配。如果最左边的断了，后面的索引就全部失效。</p>
+<p>把它比喻成**“爬楼梯”**：</p>
+<ul>
+<li>索引 <code>(a, b, c)</code> 就像一个三层的台阶。</li>
+<li>要想踩到 <code>b</code>，必须先踩到 <code>a</code>。</li>
+<li>要想踩到 <code>c</code>，必须先踩到 <code>a</code> 和 <code>b</code>。</li>
+<li>如果想跳过 a去踩 <code>b</code>，或者踩完 <code>a</code> 直接去踩 <code>c</code>（中间断了），索引就会失效或部分失效。</li>
+</ul>
+<h4 id="❌-索引失效的经典案例"><a href="#❌-索引失效的经典案例" class="headerlink" title="❌ 索引失效的经典案例"></a>❌ 索引失效的经典案例</h4><p>假设索引是 <code>(name, age)</code>：</p>
+<ol>
+<li><p><strong>全值匹配（完美命中）</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Li&#x27;</span> <span class="hljs-keyword">AND</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>✅ <strong>命中</strong>。先找 name，再找 age。</li>
+</ul>
+</li>
+<li><p><strong>只查左边（命中）</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Li&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>✅ <strong>命中</strong>。只用到了 name 这一层。</li>
+</ul>
+</li>
+<li><p><strong>跳过第一列（失效）</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>❌ <strong>完全失效</strong>。</li>
+<li><em>原因</em>：因为 B+ 树是先按 name 排好序的。跳过 name 直接看 age，age 是乱序的（只有在 name 相同的时候 age 才有序）。这时候只能全表扫描。</li>
+</ul>
+</li>
+<li><p><strong>模糊查询的坑（最左前缀的变体）</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- A. 查姓“李”的人</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;Li%&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>✅ <strong>命中</strong>。因为“Li”在索引树的最左边是排好序的。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- B. 查名字以“Li”结尾的人</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;%Li&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>❌ <strong>失效</strong>。因为最左边是 <code>%</code>（未知），树不知道从哪开始找，只能从头翻到尾。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="哪些坑会导致索引失效？"><a href="#哪些坑会导致索引失效？" class="headerlink" title="哪些坑会导致索引失效？"></a>哪些坑会导致索引失效？</h3><p>测开做性能测试时，如果发现慢 SQL，通常就是踩了下面这些坑：</p>
+<ol>
+<li><strong>对索引字段做计算&#x2F;函数操作</strong><ul>
+<li>❌ <code>WHERE YEAR(create_time) = 2024</code></li>
+<li><em>原因</em>：数据库存储的是 <code>create_time</code> 的原始值，不是计算后的值。你这一算，树就用不上了。</li>
+<li>✅ <em>优化</em>：<code>WHERE create_time BETWEEN &#39;2024-01-01&#39; AND &#39;2024-12-31&#39;</code></li>
+</ul>
+</li>
+<li><strong>类型转换（隐式转换）</strong><ul>
+<li>假设 <code>phone</code> 字段是 <code>VARCHAR</code> 类型。</li>
+<li>❌ <code>WHERE phone = 13800001234</code> (传了个数字)</li>
+<li><em>原因</em>：MySQL 会在后台默默把字符串转成数字再比，相当于加了函数，索引失效。</li>
+<li>✅ <em>优化</em>：<code>WHERE phone = &#39;13800001234&#39;</code> (传字符串)</li>
+</ul>
+</li>
+<li><strong>范围查询右边的列失效</strong><ul>
+<li>索引 <code>(a, b, c)</code></li>
+<li><code>WHERE a = 1 AND b &gt; 10 AND c = 5</code></li>
+<li><em>结果</em>：<code>a</code> 用到了，<code>b</code> 用到了（范围），<strong><code>c</code> 失效了</strong>。</li>
+<li><em>原因</em>：因为 <code>b</code> 是范围，在 <code>b &gt; 10</code> 的结果里，<code>c</code> 又是乱序的了。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="什么时候不要建索引？"><a href="#什么时候不要建索引？" class="headerlink" title="什么时候不要建索引？"></a>什么时候<strong>不要</strong>建索引？</h3><p>虽然索引快，但不能滥用。以下情况建了反而拖后腿：</p>
+<ol>
+<li><strong>区分度低的字段</strong><ul>
+<li>比如“性别”（男&#x2F;女）、“状态”（0&#x2F;1）。</li>
+<li><em>原因</em>：如果一个字段只有 2 种取值，建了索引，B+ 树分叉极少。查“男”可能要扫一半的表，MySQL 优化器觉得还不如直接全表扫描快。</li>
+</ul>
+</li>
+<li><strong>频繁更新的字段</strong><ul>
+<li>每次 update，都要调整树结构，性能损耗大。</li>
+</ul>
+</li>
+<li><strong>数据量太小的表</strong><ul>
+<li>几百行数据，全表扫一下也就几毫秒，建索引纯属浪费空间。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="🧠-测开实战模拟题（请接招）"><a href="#🧠-测开实战模拟题（请接招）" class="headerlink" title="🧠 测开实战模拟题（请接招）"></a>🧠 测开实战模拟题（请接招）</h3><p>李同学，这是面试中最能体现你是否真的懂“最左前缀”的题目。</p>
+<p>题目：</p>
+<p>有一张表 t，建立了组合索引 INDEX idx_abc (a, b, c)。</p>
+<p>请分析以下 SQL 语句，索引分别用到了哪些字段？</p>
+<ol>
+<li><code>WHERE a = 1 AND b = 2</code></li>
+<li><code>WHERE a = 1 AND c = 3</code></li>
+<li><code>WHERE b = 2 AND c = 3</code></li>
+<li><code>WHERE a = 1 AND b &gt; 2 AND c = 3</code></li>
+</ol>
+<p>请把你的分析发给我（格式：1. 用到了 a, b…）。答完这个，你对索引的理解就达到中级水平了！</p>
 
                 
               </div>
