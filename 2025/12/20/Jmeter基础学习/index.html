@@ -1,0 +1,1192 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="JMeter 是开源软件Apache 基金会下的一个性能测试工具，用于测试部署在服务器端的应用程序的性能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jmeter基础学习">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/20/Jmeter%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="JMeter 是开源软件Apache 基金会下的一个性能测试工具，用于测试部署在服务器端的应用程序的性能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/jmeter.png">
+<meta property="article:published_time" content="2025-12-20T15:12:50.000Z">
+<meta property="article:modified_time" content="2025-12-21T02:57:39.200Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="jmeter">
+<meta property="article:tag" content="压力测试">
+<meta property="article:tag" content="性能测试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/jmeter.png">
+  
+  
+  
+  <title>Jmeter基础学习 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Jmeter基础学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-20 23:12" pubdate>
+          2025年12月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Jmeter基础学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Jmeter概述"><a href="#Jmeter概述" class="headerlink" title="Jmeter概述"></a>Jmeter概述</h1><h3 id="1-JMeter-是什么？"><a href="#1-JMeter-是什么？" class="headerlink" title="1. JMeter 是什么？"></a>1. JMeter 是什么？</h3><ul>
+<li><strong>官方定义</strong>：Apache JMeter 是一个 100% 纯 Java 编写的开源软件，主要用于进行<strong>负载测试（Load Testing）\和\性能测量</strong>。</li>
+<li><strong>测开视角的理解</strong>：它是一个<strong>接口测试 + 性能测试</strong>的容器。它通过模拟大量的并发用户（线程），向服务器发送请求，并收集服务器的响应数据，以此来评估系统的抗压能力。</li>
+</ul>
+<h3 id="2-核心特性"><a href="#2-核心特性" class="headerlink" title="2. 核心特性"></a>2. 核心特性</h3><h4 id="A-它不是浏览器"><a href="#A-它不是浏览器" class="headerlink" title="A. 它不是浏览器"></a>A. 它不是浏览器</h4><p>这是新手最容易误解的地方，也是面试最爱问的。</p>
+<ul>
+<li><strong>浏览器</strong>：发送请求 -&gt; 接收 HTML -&gt; <strong>解析 CSS&#x2F;JS -&gt; 渲染页面</strong>。</li>
+<li><strong>JMeter</strong>：发送请求 -&gt; 接收 HTML -&gt; <strong>结束</strong>。</li>
+<li><strong>区别</strong>：JMeter 不会执行页面上的 JavaScript，也不会渲染样式。</li>
+<li><strong>意义</strong>：这使得 JMeter 非常轻量级，一台普通电脑就能模拟成百上千个用户。但也意味着它不能用来测 UI 界面（比如页面布局乱没乱），只能测后端接口。</li>
+</ul>
+<h4 id="B-多协议支持"><a href="#B-多协议支持" class="headerlink" title="B. 多协议支持"></a>B. 多协议支持</h4><p>虽主要用它测 HTTP&#x2F;HTTPS（Web 接口），但它其实是个“万能插头”，支持：</p>
+<ul>
+<li><strong>Web</strong>: HTTP, HTTPS</li>
+<li><strong>数据库</strong>: JDBC (可以直接连数据库测 SQL 性能)</li>
+<li><strong>FTP</strong>: 文件传输</li>
+<li><strong>消息队列</strong>: JMS, Kafka (通过插件)</li>
+<li><strong>邮件</strong>: SMTP, POP3</li>
+<li><strong>TCP</strong>: 纯 Socket 通信</li>
+</ul>
+<h4 id="C-可扩展性强"><a href="#C-可扩展性强" class="headerlink" title="C. 可扩展性强"></a>C. 可扩展性强</h4><p>JMeter 提供了丰富的插件（Plugins Manager），并且支持通过 <strong>BeanShell</strong> 或 <strong>JSR223 (Groovy)</strong> 编写脚本来处理复杂的测试逻辑。如果自带功能不够用，可以写 Java 代码来扩展它。</p>
+<h3 id="3-主要用它做什么？"><a href="#3-主要用它做什么？" class="headerlink" title="3. 主要用它做什么？"></a>3. 主要用它做什么？</h3><p>在使用 JMeter 时，根据配置的不同（并发量、持续时间）做不同的测试：</p>
+<ol>
+<li><strong>负载测试 (Load Testing)</strong>：<ul>
+<li><strong>目的</strong>：测试系统在<strong>正常或预期</strong>的负载下能否正常工作。</li>
+<li><em>JMeter 操作</em>：模拟 100 个用户，持续运行 10 分钟，看响应时间是否达标。</li>
+</ul>
+</li>
+<li><strong>压力测试 (Stress Testing)</strong>：<ul>
+<li><strong>目的</strong>：不断增加负载，直到系统<strong>崩溃</strong>，寻找系统的极限瓶颈。</li>
+<li><em>JMeter 操作</em>：从 100 用户增加到 1000、2000…直到报错率飙升，找到服务器挂掉的那个点。</li>
+</ul>
+</li>
+<li><strong>稳定性&#x2F;耐久性测试 (Soak Testing)</strong>：<ul>
+<li><strong>目的</strong>：长时间运行，检测是否有<strong>内存泄漏</strong>。</li>
+<li><em>JMeter 操作</em>：保持一定的负载，连续跑 24 小时或 7 天。</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-JMeter-的工作原理"><a href="#4-JMeter-的工作原理" class="headerlink" title="4. JMeter 的工作原理"></a>4. JMeter 的工作原理</h3><p>想象一个工厂：</p>
+<ul>
+<li><strong>Controller (控制台)</strong>：测试人员发号施令。</li>
+<li><strong>Thread Group (线程组)</strong>：一群工人（虚拟用户）。</li>
+<li><strong>Sampler (取样器)</strong>：工人做的具体动作（比如“发送登录请求”）。</li>
+<li><strong>Timer (定时器)</strong>：工人的动作频率（比如“思考 1 秒再点”）。</li>
+<li><strong>Assertion (断言)</strong>：质检员（检查返回结果对不对）。</li>
+<li><strong>Listener (监听器)</strong>：报表员（生成图表和报告）。</li>
+</ul>
+<hr>
+<h1 id="基础环境与核心元件"><a href="#基础环境与核心元件" class="headerlink" title="基础环境与核心元件"></a>基础环境与核心元件</h1><h4 id="第一步：启动与创建测试计划"><a href="#第一步：启动与创建测试计划" class="headerlink" title="第一步：启动与创建测试计划"></a>第一步：启动与创建测试计划</h4><ol>
+<li>进入 JMeter 解压目录的 <code>bin</code> 文件夹。<ul>
+<li><strong>Windows</strong>: 双击 <code>jmeter.bat</code>。</li>
+<li><strong>Mac&#x2F;Linux</strong>: 在终端运行 <code>sh jmeter.sh</code>。</li>
+</ul>
+</li>
+<li>看到图形界面后，会看到左侧默认有一个 <strong>Test Plan (测试计划)</strong>。<ul>
+<li><em>这是所有测试元素的容器，相当于一个项目文件。</em></li>
+</ul>
+</li>
+</ol>
+<h4 id="第二步：创建虚拟用户池-Thread-Group"><a href="#第二步：创建虚拟用户池-Thread-Group" class="headerlink" title="第二步：创建虚拟用户池 (Thread Group)"></a>第二步：创建虚拟用户池 (Thread Group)</h4><p>需要先定义“谁”在测。</p>
+<ol>
+<li><strong>右键点击</strong> <code>Test Plan</code> -&gt; <strong>Add (添加)</strong> -&gt; <strong>Threads (Users) (线程)</strong> -&gt; <strong>Thread Group (线程组)</strong>。 JMeter 是由 Java 实现的，并且使用一个 Java 线程来模拟一个用户，因此线程组（Thread Group）就是指一组用户的意思</li>
+<li>右侧会出现配置面板，目前保持默认即可：<ul>
+<li><strong>Number of Threads</strong>: <code>1</code> (虚拟用户数)</li>
+<li><strong>Ramp-Up Period</strong>: <code>1</code> (1秒内启动完)</li>
+<li><strong>Loop Count</strong>: <code>1</code> (只跑一次)</li>
+</ul>
+</li>
+</ol>
+<h4 id="第三步：模拟发送请求-Sampler"><a href="#第三步：模拟发送请求-Sampler" class="headerlink" title="第三步：模拟发送请求 (Sampler)"></a>第三步：模拟发送请求 (Sampler)</h4><ol>
+<li><strong>右键点击</strong> 刚才创建的 <code>Thread Group</code> -&gt; <strong>Add</strong> -&gt; <strong>Sampler (取样器)</strong> -&gt; <strong>HTTP Request (HTTP请求)</strong>。</li>
+<li>在右侧面板配置以下信息：<ul>
+<li><strong>Protocol [http]</strong>: 输入 <code>https</code> </li>
+<li><strong>Server Name or IP</strong>: 输入 <code>www.baidu.com</code> (注意：不要带 <code>https://</code> 前缀，也不要带后面的 <code>/</code>)</li>
+<li><strong>Port Number</strong>: 留空 (默认443)</li>
+<li><strong>Method</strong>: 选择 <code>GET</code></li>
+<li><strong>Path</strong>: 输入 <code>/</code> (代表访问根路径)</li>
+</ul>
+</li>
+</ol>
+<h4 id="第四步：安装监控探头-Listener"><a href="#第四步：安装监控探头-Listener" class="headerlink" title="第四步：安装监控探头 (Listener)"></a>第四步：安装监控探头 (Listener)</h4><p>请求发出去后，我们需要看到结果。</p>
+<ol>
+<li><strong>右键点击</strong> <code>Thread Group</code> -&gt; <strong>Add</strong> -&gt; <strong>Listener (监听器)</strong> -&gt; <strong>View Results Tree (察看结果树)</strong>。<ul>
+<li><em>解释：这是调试脚本最常用的组件，能看到详细的请求和响应数据。</em></li>
+</ul>
+</li>
+</ol>
+<h4 id="第五步：运行与验证"><a href="#第五步：运行与验证" class="headerlink" title="第五步：运行与验证"></a>第五步：运行与验证</h4><ol>
+<li>点击工具栏顶部的 <strong>绿色三角形 (Start)</strong> 按钮。</li>
+<li>系统会提示保存脚本，点击 Yes，随便存个位置（例如 <code>baidu_test.jmx</code>）。</li>
+<li>点击左侧的 <strong>View Results Tree</strong>。</li>
+<li>看右侧的结果：<ul>
+<li><strong>绿色盾牌</strong> ✅：表示请求成功（HTTP 状态码 200）。</li>
+<li><strong>红色盾牌</strong> ❌：表示失败。</li>
+</ul>
+</li>
+</ol>
+<img src="/2025/12/20/Jmeter%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image1.png" srcset="/img/loading.gif" lazyload class="" title="查看结果树">
+
+<p><strong>Sample Start (开始时间)</strong> JMeter <strong>发出请求的那个毫秒级时间戳</strong>。</p>
+<p><strong>Latency (延迟 &#x2F; TTFB)</strong>：它不是单纯的“延迟”,是 <strong>Time To First Byte (TTFB)</strong>。</p>
+<ul>
+<li><strong>定义</strong>：从发送请求开始，到<strong>接收到服务器返回的第一个字节</strong>的时间。</li>
+<li><em>意义</em>：这代表了<strong>网络传输时间 + 服务器处理时间</strong>（查库、运算）。</li>
+</ul>
+<p><strong>Load Time (加载时间 &#x2F; Elapsed Time)</strong>：</p>
+<ul>
+<li><strong>定义</strong>：从发送请求开始，到<strong>接收完最后一个字节</strong>的时间。</li>
+<li><strong>公式</strong>：<code>Load Time = Latency + 数据下载时间</code>。</li>
+</ul>
+<hr>
+<h1 id="参数化与模拟搜索"><a href="#参数化与模拟搜索" class="headerlink" title="参数化与模拟搜索"></a>参数化与模拟搜索</h1><h4 id="任务一：修改脚本进行搜索"><a href="#任务一：修改脚本进行搜索" class="headerlink" title="任务一：修改脚本进行搜索"></a>任务一：修改脚本进行搜索</h4><p>百度搜索的原理其实是访问 <code>/s</code> 这个路径，并带上 <code>wd=关键字</code> 这个参数。</p>
+<ol>
+<li>回到 <strong>HTTP Request</strong>。</li>
+<li>修改配置：<ul>
+<li><strong>Path</strong>: 修改为 <code>/s</code> (原本是 <code>/</code>)。</li>
+</ul>
+</li>
+<li><strong>Parameters (参数)</strong> 部分（在 Path 下面）：<ul>
+<li>点击 <strong>Add (添加)</strong>。</li>
+<li><strong>Name</strong>: 输入 <code>wd</code> (百度的搜索参数名)。</li>
+<li><strong>Value</strong>: 输入 <code>JMeter性能测试</code> (或者你想搜的任何词)。</li>
+</ul>
+</li>
+<li>运行脚本，查看 <strong>View Results Tree</strong>。<ul>
+<li>点击请求，看 <code>Request Body</code> 或 URL，应该能看到 <code>https://www.baidu.com/s?wd=JMeter性能测试</code>。</li>
+</ul>
+</li>
+</ol>
+<h4 id="任务二：参数化-CSV-Data-Set-Config"><a href="#任务二：参数化-CSV-Data-Set-Config" class="headerlink" title="任务二：参数化 (CSV Data Set Config)"></a>任务二：参数化 (CSV Data Set Config)</h4><p>如果要测试 100 个词，总不能复制 100 个 HTTP Request 吧？要把数据和脚本分离。</p>
+<p><strong>1. 准备数据文件</strong></p>
+<ul>
+<li><p>在电脑上新建一个 <code>search_words.txt</code>。</p>
+</li>
+<li><p>里面写三行内容（不要表头）：</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">python</span><br><span class="hljs-attribute">java</span><br><span class="hljs-attribute">selenium</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>2. 配置 CSV 数据读取器</strong></p>
+<ul>
+<li><strong>右键点击</strong> <code>Thread Group</code> -&gt; <strong>Add</strong> -&gt; <strong>Config Element (配置元件)</strong> -&gt; <strong>CSV Data Set Config</strong>。</li>
+<li>配置面板：<ul>
+<li><strong>Filename</strong>: 点击 Browse 选择刚才的 <code>search_words.txt</code>。</li>
+<li><strong>Variable Names (comma-delimited)</strong>: 输入 <code>keyword</code> (这是给每一行数据起的变量名)。</li>
+<li><strong>Ignore first line</strong>: <code>False</code> (因为没有写表头)。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. 引用变量</strong></p>
+<ul>
+<li>回到 <strong>HTTP Request</strong>。</li>
+<li>找到刚才填写的 <code>wd</code> 参数。</li>
+<li>把 Value 里的 <code>JMeter性能测试</code> 删掉，改成 <strong><code>$&#123;keyword&#125;</code></strong>。<ul>
+<li><em>解释：在 JMeter 里，<code>$&#123;变量名&#125;</code> 是引用变量的标准语法。</em></li>
+</ul>
+</li>
+</ul>
+<p><strong>4. 调整并发数</strong></p>
+<ul>
+<li>点击 <strong>Thread Group</strong>。</li>
+<li>把 <strong>Number of Threads</strong> 改成 <code>3</code> (因为我们有 3 个词)。</li>
+<li>把 <strong>Loop Count</strong> 保持 <code>1</code>。</li>
+</ul>
+<p><strong>5. 运行与验证</strong></p>
+<ul>
+<li>点击运行。</li>
+<li>查看 <strong>View Results Tree</strong>。</li>
+<li>你应该看到 <strong>3 个 HTTP Request</strong>。</li>
+<li>分别点开它们的 <strong>Request</strong> 标签，检查 URL。<ul>
+<li>第一个应该是 <code>wd=python</code></li>
+<li>第二个应该是 <code>wd=java</code></li>
+<li>第三个应该是 <code>wd=selenium</code></li>
+</ul>
+</li>
+</ul>
+<img src="/2025/12/20/Jmeter%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image2.png" srcset="/img/loading.gif" lazyload class="" title="参数化">
+
+<p>问：如果将 <strong>Number of Threads</strong> 设为 1，但把 <strong>Loop Count</strong> 设为 3，效果和上面一样吗？</p>
+<p>答：如果把线程数设为 1，循环次数设为 3，它依然会依次读取 <code>python</code>, <code>java</code>, <code>selenium</code>。因为 <code>CSV Data Set Config</code> 是一个“全局发牌员”。不管是哪个线程、第几次循环来找它要数据，它都会把指针往下移一行。</p>
+<p>但<strong>它们在“性能测试”中的意义完全不同：</strong></p>
+<ul>
+<li><strong>3 线程，1 循环</strong>：是 <strong>3 个人同时</strong> 访问百度。这叫<strong>并发（Concurrency）</strong>，用来测试服务器<strong>抗压能力</strong>。</li>
+<li><strong>1 线程，3 循环</strong>：是 <strong>1 个人连续</strong> 访问 3 次。这叫<strong>串行（Serial）</strong>，压力很小，通常用于<strong>功能测试</strong>或稳定性测试。</li>
+</ul>
+<hr>
+<h1 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h1><p>在真实业务中，接口之间是有联系的。</p>
+<ul>
+<li><em>场景</em>：用户登录 -&gt; 服务器返回一个 <code>Token</code> -&gt; 用户拿着 <code>Token</code> 去查余额。</li>
+<li><em>问题</em>：<code>Token</code> 是动态生成的，没法写死在脚本里。</li>
+<li><em>解决</em>：需要从第 1 个接口的<strong>响应</strong>中<strong>提取</strong>出 Token，存成变量，传给第 2 个接口。</li>
+</ul>
+<p>用一个专门的测试靶场：<code>httpbin.org</code>。</p>
+<h4 id="第一步：准备环境"><a href="#第一步：准备环境" class="headerlink" title="第一步：准备环境"></a>第一步：准备环境</h4><ol>
+<li>把之前的百度请求禁用（右键 -&gt; Disable）。</li>
+<li>创建一个新的 <strong>Thread Group</strong>。</li>
+</ol>
+<h4 id="第二步：创建接口-A-获取数据"><a href="#第二步：创建接口-A-获取数据" class="headerlink" title="第二步：创建接口 A (获取数据)"></a>第二步：创建接口 A (获取数据)</h4><ol>
+<li>添加 <strong>HTTP Request</strong>。</li>
+<li>配置：<ul>
+<li><strong>Server Name</strong>: <code>httpbin.org</code></li>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li><strong>Path</strong>: <code>/uuid</code></li>
+</ul>
+</li>
+<li><em>（建议先运行一下，在察看结果树里看 Response Body，会看到类似 <code>&#123;&quot;uuid&quot;: &quot;53e4...&quot;&#125;</code> 的 JSON 数据）。</em></li>
+</ol>
+<h4 id="第三步：添加提取器-JSON-Extractor-——-关键步骤"><a href="#第三步：添加提取器-JSON-Extractor-——-关键步骤" class="headerlink" title="第三步：添加提取器 (JSON Extractor) —— 关键步骤"></a>第三步：添加提取器 (JSON Extractor) —— <strong>关键步骤</strong></h4><p>要把uuid抓出来。</p>
+<ol>
+<li><strong>右键点击</strong> 刚才的“接口 A” -&gt; <strong>Add</strong> -&gt; <strong>Post Processors (后置处理器)</strong> -&gt; <strong>JSON Extractor</strong>。</li>
+<li>配置面板：<ul>
+<li><strong>Names of created variables</strong>: <code>my_uuid</code> (给提取出来的东西起个变量名)。</li>
+<li><strong>JSON Path expressions</strong>: <code>$.uuid</code><ul>
+<li><em>解释：<code>$</code> 代表根节点，<code>.uuid</code> 代表找 key 为 uuid 的值。这是标准的 JSONPath 语法。</em></li>
+</ul>
+</li>
+<li><strong>Match No.</strong>: <code>1</code> (取第 1 个匹配到的)。</li>
+</ul>
+</li>
+</ol>
+<h4 id="第四步：创建接口-B-使用数据"><a href="#第四步：创建接口-B-使用数据" class="headerlink" title="第四步：创建接口 B (使用数据)"></a>第四步：创建接口 B (使用数据)</h4><ol>
+<li>在线程组下再添加一个 <strong>HTTP Request</strong>。</li>
+<li>配置：<ul>
+<li><strong>Server Name</strong>: <code>httpbin.org</code></li>
+<li><strong>Method</strong>: <code>POST</code> (注意是 POST)</li>
+<li><strong>Path</strong>: <code>/post</code></li>
+</ul>
+</li>
+<li><strong>Body Data</strong> (点击 Parameters 旁边的标签)：<ul>
+<li>输入：<code>&#123; &quot;id&quot;: &quot;$&#123;my_uuid&#125;&quot; &#125;</code></li>
+<li><em>解释：我们要把刚才提取出来的变量，拼装成 JSON 发回去。</em></li>
+</ul>
+</li>
+</ol>
+<h4 id="第五步：验证"><a href="#第五步：验证" class="headerlink" title="第五步：验证"></a>第五步：验证</h4><ol>
+<li>运行脚本。</li>
+<li>查看 <strong>View Results Tree</strong>。</li>
+<li>点开 <strong>接口 B</strong> 的请求。<ul>
+<li>点击 <strong>Request Body</strong>：看 <code>$&#123;my_uuid&#125;</code> 是否变成了具体的字符串（如 <code>c8f1...</code>）？</li>
+<li>点击 <strong>Response Body</strong>：<code>httpbin</code> 会把发的数据原样返回，检查里面是否有刚才发的 ID。</li>
+</ul>
+</li>
+</ol>
+<img src="/2025/12/20/Jmeter%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image3.png" srcset="/img/loading.gif" lazyload class="" title="关联">
+
+<hr>
+<h1 id="调试和断言"><a href="#调试和断言" class="headerlink" title="调试和断言"></a>调试和断言</h1><h3 id="Debug-Sampler"><a href="#Debug-Sampler" class="headerlink" title="Debug Sampler"></a>Debug Sampler</h3><p>在开发脚本时，经常不知道变量到底提取到了没有。靠猜是不行的，需要看内存里的变量。</p>
+<ol>
+<li><strong>添加调试取样器</strong>：<ul>
+<li><strong>右键点击</strong> <code>Thread Group</code> -&gt; <strong>Add</strong> -&gt; <strong>Sampler</strong> -&gt; <strong>Debug Sampler</strong>。</li>
+<li>把这个 Sampler 拖到所有请求的最后面。</li>
+</ul>
+</li>
+<li><strong>运行脚本</strong>：<ul>
+<li>点击运行，查看 <strong>View Results Tree</strong>。</li>
+<li>点击那个绿色的 <strong>Debug Sampler</strong>，查看 <strong>Response Body</strong>。</li>
+<li>你应该能看到类似 <code>my_uuid=</code> 或者 <code>my_uuid=ERROR</code> (如果设置了默认值) 或者根本找不到 <code>my_uuid</code>。</li>
+</ul>
+</li>
+</ol>
+<p><strong>诊断</strong>：如果 <code>my_uuid</code> 后面是空的，说明 JSON Extractor 没有提取到数据。原因通常是：</p>
+<ul>
+<li><strong>JSON Path 写错了</strong>：比如写成了 <code>$.id</code> 但实际返回是 <code>uuid</code>。</li>
+<li><strong>Default Value</strong>：你在提取器里把默认值留空了。<ul>
+<li><em>建议习惯</em>：在 JSON Extractor 的 <code>Default Value</code> 里填上 <code>NOT_FOUND</code>。如果提取失败，变量就会变成 “NOT_FOUND”，在 Debug 时一眼就能看到。</li>
+</ul>
+</li>
+</ul>
+<img src="/2025/12/20/Jmeter%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image4.png" srcset="/img/loading.gif" lazyload class="" title="debug">
+
+<hr>
+<h3 id="修正提取器"><a href="#修正提取器" class="headerlink" title="修正提取器"></a>修正提取器</h3><ol>
+<li>回到 <strong>JSON Extractor</strong>。</li>
+<li>检查 <strong>JSON Path expressions</strong>：必须是 <code>$.uuid</code> (大小写敏感)。</li>
+<li>设置 <strong>Default Value</strong>：输入 <code>NOT_FOUND</code>。</li>
+<li>再次运行，看 Debug Sampler 里的 <code>my_uuid</code> 是否变成了具体的字符（如 <code>53e4...</code>）。</li>
+</ol>
+<hr>
+<h3 id="Response-Assertion"><a href="#Response-Assertion" class="headerlink" title="Response Assertion"></a>Response Assertion</h3><p>让脚本在数据错误时<strong>自动报错（变红）</strong>，而不是人工去检查。给 <strong>接口 A</strong> 加一个“安检员”，确保它返回了想要的数据。</p>
+<ol>
+<li><strong>右键点击</strong> 接口 A (获取 UUID 的请求) -&gt; <strong>Add</strong> -&gt; <strong>Assertions (断言)</strong> -&gt; <strong>Response Assertion (响应断言)</strong>。</li>
+<li>配置面板：<ul>
+<li><strong>Apply to</strong>: <code>Main sample only</code> (默认)。</li>
+<li><strong>Field to Test</strong>: 选择 <code>Text Response</code> (检查响应文本)。</li>
+<li><strong>Pattern Matching Rules</strong>: 选择 <code>Contains</code> (包含)。</li>
+<li><strong>Patterns to Test</strong>: 点击 Add，输入 <code>uuid</code>。</li>
+<li><em>解释：这意味着，如果返回结果里连 “uuid” 这个词都没有，就判定为失败。</em></li>
+</ul>
+</li>
+</ol>
+<p><strong>更高级的用法（检查接口 B）：</strong> 我们要确保接口 B 发送的数据不是空的。</p>
+<ol>
+<li><strong>右键点击</strong> 接口 B -&gt; <strong>Add</strong> -&gt; <strong>Assertions</strong> -&gt; <strong>Response Assertion</strong>。</li>
+<li><strong>Field to Test</strong>: 改选 <strong>Request Headers</strong> 或者 <strong>Request Data</strong> (注意这里是检查请求，不是响应)。<ul>
+<li><em>JMeter 的断言通常检查响应，但也可以检查请求。不过更常用的做法是在提取后立刻检查变量。</em></li>
+<li><strong>更好的做法</strong>：在接口 A 下面直接加一个 <strong>JSR223 Assertion</strong> (代码断言)，判断 <code>$&#123;my_uuid&#125;</code> 是否为空。不过为了不增加难度先跳过代码部分。</li>
+</ul>
+</li>
+</ol>
+<img src="/2025/12/20/Jmeter%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image5.png" srcset="/img/loading.gif" lazyload class="" title="断言">
+
+<hr>
+<h1 id="场景设计与“无界面”压测"><a href="#场景设计与“无界面”压测" class="headerlink" title="场景设计与“无界面”压测"></a>场景设计与“无界面”压测</h1><p>问：“怎么执行 1000 并发的压测的？” 如果回答：“点击了界面上的绿色启动按钮” 这是不对的</p>
+<p><strong>原因</strong>：JMeter 的图形界面 (GUI) 非常消耗内存和 CPU。真正的高并发压测，必须使用<strong>命令行 (CLI &#x2F; Non-GUI)</strong> 模式。</p>
+<h4 id="任务一：事务控制器-Transaction-Controller"><a href="#任务一：事务控制器-Transaction-Controller" class="headerlink" title="任务一：事务控制器 (Transaction Controller)"></a>任务一：事务控制器 (Transaction Controller)</h4><p>假设一个“购买”操作包含了 3 个 API 请求。老板只想知道“购买”这个动作慢不慢，不想看每个 API 的细节。需要把它们包起来。</p>
+<ol>
+<li><strong>右键点击</strong> <code>Thread Group</code> -&gt; <strong>Add</strong> -&gt; <strong>Logic Controller (逻辑控制器)</strong> -&gt; <strong>Transaction Controller</strong>。</li>
+<li>配置面板：<ul>
+<li><strong>Generate parent sample</strong>: 勾选它。<ul>
+<li><em>作用</em>：勾选后，报告里只会显示“Transaction Controller”这一行数据，把内部细节隐藏起来（或者作为子节点），方便看总耗时。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>移动请求</strong>：<ul>
+<li>把之前的 <strong>接口 A (GET uuid)</strong> 和 <strong>接口 B (POST)</strong> 拖动到这个 <strong>Transaction Controller</strong> 的<strong>里面</strong>（成为子节点）。</li>
+<li><em>现在的结构应该是：Thread Group -&gt; Transaction Controller -&gt; [接口A, 接口B]</em>。</li>
+</ul>
+</li>
+</ol>
+<h4 id="任务二：准备压测参数"><a href="#任务二：准备压测参数" class="headerlink" title="任务二：准备压测参数"></a>任务二：准备压测参数</h4><p>为了模拟一点压力，调整一下线程组参数：</p>
+<ol>
+<li>点击 <strong>Thread Group</strong>。</li>
+<li><strong>Number of Threads</strong>: <code>10</code> (模拟 10 个用户)。</li>
+<li><strong>Ramp-up Period</strong>: <code>2</code> (2秒内启动完)。</li>
+<li><strong>Loop Count</strong>: <code>5</code> (每人跑 5 次)。</li>
+<li><strong>保存脚本</strong>：一定要保存！假设保存为 <code>test_stage3.jmx</code>，记住保存的路径</li>
+</ol>
+<h4 id="任务三：命令行执行-CLI-Mode-——-核心技能"><a href="#任务三：命令行执行-CLI-Mode-——-核心技能" class="headerlink" title="任务三：命令行执行 (CLI Mode) —— 核心技能"></a>任务三：命令行执行 (CLI Mode) —— <strong>核心技能</strong></h4><ol>
+<li><p><strong>进入脚本所在目录并打开终端&#x2F;命令行</strong></p>
+</li>
+<li><p><strong>输入压测命令</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">jmeter -n -t test_stage3.jmx -l result.jtl -e -o ./report<br></code></pre></td></tr></table></figure>
+
+<p><strong>参数详解：</strong></p>
+<ul>
+<li><code>-n</code>: <strong>n</strong>on-GUI mode (无界面模式)。</li>
+<li><code>-t</code>: 指定测试脚本文件 (<strong>t</strong>est plan)。</li>
+<li><code>-l</code>: 指定结果文件路径 (<strong>l</strong>og)，通常存为 <code>.jtl</code> 格式。</li>
+<li><code>-e</code>: 测试结束后生成 Web 报告 (<strong>e</strong>nd of run)。</li>
+<li><code>-o</code>: 指定报告输出文件夹 (<strong>o</strong>utput folder)。<strong>注意：这个文件夹必须是空的或者不存在，否则会报错。</strong></li>
+</ul>
+</li>
+<li><p><strong>执行</strong>：</p>
+<ul>
+<li>按下回车。应该会看到命令行里在滚动类似 <code>Summary + ...</code> 的日志。等待它显示 <code>... end of run</code>。</li>
+</ul>
+</li>
+</ol>
+<h4 id="任务四：查看上帝视角报告"><a href="#任务四：查看上帝视角报告" class="headerlink" title="任务四：查看上帝视角报告"></a>任务四：查看上帝视角报告</h4><ol>
+<li>打开脚本目录。</li>
+<li>多了一个 <code>report</code> 文件夹。</li>
+<li>进入文件夹，双击 <code>index.html</code>。</li>
+</ol>
+<p>这是一个非常专业的 HTML 性能测试报告。找到 <strong>Charts</strong> -&gt; <strong>Response Times</strong> -&gt; <strong>Response Time Percentiles</strong>。</p>
+<img src="/2025/12/20/Jmeter%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image6.png" srcset="/img/loading.gif" lazyload class="" title="报告首页">
+
+<img src="/2025/12/20/Jmeter%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image7.png" srcset="/img/loading.gif" lazyload class="" title="响应时间">
+
+<hr>
+<h1 id="解读Statistics-表格核心指标"><a href="#解读Statistics-表格核心指标" class="headerlink" title="解读Statistics 表格核心指标"></a>解读Statistics 表格核心指标</h1><ol>
+<li><strong>Samples (样本数)</strong>: 总请求数。</li>
+<li><strong>Average (平均值)</strong>: 平均分。<ul>
+<li><em>误区</em>：<strong>平均值是最会骗人的！</strong> 比如我和马云的平均资产是几千亿，但这不能代表我的真实水平。在性能测试中，只要有几个极端的慢请求（比如超时），平均值就会被拉高或拉低，掩盖真相。</li>
+</ul>
+</li>
+<li><strong>Min &#x2F; Max</strong>: 响应最快和最慢的时间</li>
+<li><strong>Error %</strong>: 报错的请求占比。通常要求 <strong>0%</strong> 或者 <strong>&lt; 0.1%</strong>。</li>
+<li><strong>Throughput (吞吐量&#x2F;TPS)</strong>: 代表服务器“每秒能处理多少个请求”。</li>
+</ol>
+<hr>
+<h3 id="Percentiles-百分位数-P90-P95-P99"><a href="#Percentiles-百分位数-P90-P95-P99" class="headerlink" title="Percentiles (百分位数 - P90, P95, P99)"></a>Percentiles (百分位数 - P90, P95, P99)</h3><p><strong>互联网大厂定验收标准（SLA）</strong> 的依据。</p>
+<ul>
+<li><strong>P90 (90th pct)</strong>：将所有请求的响应时间从小到大排列，排在 <strong>90%</strong> 位置的那个时间。<ul>
+<li><em>人话</em>：<strong>“90% 的用户都能在 X 秒内得到响应。”</strong></li>
+</ul>
+</li>
+<li><strong>P99 (99th pct)</strong>：排在 <strong>99%</strong> 位置的时间。<ul>
+<li><em>人话</em>：<strong>“99% 的用户都能在 X 秒内得到响应。”</strong> (排除了 1% 的极端慢请求)。</li>
+</ul>
+</li>
+</ul>
+<p><strong>如果 Average 是 100ms，但 P90 是 500ms，说明了什么？</strong></p>
+<blockquote>
+<p><strong>结论：系统不稳定，存在严重的“长尾效应” (Long Tail)。</strong></p>
+</blockquote>
+<ul>
+<li><strong>分析</strong>：<ul>
+<li>平均值 100ms 很低，说明<strong>大部分</strong>请求都非常快（可能只有 50-80ms）。</li>
+<li>但 P90 到了 500ms，说明<strong>有至少 10% 的用户</strong>体验非常差，比正常慢了 5 倍以上。</li>
+</ul>
+</li>
+<li><strong>常见原因</strong>：<ul>
+<li><strong>代码问题</strong>：偶尔触发了复杂的逻辑分支。</li>
+<li><strong>Java 应用</strong>：发生了 <strong>Full GC</strong> (垃圾回收)，导致系统暂停了几百毫秒。</li>
+<li><strong>数据库</strong>：偶尔遇到了锁等待，或者缓存刚好失效了（缓存穿透）。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>“不能只看平均值，因为平均值会掩盖性能抖动。在这个场景下，虽然平均响应快，但 P90 差距过大，说明系统存在偶发性的卡顿或资源争用，不满足稳定性要求，需要排查 GC 日志或慢查询。”</p>
+</blockquote>
+<hr>
+<h1 id="监控与瓶颈定位"><a href="#监控与瓶颈定位" class="headerlink" title="监控与瓶颈定位"></a>监控与瓶颈定位</h1><p>**如果分数低（响应慢），到底是谁的锅？**是网络卡？CPU 满了？还是数据库死锁了？</p>
+<p>JMeter 本身只能告诉你“慢”，不能告诉你“为什么慢”。需要给服务器插上“体温计”。</p>
+<h4 id="任务一：安装插件管理器-Plugins-Manager"><a href="#任务一：安装插件管理器-Plugins-Manager" class="headerlink" title="任务一：安装插件管理器 (Plugins Manager)"></a>任务一：安装插件管理器 (Plugins Manager)</h4><p>JMeter 原生功能有限，需要安装最强的插件来监控服务器。</p>
+<p><strong>下载插件管理器</strong>：去官网下载 <code>jmeter-plugins-manager-1.x.jar</code></p>
+<p>**替代方案： 不依赖 JMeter 插件，而是学习用 **Linux 命令来监控。</p>
+<h4 id="任务二：模拟瓶颈与观察-思想实验"><a href="#任务二：模拟瓶颈与观察-思想实验" class="headerlink" title="任务二：模拟瓶颈与观察 (思想实验)"></a>任务二：模拟瓶颈与观察 (思想实验)</h4><p>发现 TPS 上不去了，P99 特别高。需要立即去服务器上敲以下命令：</p>
+<ol>
+<li><strong><code>top</code></strong> —— <strong>看 CPU 和 内存</strong><ul>
+<li>如果你看到 <code>us</code> (User CPU) 飙到 90% 以上：说明是<strong>代码计算量太大</strong>（算法不行，或者死循环）。</li>
+<li>如果你看到 <code>wa</code> (Wait I&#x2F;O) 很高：说明 CPU 都在等<strong>磁盘读写</strong>（数据库在疯狂刷盘，或者日志打得太疯）。</li>
+</ul>
+</li>
+<li><strong><code>free -m</code></strong> —— <strong>看内存</strong><ul>
+<li>如果 <code>available</code> 几乎为 0，且 Swap 被大量使用：说明<strong>内存泄漏</strong> (Memory Leak) 或内存不足。</li>
+</ul>
+</li>
+<li><strong><code>netstat -nat | grep ESTABLISHED | wc -l</code></strong> —— <strong>看网络连接</strong><ul>
+<li>查看当前建立了多少连接。如果连接数过多但处理不过来，可能是连接池配置太小。</li>
+</ul>
+</li>
+</ol>
+<p>问：如果压测时，<strong>JMeter 这一端的 CPU 占用率达到了 100%</strong>，而服务器端 CPU 只有 10%。这时候生成的测试报告可信吗？</p>
+<p>答：<strong>绝对不可信，报告是废的。</strong></p>
+<ul>
+<li><strong>原因</strong>：这叫“施压机瓶颈”。<ul>
+<li>就像想测试法拉利（服务器）能跑多快，但骑着自行车（JMeter）去追。</li>
+<li>因为你的自行车最快只能骑 20km&#x2F;h（CPU 满了，发不出更多请求了），所以会误以为法拉利最高时速只有 20km&#x2F;h。</li>
+<li>实际上服务器可能根本没感觉。</li>
+</ul>
+</li>
+<li><strong>解决办法</strong>：<ol>
+<li>优化脚本（关掉 View Results Tree，用命令行跑）。</li>
+<li><strong>分布式压测</strong>：找 3 台电脑一起向服务器发起攻击</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h1 id="代码扩展"><a href="#代码扩展" class="headerlink" title="代码扩展"></a>代码扩展</h1><p>当工具满足不了需求时，你要能写代码解决。JMeter 支持用 Java&#x2F;Groovy 代码来处理逻辑。</p>
+<p>现在的 App 接口通常都很安全。比如登录时，密码不是明文传输的，而是 <code>md5(密码 + 时间戳)</code>。JMeter 自带的加密功能很弱，这时候就得写代码。</p>
+<h4 id="任务一：添加-JSR223-PreProcessor"><a href="#任务一：添加-JSR223-PreProcessor" class="headerlink" title="任务一：添加 JSR223 PreProcessor"></a>任务一：添加 JSR223 PreProcessor</h4><p>模拟：在发送请求<strong>前</strong>，把密码加密成 MD5。</p>
+<ol>
+<li>回到 <strong>HTTP Request</strong>（比如之前的百度搜索）。</li>
+<li><strong>右键</strong> -&gt; <strong>Add</strong> -&gt; <strong>Pre Processors (前置处理器)</strong> -&gt; <strong>JSR223 PreProcessor</strong>。<ul>
+<li><em>注意：尽量用 JSR223 + Groovy 语言，不要用 BeanShell，因为 Groovy 性能快得多。</em></li>
+</ul>
+</li>
+<li><strong>Language</strong>: 选择 <code>groovy</code>。</li>
+</ol>
+<h4 id="任务二：编写-Groovy-代码"><a href="#任务二：编写-Groovy-代码" class="headerlink" title="任务二：编写 Groovy 代码"></a>任务二：编写 Groovy 代码</h4><p>在 Script 区域输入以下代码（这是标准的 Java&#x2F;Groovy 写法）：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">import</span> org.apache.commons.codec.digest.DigestUtils;<br><br><span class="hljs-comment">// 1. 获取当前时间戳</span><br>String timestamp = String.valueOf(System.currentTimeMillis());<br><br><span class="hljs-comment">// 2. 模拟一个密码</span><br>String password = <span class="hljs-string">&quot;123456&quot;</span>;<br><br><span class="hljs-comment">// 3. 进行拼接并 MD5 加密 (需要 commons-codec 包，JMeter 自带)</span><br><span class="hljs-comment">// 假设规则是：密码 + 时间戳</span><br>String signature = DigestUtils.md5Hex(password + timestamp);<br><br><span class="hljs-comment">// 4. 将结果存入 JMeter 变量，供后面使用</span><br>vars.put(<span class="hljs-string">&quot;my_sign&quot;</span>, signature);<br>vars.put(<span class="hljs-string">&quot;my_time&quot;</span>, timestamp);<br><br><span class="hljs-comment">// 调试一下，打印到控制台（黑窗口）</span><br>log.info(<span class="hljs-string">&quot;加密结果: &quot;</span> + signature);<br></code></pre></td></tr></table></figure>
+
+<h4 id="任务三：在请求中使用"><a href="#任务三：在请求中使用" class="headerlink" title="任务三：在请求中使用"></a>任务三：在请求中使用</h4><ol>
+<li>回到 <strong>HTTP Request</strong>。</li>
+<li>添加一个参数（或者修改之前的 wd）：<ul>
+<li>Name: <code>sign</code></li>
+<li>Value: <code>$&#123;my_sign&#125;</code></li>
+</ul>
+</li>
+<li>打开 <strong>Log Viewer</strong>（菜单栏 Options -&gt; Log Viewer，底部会出现日志窗口）。</li>
+<li>运行脚本。</li>
+</ol>
+<p><strong>看一下：</strong></p>
+<ol>
+<li>底部日志窗口有没有打印出 <code>加密结果: xxxxx...</code>？</li>
+<li>察看结果树里，发出的请求参数 <code>sign</code> 是不是变成了一串乱码一样的 MD5 值？</li>
+</ol>
+<img src="/2025/12/20/Jmeter%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image8.png" srcset="/img/loading.gif" lazyload class="" title="代码扩展">
+
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Testing/" class="category-chain-item">Testing</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" class="print-no-link">#性能测试</a>
+      
+        <a href="/tags/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" class="print-no-link">#压力测试</a>
+      
+        <a href="/tags/jmeter/" class="print-no-link">#jmeter</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Jmeter基础学习</div>
+      <div>https://lilpear2002.github.io/2025/12/20/Jmeter基础学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/18/linux%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="linux基础学习">
+                        <span class="hidden-mobile">linux基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
