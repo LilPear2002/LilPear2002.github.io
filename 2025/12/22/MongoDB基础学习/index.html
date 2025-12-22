@@ -1,0 +1,942 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MongoDB是一个流行的开源文档型数据库，它使用类似JSON 的文档模型存储数据，这使得数据存储变得非常灵活">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB基础学习">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/22/MongoDB%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="MongoDB是一个流行的开源文档型数据库，它使用类似JSON 的文档模型存储数据，这使得数据存储变得非常灵活">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/mongodb.png">
+<meta property="article:published_time" content="2025-12-22T05:01:22.000Z">
+<meta property="article:modified_time" content="2025-12-22T06:16:56.762Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="NoSQL">
+<meta property="article:tag" content="文档型数据库">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/mongodb.png">
+  
+  
+  
+  <title>MongoDB基础学习 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MongoDB基础学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-22 13:01" pubdate>
+          2025年12月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MongoDB基础学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><p>MongoDB 是一个<strong>文档型数据库</strong>。</p>
+<ul>
+<li><strong>SQL (MySQL)</strong> 像 Excel 表格，必须先定义列头（Schema），每一行格式必须一样。</li>
+<li><strong>MongoDB</strong> 像一个文件夹，里面装了很多 JSON 文件。每一个文件可以长得不一样，非常灵活。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>MySQL (关系型)</strong></th>
+<th align="center"><strong>MongoDB (非关系型)</strong></th>
+<th align="center"><strong>理解</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>Database</strong> (数据库)</td>
+<td align="center"><strong>Database</strong> (数据库)</td>
+<td align="center">一样的，存放数据的容器。</td>
+</tr>
+<tr>
+<td align="center"><strong>Table</strong> (表)</td>
+<td align="center"><strong>Collection</strong> (集合)</td>
+<td align="center">比如 <code>users</code> 集合，存放所有用户信息。</td>
+</tr>
+<tr>
+<td align="center"><strong>Row</strong> (行)</td>
+<td align="center"><strong>Document</strong> (文档)</td>
+<td align="center"><strong>关键点！</strong> 每一行数据是一个 JSON 对象。</td>
+</tr>
+<tr>
+<td align="center"><strong>Column</strong> (列)</td>
+<td align="center"><strong>Field</strong> (字段)</td>
+<td align="center">JSON 中的 Key。</td>
+</tr>
+<tr>
+<td align="center"><strong>Join</strong> (关联查询)</td>
+<td align="center">Embedding (嵌套)</td>
+<td align="center">通常不怎么用 Join，而是把地址直接写在用户文档里。</td>
+</tr>
+</tbody></table>
+<p>在 MongoDB 中，数据是以 <strong>BSON</strong> (Binary JSON) 格式存储的，看作 <strong>JSON</strong> 就行。</p>
+<p><strong>举个例子：</strong> 假设你要测试一个电商产品的“用户下单”功能。</p>
+<ul>
+<li>在 MySQL 里，可能需要去 <code>Order表</code>、<code>User表</code>、<code>Product表</code> 三个地方查数据。</li>
+<li>在 MongoDB 里，一条订单数据可能长这样（直接嵌套）：</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ObjectId(&#x27;507f1f77bcf86cd799439011&#x27;)&quot;</span><span class="hljs-punctuation">,</span>  <span class="hljs-comment">// 自动生成的主键</span><br>  <span class="hljs-attr">&quot;order_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ORD-20231217-001&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;total_price&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">299.00</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;PAID&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;customer&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>              <span class="hljs-comment">// 【嵌套】用户信息直接包含在内</span><br>    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;李同学&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;phone&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;13800000000&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;items&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>                 <span class="hljs-comment">// 【数组】买了多个商品</span><br>    <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;product&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;机械键盘&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;qty&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;product&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;鼠标&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;qty&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="基础CRUD"><a href="#基础CRUD" class="headerlink" title="基础CRUD"></a>基础CRUD</h1><p>模拟场景：测试一个**“用户注册与管理”**的功能。你需要手动在数据库里构造数据，修改状态，最后清理数据。</p>
+<p>先创建一个名为 <code>users</code> 的集合（Collection）。</p>
+<h2 id="1-构造测试数据"><a href="#1-构造测试数据" class="headerlink" title="1. 构造测试数据"></a>1. 构造测试数据</h2><p><strong>测试场景</strong>：往数据库里插入一个“已注册用户”，以便后续测试“登录”接口。在 MongoDB 中，如果集合（表）不存在，插入数据时会自动创建，非常省事。</p>
+<p><strong>语法</strong>：<code>db.collection.insertOne(json_data)</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 插入一条名为 &quot;test_dev_001&quot; 的测试用户数据</span><br>db.<span class="hljs-property">users</span>.<span class="hljs-title function_">insertOne</span>(&#123;<br>    <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;test_dev_001&quot;</span>,<br>    <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">23</span>,<br>    <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;intern&quot;</span>,<br>    <span class="hljs-string">&quot;skills&quot;</span>: [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;testing&quot;</span>],<br>    <span class="hljs-string">&quot;is_active&quot;</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-string">&quot;register_date&quot;</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>()<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：看到 <code>acknowledged: true</code> 就说明成功了。</p>
+</blockquote>
+<h2 id="2-查数据"><a href="#2-查数据" class="headerlink" title="2.  查数据"></a>2.  查数据</h2><p><strong>测试场景</strong>：前端页面显示“注册成功”，去数据库查一下，数据真的进去了吗？字段对不对？</p>
+<p><strong>语法</strong>：<code>db.collection.find(query)</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 1. 查询 users 集合里的所有数据</span><br>db.<span class="hljs-property">users</span>.<span class="hljs-title function_">find</span>()<br><br><span class="hljs-comment">// 2. [常用] 精确查询：查找 username 为 &quot;test_dev_001&quot; 的用户</span><br>db.<span class="hljs-property">users</span>.<span class="hljs-title function_">find</span>(&#123; <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;test_dev_001&quot;</span> &#125;)<br><br><span class="hljs-comment">// 3. [常用] 多条件查询：查找 active 状态为 true 且 年龄为 23 的用户</span><br>db.<span class="hljs-property">users</span>.<span class="hljs-title function_">find</span>(&#123; <span class="hljs-string">&quot;is_active&quot;</span>: <span class="hljs-literal">true</span>, <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">23</span> &#125;)<br></code></pre></td></tr></table></figure>
+
+<img src="/2025/12/22/MongoDB%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image1.png" srcset="/img/loading.gif" lazyload class="" title="查数据">
+
+<h2 id="3-修改状态-制造边界条件"><a href="#3-修改状态-制造边界条件" class="headerlink" title="3. 修改状态&#x2F;制造边界条件"></a>3. 修改状态&#x2F;制造边界条件</h2><p><strong>测试场景</strong>：测试“被封禁用户无法登录”这个逻辑。需要手动把刚才那个用户的状态改为“封禁”。</p>
+<p><strong>语法</strong>：<code>db.collection.updateOne(filter, update_action)</code></p>
+<p>这里有一个非常重要的概念：修改器 (Modifier)。</p>
+<p>在 SQL 里可以直接 SET age&#x3D;24，但在 MongoDB 里，必须使用 $set 操作符。如果不用 $set，它可能会用新数据覆盖掉整个旧文档（造成数据丢失）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 把 username 为 &quot;test_dev_001&quot; 的用户，age 改为 24，is_active 改为 false</span><br>db.<span class="hljs-property">users</span>.<span class="hljs-title function_">updateOne</span>(<br>    &#123; <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;test_dev_001&quot;</span> &#125;,  <span class="hljs-comment">// 筛选条件 (Where)</span><br>    &#123; <br>        <span class="hljs-attr">$set</span>: &#123;                      <span class="hljs-comment">// 修改操作 (Set)</span><br>            <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">24</span>,<br>            <span class="hljs-string">&quot;is_active&quot;</span>: <span class="hljs-literal">false</span> <br>        &#125;<br>    &#125;<br>)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>问“MongoDB 更新时 $set 是干嘛的？”</p>
+<p>答：用于指定只更新某些字段。如果不加 $set 直接传 JSON，可能会导致整个文档被替换，丢失其他原有字段。</p>
+</blockquote>
+<h2 id="4-环境清理"><a href="#4-环境清理" class="headerlink" title="4. 环境清理"></a>4. 环境清理</h2><p><strong>测试场景</strong>：自动化测试跑完了，需要把刚才生成的脏数据删掉，以免影响下一次测试。</p>
+<p><strong>语法</strong>：<code>db.collection.deleteOne(query)</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 删除 username 为 &quot;test_dev_001&quot; 的那条记录</span><br>db.<span class="hljs-property">users</span>.<span class="hljs-title function_">deleteOne</span>(&#123; <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;test_dev_001&quot;</span> &#125;)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="复杂查询"><a href="#复杂查询" class="headerlink" title="复杂查询"></a>复杂查询</h1><p>在实际工作中，测试环境的数据库里可能有几十万条日志或订单数据。如果出现了一个 Bug，老板问：“帮我查一下昨天下午 2 点到 4 点之间，所有失败的、且金额大于 1000 元的订单”，必须能快速写出查询语句。</p>
+<hr>
+<p>先<strong>批量插入</strong> 4 条测试数据（注意是用 <code>insertMany</code>）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js">db.<span class="hljs-property">users</span>.<span class="hljs-title function_">insertMany</span>([<br>    &#123; <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Alice&quot;</span>, <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">22</span>, <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;intern&quot;</span>, <span class="hljs-string">&quot;skills&quot;</span>: [<span class="hljs-string">&quot;java&quot;</span>, <span class="hljs-string">&quot;c++&quot;</span>], <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-number">85</span> &#125;,<br>    &#123; <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">28</span>, <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;manager&quot;</span>, <span class="hljs-string">&quot;skills&quot;</span>: [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;management&quot;</span>], <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-number">92</span> &#125;,<br>    &#123; <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Charlie&quot;</span>, <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">25</span>, <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;dev&quot;</span>, <span class="hljs-string">&quot;skills&quot;</span>: [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;golang&quot;</span>, <span class="hljs-string">&quot;docker&quot;</span>], <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-number">78</span> &#125;,<br>    &#123; <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;David&quot;</span>, <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">30</span>, <span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;dev&quot;</span>, <span class="hljs-string">&quot;skills&quot;</span>: [<span class="hljs-string">&quot;java&quot;</span>], <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-number">60</span>, <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;banned&quot;</span> &#125;<br>])<br></code></pre></td></tr></table></figure>
+
+<h2 id="1-比较查询-范围测试"><a href="#1-比较查询-范围测试" class="headerlink" title="1. 比较查询 (范围测试)"></a>1. 比较查询 (范围测试)</h2><p>在 SQL 里用 &gt;, &lt;, &gt;&#x3D;。而在 MongoDB 里，需要用特殊操作符：</p>
+<ul>
+<li><code>$gt</code> (Greater Than) 大于</li>
+<li><code>$lt</code> (Less Than) 小于</li>
+<li><code>$gte</code> (Greater Than Equal) 大于等于</li>
+<li><code>$lte</code> (Less Than Equal) 小于等于</li>
+<li><code>$ne</code> (Not Equal) 不等于</li>
+</ul>
+<p><strong>例子</strong>：查找分数 <strong>大于 80 分</strong> 的用户：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">db.<span class="hljs-property">users</span>.<span class="hljs-title function_">find</span>(&#123; <span class="hljs-string">&quot;score&quot;</span>: &#123; <span class="hljs-attr">$gt</span>: <span class="hljs-number">80</span> &#125; &#125;)<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-包含查询-in"><a href="#2-包含查询-in" class="headerlink" title="2. 包含查询 ($in)"></a>2. 包含查询 ($in)</h2><p><strong>测试场景</strong>：手头有一批测试账号的 ID 列表（比如 <code>[&quot;user_A&quot;, &quot;user_B&quot;]</code>），想一次性把它们都查出来检查状态。</p>
+<p><strong>例子</strong>：查找职位是 <strong>intern (实习生)</strong> 或者 <strong>manager (经理)</strong> 的人：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">db.<span class="hljs-property">users</span>.<span class="hljs-title function_">find</span>(&#123; <span class="hljs-string">&quot;role&quot;</span>: &#123; <span class="hljs-attr">$in</span>: [<span class="hljs-string">&quot;intern&quot;</span>, <span class="hljs-string">&quot;manager&quot;</span>] &#125; &#125;)<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-数组查询-Array-Query"><a href="#3-数组查询-Array-Query" class="headerlink" title="3. 数组查询 (Array Query)"></a>3. 数组查询 (Array Query)</h2><p>测试场景：验证用户是否拥有某个特定权限&#x2F;技能。</p>
+<p><strong>例子</strong>：查找技能列表中<strong>包含 “python”</strong> 的所有用户：</p>
+<ul>
+<li>注意：MongoDB 很聪明，不需要告诉它“这是一个数组”，直接查就行。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">db.<span class="hljs-property">users</span>.<span class="hljs-title function_">find</span>(&#123; <span class="hljs-string">&quot;skills&quot;</span>: <span class="hljs-string">&quot;python&quot;</span> &#125;)<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-逻辑查询-or-and"><a href="#4-逻辑查询-or-and" class="headerlink" title="4. 逻辑查询 ($or, $and)"></a>4. 逻辑查询 ($or, $and)</h2><p><strong>测试场景</strong>：复杂的组合条件。</p>
+<p><strong>例子</strong>：查找 (年龄大于 25) <strong>或者</strong> (状态是 banned) 的用户：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js">db.<span class="hljs-property">users</span>.<span class="hljs-title function_">find</span>(&#123;<br>    <span class="hljs-attr">$or</span>: [<br>        &#123; <span class="hljs-string">&quot;age&quot;</span>: &#123; <span class="hljs-attr">$gt</span>: <span class="hljs-number">25</span> &#125; &#125;,<br>        &#123; <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;banned&quot;</span> &#125;<br>    ]<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-排序与分页-Sort-Limit"><a href="#5-排序与分页-Sort-Limit" class="headerlink" title="5. 排序与分页 (Sort, Limit)"></a>5. 排序与分页 (Sort, Limit)</h2><p>测试场景：测试 App 的“下拉加载更多”功能（Pagination）。需要验证接口返回的第 1 页数据，是不是数据库里最新的那几条。</p>
+<ul>
+<li><code>sort(&#123; field: 1 &#125;)</code>: 1 代表升序 (从小到大)，-1 代表降序 (从大到小)。</li>
+<li><code>limit(n)</code>: 只取前 n 条。</li>
+<li><code>skip(n)</code>: 跳过前 n 条。</li>
+</ul>
+<p><strong>例子</strong>：按分数<strong>从高到低</strong>排序，取<strong>前 2 名</strong>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">db.<span class="hljs-property">users</span>.<span class="hljs-title function_">find</span>().<span class="hljs-title function_">sort</span>(&#123; <span class="hljs-string">&quot;score&quot;</span>: -<span class="hljs-number">1</span> &#125;).<span class="hljs-title function_">limit</span>(<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="PyMongo"><a href="#PyMongo" class="headerlink" title="PyMongo"></a>PyMongo</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pymongo<br><span class="hljs-keyword">from</span> pymongo <span class="hljs-keyword">import</span> MongoClient<br><br><span class="hljs-comment"># 1. 连接数据库</span><br><span class="hljs-comment"># mongodb://IP地址:端口/</span><br>client = MongoClient(<span class="hljs-string">&quot;mongodb://localhost:27017/&quot;</span>)<br><br><span class="hljs-comment"># 2. 选择数据库 (Database)</span><br>db = client[<span class="hljs-string">&quot;mongo_study&quot;</span>]  <br><br><span class="hljs-comment"># 3. 选择集合 (Collection)</span><br>collection = db[<span class="hljs-string">&quot;users&quot;</span>]<br><br><span class="hljs-comment"># 4. 执行查询 (Read)</span><br><span class="hljs-comment"># 找那位 &quot;Python 讲师候选人&quot; (Bob)</span><br><span class="hljs-comment"># find_one 只返回一条字典数据，非常适合做断言</span><br>user_data = collection.find_one(&#123;<br>    <span class="hljs-string">&quot;skills&quot;</span>: <span class="hljs-string">&quot;python&quot;</span>,<br>    <span class="hljs-string">&quot;score&quot;</span>: &#123; <span class="hljs-string">&quot;$gte&quot;</span>: <span class="hljs-number">80</span> &#125;<br>&#125;)<br><br><span class="hljs-comment"># 打印出来看看</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;查询到的用户: <span class="hljs-subst">&#123;user_data[<span class="hljs-string">&#x27;name&#x27;</span>]&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;完整数据: <span class="hljs-subst">&#123;user_data&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 5. 测开核心环节：断言 (Assertion)</span><br><span class="hljs-comment"># 模拟自动化测试中的校验步骤</span><br><span class="hljs-keyword">try</span>:<br>    <span class="hljs-keyword">assert</span> user_data[<span class="hljs-string">&#x27;name&#x27;</span>] == <span class="hljs-string">&quot;Bob&quot;</span><br>    <span class="hljs-keyword">assert</span> <span class="hljs-string">&quot;management&quot;</span> <span class="hljs-keyword">in</span> user_data[<span class="hljs-string">&#x27;skills&#x27;</span>]<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n✅ 测试通过：数据校验成功！&quot;</span>)<br><span class="hljs-keyword">except</span> AssertionError:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n❌ 测试失败：数据与预期不符&quot;</span>)<br><span class="hljs-keyword">except</span> TypeError:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n❌ 测试失败：未查询到数据&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="批量造数据-Mock-与-清理-Teardown"><a href="#批量造数据-Mock-与-清理-Teardown" class="headerlink" title="批量造数据 (Mock) 与 清理 (Teardown)"></a>批量造数据 (Mock) 与 清理 (Teardown)</h1><p>如何构造大量的测试数据？手动插入一条条数据太慢了。应该编写 Python 脚本，在 1 秒钟内生成 1000 条订单数据，用来测试前端列表页的翻页性能，或者测试报表统计的准确性。</p>
+<p>实战场景：开发写了一个“订单列表”接口，需要测试：</p>
+<ol>
+<li><strong>分页功能</strong>：当有 50 条数据时，第 2 页是否显示正确？</li>
+<li><strong>状态过滤</strong>：筛选“已支付 (PAID)”的订单是否准确？</li>
+</ol>
+<p>用 Python 脚本瞬间生成 50 条模拟订单数据。</p>
+<h2 id="1-编写批量造数脚本-Setup"><a href="#1-编写批量造数脚本-Setup" class="headerlink" title="1. 编写批量造数脚本 (Setup)"></a>1. 编写批量造数脚本 (Setup)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pymongo<br><span class="hljs-keyword">from</span> pymongo <span class="hljs-keyword">import</span> MongoClient<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> time<br><br><span class="hljs-comment"># 1. 连接数据库</span><br>client = MongoClient(<span class="hljs-string">&quot;mongodb://localhost:27017/&quot;</span>)<br>db = client[<span class="hljs-string">&quot;test&quot;</span>]<br>order_collection = db[<span class="hljs-string">&quot;orders&quot;</span>]  <span class="hljs-comment"># 新建一个 orders 集合</span><br><br><span class="hljs-comment"># 2. 准备造数据</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;🚀 开始构造测试数据...&quot;</span>)<br>mock_data_list = []<br>statuses = [<span class="hljs-string">&quot;CREATED&quot;</span>, <span class="hljs-string">&quot;PAID&quot;</span>, <span class="hljs-string">&quot;SHIPPED&quot;</span>, <span class="hljs-string">&quot;CANCELLED&quot;</span>]<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">50</span>):<br>    <span class="hljs-comment"># 模拟生成一条订单</span><br>    order = &#123;<br>        <span class="hljs-string">&quot;order_id&quot;</span>: <span class="hljs-string">f&quot;ORD-2023-<span class="hljs-subst">&#123;i+<span class="hljs-number">1000</span>&#125;</span>&quot;</span>,  <span class="hljs-comment"># 比如 ORD-2023-1000</span><br>        <span class="hljs-string">&quot;price&quot;</span>: random.randint(<span class="hljs-number">50</span>, <span class="hljs-number">500</span>),  <span class="hljs-comment"># 随机价格 50~500</span><br>        <span class="hljs-string">&quot;status&quot;</span>: random.choice(statuses), <span class="hljs-comment"># 随机状态</span><br>        <span class="hljs-string">&quot;created_at&quot;</span>: time.time()<br>    &#125;<br>    mock_data_list.append(order)<br><br><span class="hljs-comment"># 3. 批量插入 (核心步骤)</span><br><span class="hljs-comment"># 为什么不用 insert_one? 因为 insert_many 只需要一次网络请求，速度快几十倍。</span><br>result = order_collection.insert_many(mock_data_list)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;✅ 成功插入 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(result.inserted_ids)&#125;</span> 条数据！&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-验证与清理-Teardown"><a href="#2-验证与清理-Teardown" class="headerlink" title="2. 验证与清理 (Teardown)"></a>2. 验证与清理 (Teardown)</h2><p>在自动化测试框架（如 Pytest）中，应该做到测试产生的垃圾数据，测试结束后要自己打扫干净。否则下次跑测试，数据会越来越多，导致断言失败。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># ... (连接代码同上) ...</span><br><br><span class="hljs-comment"># 4. 验证数据量 (模拟测试步骤)</span><br>count = order_collection.count_documents(&#123;&#125;)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前数据库里的订单总数: <span class="hljs-subst">&#123;count&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 5. 环境清理 (Teardown)</span><br><span class="hljs-comment"># 场景：测试跑完了，删除所有生成的测试数据</span><br><span class="hljs-comment"># ⚠️ 危险操作：在生产环境严禁使用空条件的 delete_many(&#123;&#125;)</span><br>delete_result = order_collection.delete_many(&#123;&#125;)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;🧹 环境清理完毕，删除了 <span class="hljs-subst">&#123;delete_result.deleted_count&#125;</span> 条数据。&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="进阶知识理论"><a href="#进阶知识理论" class="headerlink" title="进阶知识理论"></a>进阶知识理论</h1><ol>
+<li><strong>索引 (Index)</strong> —— 速度的来源</li>
+<li><strong>聚合 (Aggregation)</strong> —— 复杂的流水线</li>
+<li><strong>副本集 (Replica Set)</strong> —— 高可用不宕机</li>
+<li><strong>分片 (Sharding)</strong> —— 海量数据扩容</li>
+<li><strong>存储引擎 (WiredTiger)</strong> —— 底层的读写原理</li>
+</ol>
+<hr>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>MongoDB 的索引原理和 MySQL（InnoDB）非常像，底层大多采用 B-Tree (B树) 结构。</p>
+<ul>
+<li><strong>没有索引时</strong>：MongoDB 必须执行 <strong>Collection Scan (全表扫描)</strong>。就像你在查字典，没有拼音目录，得从第一页翻到最后一页去找“字”。</li>
+<li><strong>有索引时</strong>：MongoDB 执行 <strong>Index Scan (索引扫描)</strong>。直接去 B-Tree 树上找到位置，瞬间拿到数据。</li>
+</ul>
+<p><strong>测开视角</strong>：</p>
+<ul>
+<li><strong>复合索引 (Compound Index)</strong>：如果经常查 <code>find(&#123;name: &quot;A&quot;, age: 20&#125;)</code>，那应该建立一个 <code>(name, age)</code> 的联合索引。<ul>
+<li><em>注意点</em>：<strong>最左前缀原则</strong>（和 MySQL 一样）。如你只建了 <code>(name, age)</code> 索引，但查询时只查 <code>age</code>，这个索引是<strong>失效</strong>的！</li>
+</ul>
+</li>
+<li><strong>TTL 索引</strong>：这就很有意思了。可以给索引设置一个“过期时间”（比如 1 小时）。<ul>
+<li><em>应用</em>：验证码、临时 Token、日志。到了时间，MongoDB 会<strong>自动删除</strong>这些数据。这在测试“验证码过期”场景时经常用到。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="聚合管道"><a href="#聚合管道" class="headerlink" title="聚合管道"></a>聚合管道</h2><p>普通的 find() 只能做简单的筛选。如果要对应 SQL 中的 Group By、Join、Sum、Avg，MongoDB 采用的是一种**“流水线” (Pipeline)** 的设计模式。</p>
+<p>想象一个工厂流水线，数据就是原材料：</p>
+<ol>
+<li><strong>$match (筛选)</strong>：先过滤掉废品（只保留 2023 年的订单）。</li>
+<li><strong>$project (整形)</strong>：把不需要的零件拆掉（只保留“金额”和“用户ID”字段）。</li>
+<li><strong>$group (分组)</strong>：按用户ID把订单堆在一起，算总金额。</li>
+<li><strong>$sort (排序)</strong>：按金额从大到小排。</li>
+<li><strong>输出</strong>。</li>
+</ol>
+<p>**测开视角：</p>
+<ul>
+<li>问：“MongoDB 能做多表关联查询吗？”</li>
+<li>答案是：<strong>能，但是不推荐</strong>。使用 <strong><code>$lookup</code></strong> 阶段可以实现类似 SQL Left Join 的功能，但性能开销很大。NoSQL 的设计理念本来就是“反范式化”（把数据嵌套在一起），尽量避免关联查询。</li>
+</ul>
+<hr>
+<h2 id="副本集"><a href="#副本集" class="headerlink" title="副本集"></a>副本集</h2><p>这是生产环境的标配。单机版的 MongoDB 挂了就完了，所以需要一主多从。</p>
+<ul>
+<li><strong>Primary (主节点)</strong>：唯一的“老大”，负责<strong>所有的写操作</strong>（增删改）。也可以读。</li>
+<li><strong>Secondary (从节点)</strong>：负责同步主节点的数据。默认不可读（为了保证强一致性），但可以配置成“只读”。</li>
+<li><strong>Heartbeat (心跳)</strong>：节点之间每隔 2 秒互通一下消息：“你还活着吗？”</li>
+<li><strong>自动故障转移 (Failover)</strong>：如果主节点挂了，剩下的从节点会<strong>投票</strong>，选出一个新的主节点。整个过程通常在几秒内完成。</li>
+</ul>
+<p><strong>测开视角</strong>：</p>
+<ul>
+<li><strong>读写分离</strong>：测试时，可以配置连接字符串，让“写”走主节点，“读”走从节点（<code>ReadPreference</code>）。需要测试数据同步是否有<strong>延迟</strong>（Replication Lag）。比如主节点刚写进去，立刻去从节点读，读到了吗？</li>
+</ul>
+<hr>
+<h2 id="分片"><a href="#分片" class="headerlink" title="分片"></a>分片</h2><p>当数据量达到 TB 级别，或者并发量太大，一台机器（哪怕是主从架构）也扛不住了。这时候就需要分片。</p>
+<p>Redis 也有类似的概念（Redis Cluster）。MongoDB 的分片架构包含三个角色：</p>
+<ol>
+<li><strong>Mongos (路由)</strong>：这是“看门大爷”。客户端只跟它打交道。它负责把请求分发到具体的片上。</li>
+<li><strong>Config Server (配置服)</strong>：这是“地图”。它记录了哪块数据在哪个片上。</li>
+<li><strong>Shard (分片)</strong>：这是真正存数据的“仓库”。每个 Shard 通常也是一个副本集（保证自己不挂）。</li>
+</ol>
+<p>**测开视角：</p>
+<ul>
+<li><strong>分片键 (Shard Key)</strong>：这是最关键的。比如按“用户ID”分片。<ul>
+<li>如果选得不好（比如按“性别”分片），会导致<strong>数据倾斜</strong>（Jumbo Chunk），所有数据都跑到其中一个片上去了，另一个片闲得慌。这是性能测试要关注的隐患。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><p>MongoDB 3.2 之后默认使用 WiredTiger 引擎。只需要记住它相对于老引擎（MMAPv1）的两个巨大提升：</p>
+<ol>
+<li><strong>文档级锁 (Document-Level Concurrency)</strong>：<ul>
+<li><em>老版本</em>：你要修改一条数据，MongoDB 会锁住整个库或整个集合（Collection）。别人都得排队。</li>
+<li><em>WiredTiger</em>：<strong>只锁要修改的那一行文档</strong>。并发能力极强！</li>
+</ul>
+</li>
+<li><strong>数据压缩</strong>：<ul>
+<li>它在把数据存入磁盘前会进行压缩。所以在磁盘上看到的文件大小，往往比实际数据量要小很多。</li>
+</ul>
+</li>
+</ol>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MongoDB/" class="print-no-link">#MongoDB</a>
+      
+        <a href="/tags/NoSQL/" class="print-no-link">#NoSQL</a>
+      
+        <a href="/tags/%E6%96%87%E6%A1%A3%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#文档型数据库</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MongoDB基础学习</div>
+      <div>https://lilpear2002.github.io/2025/12/22/MongoDB基础学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/22/Neo4j%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="Neo4j基础学习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Neo4j基础学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/22/redis%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="redis基础学习">
+                        <span class="hidden-mobile">redis基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
