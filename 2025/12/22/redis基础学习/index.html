@@ -1,0 +1,1138 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Redis是一种开放源代码（BSD许可）的内存中数据结构存储，用作数据库，缓存和消息代理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis基础学习">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/22/redis%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="Redis是一种开放源代码（BSD许可）的内存中数据结构存储，用作数据库，缓存和消息代理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/redis.jpg">
+<meta property="article:published_time" content="2025-12-22T01:32:38.000Z">
+<meta property="article:modified_time" content="2025-12-22T03:51:14.254Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="redis">
+<meta property="article:tag" content="击穿">
+<meta property="article:tag" content="缓存">
+<meta property="article:tag" content="键值对">
+<meta property="article:tag" content="雪崩">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/redis.jpg">
+  
+  
+  
+  <title>redis基础学习 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="redis基础学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-22 09:32" pubdate>
+          2025年12月22日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">redis基础学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><p><strong>Redis</strong>（Remote Dictionary Server）是一个开源的、基于内存的、键值对（Key-Value）存储系统</p>
+<p>可以把 Redis 想象成一个**“超级快、功能强的内存字典”**：</p>
+<ul>
+<li><strong>内存存储</strong>：数据全在内存里，读写速度极快（10W+ QPS）。</li>
+<li><strong>键值对模型</strong>：所有的操作都围绕着 <code>Key -&gt; Value</code> 进行。</li>
+<li><strong>数据结构丰富</strong>：不仅仅是简单的字符串，它还支持列表、哈希、集合等。</li>
+<li><strong>持久化</strong>：虽然在内存，但它可以定时把数据存到硬盘，防止断电丢失。</li>
+</ul>
+<p>在面试或实际工作中，会遇到以下场景：</p>
+<ul>
+<li><strong>性能瓶颈分析</strong>：如果接口慢，是不是缓存没命中（Cache Miss）？</li>
+<li><strong>数据一致性测试</strong>：数据库改了，Redis 里的缓存同步了吗？</li>
+<li><strong>并发测试</strong>：多个请求同时抢一个红包，Redis 的分布式锁起作用了吗？</li>
+</ul>
+<hr>
+<h1 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h1><p>String是Redis 最基本的数据类型，也是面试最常问的。它可以存储字符串、数字（整数&#x2F;浮点数），甚至是二进制数据（如图片，但很少这么干）</p>
+<p><strong>核心命令：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>命令</strong></th>
+<th align="center"><strong>用法</strong></th>
+<th align="center"><strong>含义</strong></th>
+<th align="center"><strong>用途</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>SET</strong></td>
+<td align="center"><code>SET key value</code></td>
+<td align="center">存入数据</td>
+<td align="center">前置准备数据，造测试数据。</td>
+</tr>
+<tr>
+<td align="center"><strong>GET</strong></td>
+<td align="center"><code>GET key</code></td>
+<td align="center">取出数据</td>
+<td align="center"><strong>断言</strong>：验证存入的数据是否正确。</td>
+</tr>
+<tr>
+<td align="center"><strong>EXPIRE</strong></td>
+<td align="center"><code>EXPIRE key seconds</code></td>
+<td align="center">设置过期时间</td>
+<td align="center"><strong>重要！</strong> 测试验证码是否在 60 秒后失效。</td>
+</tr>
+<tr>
+<td align="center"><strong>TTL</strong></td>
+<td align="center"><code>TTL key</code></td>
+<td align="center">查看剩余时间</td>
+<td align="center">检查过期时间逻辑是否生效。</td>
+</tr>
+<tr>
+<td align="center"><strong>INCR</strong></td>
+<td align="center"><code>INCR key</code></td>
+<td align="center">数值 +1</td>
+<td align="center">测试“限制用户每分钟请求次数”或“点赞数”功能。</td>
+</tr>
+</tbody></table>
+<p><strong>场景描述：</strong> 用户请求验证码，有效期 60 秒</p>
+<p>写入验证码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; SET phone:13800138000 <span class="hljs-string">&quot;8848&quot;</span><br>OK<br></code></pre></td></tr></table></figure>
+
+<p>设置过期时间</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; EXPIRE phone:13800138000 60<br>1<br></code></pre></td></tr></table></figure>
+
+<p>查看剩余时间</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; TTL phone:13800138000<br>56<br><br><span class="hljs-comment"># 如果返回 -1，说明永不过期，这就是 Bug</span><br></code></pre></td></tr></table></figure>
+
+<p>验证数据最后是否真正消失</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&gt; <span class="hljs-built_in">GET</span> phone:13800138000<br><span class="hljs-literal">null</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>场景描述：限制某个 IP 每分钟只能访问 10 次</p>
+<p>步骤 1：请求进来，先计数。使用 INCR 命令。即使 key 不存在，Redis 也会自动把它创建并设为 1。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; INCR <span class="hljs-built_in">limit</span>:192.168.1.5<br>(<span class="hljs-built_in">integer</span>) 1<br></code></pre></td></tr></table></figure>
+
+<p>步骤 2：判断是否是第一次访问。如果 INCR 返回的是 1，说明这是这个时间窗口内的第一次请求。这时候必须立刻给它设置过期时间！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; EXPIRE <span class="hljs-built_in">limit</span>:192.168.1.5 60<br>(<span class="hljs-built_in">integer</span>) 1<br></code></pre></td></tr></table></figure>
+
+<p><em>(这意味着：60秒后，计数器归零&#x2F;消失)</em></p>
+<p>步骤 3：后续请求继续计数.第二次请求来了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; INCR <span class="hljs-built_in">limit</span>:192.168.1.5<br>(<span class="hljs-built_in">integer</span>) 2<br></code></pre></td></tr></table></figure>
+
+<p>第十次请求来了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; INCR <span class="hljs-built_in">limit</span>:192.168.1.5<br>(<span class="hljs-built_in">integer</span>) 10<br></code></pre></td></tr></table></figure>
+
+<p>步骤 4：判定拦截。第十一次请求来了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; INCR <span class="hljs-built_in">limit</span>:192.168.1.5<br>(<span class="hljs-built_in">integer</span>) 11<br></code></pre></td></tr></table></figure>
+
+<p><strong>逻辑判断：</strong> 代码拿到返回值 <strong>11</strong>，发现大于 10，于是直接返回错误提示“访问过于频繁，请稍后再试”。</p>
+<hr>
+<p>设计测试用例:</p>
+<table>
+<thead>
+<tr>
+<th><strong>测试点</strong></th>
+<th><strong>操作步骤</strong></th>
+<th><strong>预期结果（断言）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>正常场景</strong></td>
+<td>发送第 1 次请求</td>
+<td>接口返回 200，Redis 中 key 存在，TTL 约为 60s。</td>
+</tr>
+<tr>
+<td><strong>边界值（上边界）</strong></td>
+<td>连续发送 10 次请求</td>
+<td>第 10 次请求依然成功。</td>
+</tr>
+<tr>
+<td><strong>异常场景（拦截）</strong></td>
+<td>发送第 11 次请求</td>
+<td><strong>接口报错</strong>（如 429 Too Many Requests），Redis 计数器显示 11。</td>
+</tr>
+<tr>
+<td><strong>过期重置</strong></td>
+<td>等待 61 秒后，再次发送请求</td>
+<td>请求成功！Redis 计数器重新变为 1（而不是 12）。</td>
+</tr>
+</tbody></table>
+<p><strong>问：</strong> “如果在第 59 秒发了第 1 个请求，第 61 秒发了第 2 个请求，会怎么样？” </p>
+<p><strong>回答：</strong> 按照刚才的逻辑，第 59 秒生成的 key 会在第 119 秒才过期。这其实是“固定窗口”限流的一个小缺陷（不够平滑），但在简单场景下是可接受的。可以用滑动窗口解决</p>
+<hr>
+<h1 id="Hash类型"><a href="#Hash类型" class="headerlink" title="Hash类型"></a>Hash类型</h1><p>最适合存储**“用户信息”、“商品详情”**的数据结构：<strong>Hash</strong></p>
+<p>可以把 Redis 的 Hash 想象成 Python 里的 <strong>字典 (Dict)</strong> 或者 Java 里的 <strong>Map</strong>。 结构大概是这样：<code>Key -&gt; &#123; field1: value1, field2: value2 &#125;</code></p>
+<p>假设要存一个用户的信息（ID: 1001, 名字: LilPear, 年龄: 22）。</p>
+<ul>
+<li><strong>用 String (这就很麻烦):</strong> 得把 key 定义为 <code>user:1001:name</code> 存一个，<code>user:1001:age</code> 再存一个。这会让 key 非常多，乱糟糟的。</li>
+<li><strong>用 Hash (这就很整洁):</strong> 只要一个 key <code>user:1001</code>，里面包含 <code>name</code> 和 <code>age</code> 两个字段。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>命令</strong></th>
+<th align="center"><strong>用法</strong></th>
+<th align="center"><strong>含义</strong></th>
+<th align="center"><strong>测开实战用途</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>HSET</strong></td>
+<td align="center"><code>HSET key field value</code></td>
+<td align="center">存入一个字段</td>
+<td align="center">修改用户的某个特定属性（比如只改名）。</td>
+</tr>
+<tr>
+<td align="center"><strong>HGET</strong></td>
+<td align="center"><code>HGET key field</code></td>
+<td align="center">获取一个字段</td>
+<td align="center">验证刚才改的名对不对。</td>
+</tr>
+<tr>
+<td align="center"><strong>HGETALL</strong></td>
+<td align="center"><code>HGETALL key</code></td>
+<td align="center"><strong>获取所有字段</strong></td>
+<td align="center"><strong>最常用！</strong> 一次性拉取用户所有信息进行校验。</td>
+</tr>
+<tr>
+<td align="center"><strong>HDEL</strong></td>
+<td align="center"><code>HDEL key field</code></td>
+<td align="center">删除某字段</td>
+<td align="center">测试“解绑手机号”功能，字段是否被删除。</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; hset user:888 <span class="hljs-built_in">id</span>:101 1<br>1 <span class="hljs-comment"># 返回 1：代表新建了一个字段（之前没有）</span><br><br>&gt; hset user:888 <span class="hljs-built_in">id</span>:102 5<br>1<br><br>&gt; hget user:888 <span class="hljs-built_in">id</span>:102<br>5<br><br>&gt; hget user:888<br>ERR wrong number of arguments <span class="hljs-keyword">for</span> <span class="hljs-string">&#x27;hget&#x27;</span> <span class="hljs-built_in">command</span> <span class="hljs-comment"># HGET 是精准查询，必须告诉它你要查“哪个 key”里的“哪个 field”</span><br><br>&gt; hset user:888 <span class="hljs-built_in">id</span>:102 4<br>0 <span class="hljs-comment"># 返回 0：代表更新了一个字段（之前有，现在值变了）</span><br><br>&gt; hgetall user:888<br><span class="hljs-built_in">id</span>:101<br>1<br><span class="hljs-built_in">id</span>:102<br>4<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="List类型"><a href="#List类型" class="headerlink" title="List类型"></a>List类型</h1><p>这是一个与顺序有关的数据结构。List 最常用的场景是：</p>
+<ol>
+<li><strong>消息队列 (Message Queue)：</strong> 比如“削峰填谷”，大量请求排队处理。</li>
+<li><strong>最新列表：</strong> 比如“朋友圈最新的 10 条动态”、“用户最近浏览记录”。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>命令</strong></th>
+<th align="center"><strong>记忆口诀</strong></th>
+<th align="center"><strong>含义</strong></th>
+<th align="center"><strong>测开实战用途</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>LPUSH</strong></td>
+<td align="center"><strong>L</strong>eft Push</td>
+<td align="center">从<strong>左边</strong>塞入数据</td>
+<td align="center">模拟新消息入队。</td>
+</tr>
+<tr>
+<td align="center"><strong>RPUSH</strong></td>
+<td align="center"><strong>R</strong>ight Push</td>
+<td align="center">从<strong>右边</strong>塞入数据</td>
+<td align="center">模拟正常排队（先来后到）。</td>
+</tr>
+<tr>
+<td align="center"><strong>LPOP</strong></td>
+<td align="center"><strong>L</strong>eft Pop</td>
+<td align="center">从<strong>左边</strong>弹出数据</td>
+<td align="center">验证消费者是否取出了最早的消息。</td>
+</tr>
+<tr>
+<td align="center"><strong>RPOP</strong></td>
+<td align="center"><strong>R</strong>ight Pop</td>
+<td align="center">从<strong>右边</strong>弹出数据</td>
+<td align="center">同上，看业务逻辑是从哪边取。</td>
+</tr>
+<tr>
+<td align="center"><strong>LRANGE</strong></td>
+<td align="center"><strong>L</strong>-Range</td>
+<td align="center">查看一段范围内的数据</td>
+<td align="center"><strong>最常用！</strong> 验证“最近浏览记录”的顺序对不对。</td>
+</tr>
+</tbody></table>
+<p>场景：展示“最近浏览的 3 个商品”</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; lpush <span class="hljs-built_in">history</span>:user1 <span class="hljs-string">&quot;apple&quot;</span><br>1<br><br>&gt; lpush <span class="hljs-built_in">history</span>:user1 <span class="hljs-string">&quot;banana&quot;</span><br>2<br><br>&gt; lpush <span class="hljs-built_in">history</span>:user1 <span class="hljs-string">&quot;orange&quot;</span><br>3<br><br>&gt; lrange <span class="hljs-built_in">history</span>:user1 0 2<br>orange<br>banana<br>apple<br><br>&gt; lpush <span class="hljs-built_in">history</span>:user1 <span class="hljs-string">&quot;grape&quot;</span><br>4<br><br>&gt; lrange <span class="hljs-built_in">history</span>:user1 0 2<br>grape<br>orange<br>banana<br><br>&gt; rpop <span class="hljs-built_in">history</span>:user1<br>apple<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Set类型"><a href="#Set类型" class="headerlink" title="Set类型"></a>Set类型</h1><p>List 是有序的（像排队），但有时候需要存一堆**“不分前后、而且绝对不能重复”**的东西，比如：</p>
+<ul>
+<li><strong>抽奖名单</strong>（一个人不能占两个名额）。</li>
+<li><strong>点赞用户</strong>（一个人只能给文章点一次赞）。</li>
+<li><strong>共同好友</strong>（你和他的交集）。</li>
+</ul>
+<p>这时候，<strong>Set</strong> 就是最好的选择。它就像一个神奇的袋子，不管你往里面扔多少个同样的硬币，它最后只保留一个</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>命令</strong></th>
+<th align="center"><strong>用法</strong></th>
+<th align="center"><strong>含义</strong></th>
+<th align="center"><strong>测开实战用途</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>SADD</strong></td>
+<td align="center"><code>SADD key value</code></td>
+<td align="center">添加元素</td>
+<td align="center"><strong>返回值关键！</strong> 返回 1 表示添加成功，返回 0 表示已存在（重复）。</td>
+</tr>
+<tr>
+<td align="center"><strong>SMEMBERS</strong></td>
+<td align="center"><code>SMEMBERS key</code></td>
+<td align="center">查看所有元素</td>
+<td align="center">验证数据是否都在，注意：<strong>显示的顺序可能是乱的</strong>。</td>
+</tr>
+<tr>
+<td align="center"><strong>SISMEMBER</strong></td>
+<td align="center"><code>SISMEMBER key value</code></td>
+<td align="center">判断是否存在</td>
+<td align="center">测试“黑名单”功能，查用户是否在黑名单里。</td>
+</tr>
+<tr>
+<td align="center"><strong>SREM</strong></td>
+<td align="center"><code>SREM key value</code></td>
+<td align="center">删除元素</td>
+<td align="center">测试“取消关注”或“取消点赞”。</td>
+</tr>
+<tr>
+<td align="center"><strong>SCARD</strong></td>
+<td align="center"><code>SCARD key</code></td>
+<td align="center">统计个数</td>
+<td align="center">验证“文章总点赞数”对不对。</td>
+</tr>
+</tbody></table>
+<p><strong>场景：</strong> 测试一个文章点赞功能，要求同一用户不能重复点赞</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; SADD like:article:100 <span class="hljs-string">&quot;user_a&quot;</span><br>1<br><br>&gt; SADD like:article:100 <span class="hljs-string">&quot;user_b&quot;</span><br>1<br><br>&gt; SADD like:article:100 <span class="hljs-string">&quot;user_a&quot;</span><br>0 <span class="hljs-comment"># 返回 0，说明 Redis 内部拦截了这次写入。如果接口返回“点赞成功”，说明后端代码没判断这个返回值，那就是 Bug！</span><br><br>&gt; SCARD like:article:100<br>2<br></code></pre></td></tr></table></figure>
+
+<img src="/2025/12/22/redis%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/image1.jpg" srcset="/img/loading.gif" lazyload class="" title="Set集合运算">
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; sadd my_friends <span class="hljs-string">&quot;A&quot;</span> <span class="hljs-string">&quot;B&quot;</span> <span class="hljs-string">&quot;C&quot;</span><br>3<br><br>&gt; sadd your_friends <span class="hljs-string">&quot;B&quot;</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-string">&quot;D&quot;</span><br>3<br><br>&gt; SINTER my_friends your_friends <span class="hljs-comment"># 共同好友（交集）</span><br>B<br>C<br><br>&gt; SDIFF my_friends your_friends <span class="hljs-comment"># 找不同（差集）</span><br>A<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="ZSet类型"><a href="#ZSet类型" class="headerlink" title="ZSet类型"></a>ZSet类型</h1><p>ZSet是有序集合，其既有 Set 的“去重”特性，又有 List 的“排序”特性，但它的排序是靠**“分数（Score）”**来决定的。最经典的应用场景是排行榜</p>
+<p>ZSet 里的每个元素都有两个属性：</p>
+<ol>
+<li><strong>Member (成员)</strong>：这就是具体的数据（比如用户 ID），<strong>必须唯一</strong>（像 Set 一样）。</li>
+<li><strong>Score (分数)</strong>：这是排序的依据（比如考试成绩、销售额、时间戳），可以重复。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>命令</strong></th>
+<th align="center"><strong>用法</strong></th>
+<th align="center"><strong>含义</strong></th>
+<th align="center"><strong>测开实战用途</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>ZADD</strong></td>
+<td align="center"><code>ZADD key score member</code></td>
+<td align="center">添加&#x2F;更新元素</td>
+<td align="center">设置初始排名数据。</td>
+</tr>
+<tr>
+<td align="center"><strong>ZRANGE</strong></td>
+<td align="center"><code>ZRANGE key 0 -1</code></td>
+<td align="center"><strong>从小到大</strong>查所有</td>
+<td align="center">验证数据是否按“分数低到高”排列。</td>
+</tr>
+<tr>
+<td align="center"><strong>ZREVRANGE</strong></td>
+<td align="center"><code>ZREVRANGE key 0 -1</code></td>
+<td align="center"><strong>从大到小</strong>查所有</td>
+<td align="center"><strong>最常用！</strong> 验证排行榜（谁第一名）。</td>
+</tr>
+<tr>
+<td align="center"><strong>ZSCORE</strong></td>
+<td align="center"><code>ZSCORE key member</code></td>
+<td align="center">查看具体分数</td>
+<td align="center">验证某个用户的积分是否更新正确。</td>
+</tr>
+<tr>
+<td align="center"><strong>ZINCRBY</strong></td>
+<td align="center"><code>ZINCRBY key increment member</code></td>
+<td align="center">给某人加分</td>
+<td align="center">测试“打怪加分”或“充值升级”功能。</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; ZADD ranking 50 <span class="hljs-string">&quot;shop:A&quot;</span><br>1<br><br>&gt; ZADD ranking 80 <span class="hljs-string">&quot;shop:B&quot;</span><br>1<br><br>&gt; ZADD ranking 30 <span class="hljs-string">&quot;shop:C&quot;</span><br>1<br><br>&gt; ZRANGE ranking 0 -1<br>shop:C<br>shop:A<br>shop:B<br><br>&gt; ZREVRANGE ranking 0 -1 WITHSCORES<br>shop:B<br>80<br>shop:A<br>50<br>shop:C<br>30<br><br>&gt; ZINCRBY ranking 100 <span class="hljs-string">&quot;shop:C&quot;</span><br>130<br><br>&gt; ZREVRANGE ranking 0 0<br>shop:C<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Python操作redis"><a href="#Python操作redis" class="headerlink" title="Python操作redis"></a>Python操作redis</h1><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> redis<br><br><span class="hljs-comment"># 1. 建立连接</span><br><span class="hljs-comment"># host: 本地就是 localhost 或 127.0.0.1</span><br><span class="hljs-comment"># decode_responses=True: 关键！让 Redis 返回字符串而不是字节(bytes)</span><br>r = redis.Redis(host=<span class="hljs-string">&#x27;localhost&#x27;</span>, port=<span class="hljs-number">6379</span>, decode_responses=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 2. 测试连接</span><br><span class="hljs-keyword">try</span>:<br>    response = r.ping()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;连接成功！Redis 返回: <span class="hljs-subst">&#123;response&#125;</span>&quot;</span>)<br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;连接失败: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>Python 里的函数名和 Redis 的命令几乎是一模一样的，非常好记</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> redis<br><span class="hljs-keyword">import</span> time<br><br><span class="hljs-comment"># 连接</span><br>r = redis.Redis(host=<span class="hljs-string">&#x27;localhost&#x27;</span>, port=<span class="hljs-number">6379</span>, decode_responses=<span class="hljs-literal">True</span>)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_string_type</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;--- 开始测试 String 类型 ---&quot;</span>)<br><br>    <span class="hljs-comment"># 1. 数据准备 (Set)</span><br>    r.<span class="hljs-built_in">set</span>(<span class="hljs-string">&quot;user:token&quot;</span>, <span class="hljs-string">&quot;abcdefg&quot;</span>)<br><br>    <span class="hljs-comment"># 2. 设置过期时间 (Expire) - 模拟 5 秒后过期</span><br>    r.expire(<span class="hljs-string">&quot;user:token&quot;</span>, <span class="hljs-number">5</span>)<br><br>    <span class="hljs-comment"># 3. 验证数据 (Get &amp; Assert)</span><br>    token = r.get(<span class="hljs-string">&quot;user:token&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前 Token: <span class="hljs-subst">&#123;token&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 测开必备：断言</span><br>    <span class="hljs-keyword">assert</span> token == <span class="hljs-string">&quot;abcdefg&quot;</span>, <span class="hljs-string">&quot;Token 内容不匹配！&quot;</span><br><br>    <span class="hljs-comment"># 4. 验证过期 (TTL)</span><br>    ttl = r.ttl(<span class="hljs-string">&quot;user:token&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;剩余时间: <span class="hljs-subst">&#123;ttl&#125;</span> 秒&quot;</span>)<br>    <span class="hljs-keyword">assert</span> ttl &gt; <span class="hljs-number">0</span>, <span class="hljs-string">&quot;过期时间未生效！&quot;</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;String 测试通过！✅&quot;</span>)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_list_type</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n--- 开始测试 List 类型 ---&quot;</span>)<br><br>    <span class="hljs-comment"># 清理旧数据（防止上次运行的数据干扰本次测试）</span><br>    r.delete(<span class="hljs-string">&quot;my_task_queue&quot;</span>)<br><br>    <span class="hljs-comment"># 1. 模拟入队 (RPush)</span><br>    r.rpush(<span class="hljs-string">&quot;my_task_queue&quot;</span>, <span class="hljs-string">&quot;task_1&quot;</span>, <span class="hljs-string">&quot;task_2&quot;</span>, <span class="hljs-string">&quot;task_3&quot;</span>)<br><br>    <span class="hljs-comment"># 2. 模拟出队 (LPop)</span><br>    task = r.lpop(<span class="hljs-string">&quot;my_task_queue&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;处理了任务: <span class="hljs-subst">&#123;task&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 3. 断言：先进先出，第一个应该是 task_1</span><br>    <span class="hljs-keyword">assert</span> task == <span class="hljs-string">&quot;task_1&quot;</span>, <span class="hljs-string">f&quot;顺序错误！取出的竟然是 <span class="hljs-subst">&#123;task&#125;</span>&quot;</span><br><br>    <span class="hljs-comment"># 4. 查剩余长度 (LLen)</span><br>    remaining = r.llen(<span class="hljs-string">&quot;my_task_queue&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;队列还剩 <span class="hljs-subst">&#123;remaining&#125;</span> 个任务&quot;</span>)<br>    <span class="hljs-keyword">assert</span> remaining == <span class="hljs-number">2</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;List 测试通过！✅&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_hash_type</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n--- 测试 Hash 类型 ---&quot;</span>)<br><br>    r.delete(<span class="hljs-string">&quot;user:888&quot;</span>)<br><br>    r.hset(<span class="hljs-string">&quot;user:888&quot;</span>, <span class="hljs-string">&quot;id:101&quot;</span>, <span class="hljs-number">1</span>)<br>    r.hset(<span class="hljs-string">&quot;user:888&quot;</span>, <span class="hljs-string">&quot;id:102&quot;</span>, <span class="hljs-number">5</span>)<br>    id_102 = r.hget(<span class="hljs-string">&quot;user:888&quot;</span>, <span class="hljs-string">&quot;id:102&quot;</span>)<br>    <span class="hljs-keyword">assert</span> id_102 == <span class="hljs-string">&#x27;5&#x27;</span>, <span class="hljs-string">f&quot;Hash 值错误，预期 5，实际 <span class="hljs-subst">&#123;id_102&#125;</span>&quot;</span><br><br>    r.hset(<span class="hljs-string">&quot;user:888&quot;</span>, <span class="hljs-string">&quot;id:102&quot;</span>, <span class="hljs-number">4</span>)<br><br>    id_102 = r.hget(<span class="hljs-string">&quot;user:888&quot;</span>, <span class="hljs-string">&quot;id:102&quot;</span>)<br>    <span class="hljs-keyword">assert</span> id_102 == <span class="hljs-string">&#x27;4&#x27;</span>, <span class="hljs-string">f&quot;Hash 值错误，预期 4，实际 <span class="hljs-subst">&#123;id_102&#125;</span>&quot;</span><br><br>    user_888 = r.hgetall(<span class="hljs-string">&quot;user:888&quot;</span>)<br>    <span class="hljs-keyword">assert</span> user_888 == &#123;<span class="hljs-string">&#x27;id:101&#x27;</span>: <span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&#x27;id:102&#x27;</span>: <span class="hljs-string">&#x27;4&#x27;</span>&#125;, <span class="hljs-string">f&quot;Hash 内容错误，实际 <span class="hljs-subst">&#123;user_888&#125;</span>&quot;</span><br><br>    <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> user_888.items():<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;key&#125;</span>: <span class="hljs-subst">&#123;value&#125;</span>&quot;</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hash 测试通过！✅&quot;</span>)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    test_string_type()<br>    test_list_type()<br>    test_hash_type()<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>Redis 是内存数据库，内存有个特点：<strong>断电即失</strong>。 为了保证数据安全，Redis 提供了两种把数据“存到硬盘”的方法：<strong>RDB</strong> 和 <strong>AOF</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>特性</strong></th>
+<th align="center"><strong>RDB (Redis Database)</strong></th>
+<th align="center"><strong>AOF (Append Only File)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>比喻</strong></td>
+<td align="center"><strong>“拍照”</strong></td>
+<td align="center"><strong>“记日记”</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>原理</strong></td>
+<td align="center">每隔一段时间（比如 1 小时），把内存里所有数据生成一个快照文件 (<code>dump.rdb</code>)。</td>
+<td align="center">你每执行一条写命令（set&#x2F;hset），它就立马追加写到日志文件 (<code>appendonly.aof</code>) 里。</td>
+</tr>
+<tr>
+<td align="center"><strong>优点</strong></td>
+<td align="center">恢复速度快（直接加载文件），文件小。</td>
+<td align="center"><strong>数据更安全</strong>，最多只丢 1 秒的数据。</td>
+</tr>
+<tr>
+<td align="center"><strong>缺点</strong></td>
+<td align="center"><strong>容易丢数据</strong>。如果两次拍照之间宕机了，这期间的数据全没了。</td>
+<td align="center">文件很大，恢复速度慢。</td>
+</tr>
+</tbody></table>
+<p><strong>测试 RDB：</strong> 验证在没有触发快照时宕机，数据是否会丢失（预期是会丢失）。</p>
+<p><strong>测试 AOF：</strong> 验证开启 AOF 后，即使宕机，数据是否大部分都能找回。</p>
+<p>问：<strong>“如何测试 Redis 的持久化配置是否生效？”</strong></p>
+<p><strong>答：</strong></p>
+<blockquote>
+<p>“设计一个<strong>破坏性测试</strong>。</p>
+<ol>
+<li>首先写入一组特定数据。</li>
+<li>根据配置的策略（比如 RDB 的时间间隔），等待或手动触发保存，或者确认 AOF 已开启。</li>
+<li><strong>模拟异常断电</strong>（kill 进程）。</li>
+<li>重启 Redis 服务。</li>
+<li><strong>自动化脚本断言</strong>：对比重启前后的数据。如果是 RDB，允许丢失少量近期数据；如果是 AOF，数据应该基本完整。”</li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="雪崩、穿透、击穿"><a href="#雪崩、穿透、击穿" class="headerlink" title="雪崩、穿透、击穿"></a>雪崩、穿透、击穿</h1><h2 id="1-缓存穿透-Cache-Penetration-——-“无中生有”"><a href="#1-缓存穿透-Cache-Penetration-——-“无中生有”" class="headerlink" title="1. 缓存穿透 (Cache Penetration) —— “无中生有”"></a>1. 缓存穿透 (Cache Penetration) —— “无中生有”</h2><ul>
+<li><strong>现象：</strong> 用户一直在请求一个<strong>根本不存在的数据</strong>（比如 <code>id = -9999</code>）。</li>
+<li><strong>后果：</strong> Redis 查不到（Cache Miss），请求就会“穿透”Redis，直接打到数据库（DB）上。如果有黑客用脚本疯狂请求不存在的 ID，数据库会瞬间挂掉。</li>
+<li><strong>测开视角：</strong><ul>
+<li><strong>用例设计：</strong> 构造大量<strong>非法 ID</strong>（负数、超长字符串、随机 UUID）发起请求。</li>
+<li><strong>断言：</strong> 监控数据库的查询量（QPS）。如果 DB 查询量暴增，说明存在穿透风险。</li>
+</ul>
+</li>
+<li><strong>解决方案：</strong><ul>
+<li><strong>缓存空对象：</strong> 即使数据库没查到，也在 Redis 里存一个 <code>null</code> 或 <code>key: -1</code>，并设置较短的过期时间。</li>
+<li><strong>布隆过滤器 (Bloom Filter)：</strong> 一种高级算法，在请求到达 Redis 前先判断“这东西肯定不存在”。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-缓存击穿-Cache-Breakdown-——-“集火攻击”"><a href="#2-缓存击穿-Cache-Breakdown-——-“集火攻击”" class="headerlink" title="2. 缓存击穿 (Cache Breakdown) —— “集火攻击”"></a>2. 缓存击穿 (Cache Breakdown) —— “集火攻击”</h2><ul>
+<li><strong>现象：</strong> 针对<strong>某一个</strong>非常“热点”的 Key，它在 Redis 中<strong>刚好过期</strong>的那一瞬间。</li>
+<li><strong>后果：</strong> 这一瞬间，成千上万的并发请求同时发现 Redis 没数据，于是全部同时冲向数据库。数据库瞬间被打死。 </li>
+<li><strong>关键词：</strong> <strong>单一热点 Key</strong>、<strong>过期瞬间</strong>。</li>
+<li><strong>测开视角：</strong><ul>
+<li><strong>用例设计：</strong> 人为让某个热点 Key 过期，然后立即使用并发工具（如 JMeter 或 Python 多线程）模拟高并发读取该 Key。</li>
+<li><strong>断言：</strong> 检查数据库日志，理论上应该只有<strong>1 次</strong>查询（因为开发应该加锁），如果发现有 1000 次查询，就是 Bug。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-缓存雪崩-Cache-Avalanche-——-“全线崩塌”"><a href="#3-缓存雪崩-Cache-Avalanche-——-“全线崩塌”" class="headerlink" title="3. 缓存雪崩 (Cache Avalanche) —— “全线崩塌”"></a>3. 缓存雪崩 (Cache Avalanche) —— “全线崩塌”</h2><ul>
+<li><strong>现象：</strong><ol>
+<li>Redis 里的<strong>大量 Key 在同一时间集体过期</strong>。</li>
+<li>或者 Redis 服务直接<strong>宕机</strong>了。</li>
+</ol>
+</li>
+<li><strong>后果：</strong> 所有请求瞬间全部打到数据库，数据库直接崩溃，像雪崩一样。</li>
+<li><strong>测开视角：</strong><ul>
+<li><strong>用例设计：</strong> 检查开发设置的过期时间。</li>
+<li><strong>Code Review &#x2F; 静态扫描：</strong> 这里的 TTL（过期时间）是不是固定的 600 秒？有没有加随机值？</li>
+<li><strong>断言：</strong> 如果代码里写死了 <code>expire(600)</code>，这就是 Bug！建议修改为 <code>expire(600 + random(10, 50))</code>。</li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/redis/" class="print-no-link">#redis</a>
+      
+        <a href="/tags/%E7%BC%93%E5%AD%98/" class="print-no-link">#缓存</a>
+      
+        <a href="/tags/%E9%94%AE%E5%80%BC%E5%AF%B9/" class="print-no-link">#键值对</a>
+      
+        <a href="/tags/%E5%87%BB%E7%A9%BF/" class="print-no-link">#击穿</a>
+      
+        <a href="/tags/%E9%9B%AA%E5%B4%A9/" class="print-no-link">#雪崩</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>redis基础学习</div>
+      <div>https://lilpear2002.github.io/2025/12/22/redis基础学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/21/docker%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="docker基础学习">
+                        <span class="hidden-mobile">docker基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
