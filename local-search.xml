@@ -47,11 +47,11 @@
     
     <tags>
       
+      <tag>Locust</tag>
+      
       <tag>性能测试</tag>
       
       <tag>压力测试</tag>
-      
-      <tag>Locust</tag>
       
     </tags>
     
@@ -76,9 +76,9 @@
     
     <tags>
       
-      <tag>Git</tag>
-      
       <tag>基础命令</tag>
+      
+      <tag>Git</tag>
       
       <tag>远程仓库</tag>
       
@@ -223,11 +223,11 @@
     
     <tags>
       
+      <tag>Docker</tag>
+      
       <tag>基础命令</tag>
       
       <tag>项目部署</tag>
-      
-      <tag>Docker</tag>
       
       <tag>Dockerfile</tag>
       
@@ -287,9 +287,9 @@
       
       <tag>基础命令</tag>
       
-      <tag>linux</tag>
-      
       <tag>项目部署</tag>
+      
+      <tag>linux</tag>
       
     </tags>
     
@@ -434,11 +434,11 @@
     
     <tags>
       
+      <tag>性能测试</tag>
+      
       <tag>接口测试</tag>
       
       <tag>自动化测试</tag>
-      
-      <tag>性能测试</tag>
       
       <tag>Mock</tag>
       
@@ -560,9 +560,9 @@
     
     <tags>
       
-      <tag>python</tag>
-      
       <tag>APP测试理论基础</tag>
+      
+      <tag>python</tag>
       
       <tag>Appium</tag>
       
@@ -616,11 +616,11 @@
     
     <tags>
       
+      <tag>python</tag>
+      
       <tag>Web自动化测试</tag>
       
       <tag>playwright</tag>
-      
-      <tag>python</tag>
       
     </tags>
     
@@ -645,13 +645,13 @@
     
     <tags>
       
-      <tag>Web自动化测试</tag>
-      
       <tag>python</tag>
       
-      <tag>java</tag>
+      <tag>Web自动化测试</tag>
       
       <tag>selenium</tag>
+      
+      <tag>java</tag>
       
     </tags>
     
