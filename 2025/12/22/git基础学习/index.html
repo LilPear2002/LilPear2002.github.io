@@ -1,0 +1,1135 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Git 是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git基础学习">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/22/git%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="Git 是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/git.png">
+<meta property="article:published_time" content="2025-12-22T12:58:16.000Z">
+<meta property="article:modified_time" content="2025-12-22T14:41:26.052Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="基础命令">
+<meta property="article:tag" content="远程仓库">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/git.png">
+  
+  
+  
+  <title>git基础学习 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="git基础学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-22 20:58" pubdate>
+          2025年12月22日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">git基础学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在测开的实际工作中，Git 不仅仅是用来“存代码”的，还需要用它来管理自动化测试脚本、处理版本回滚、甚至配合 CI&#x2F;CD（持续集成&#x2F;持续部署）流水线。</p>
+<h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><h2 id="三个工作区"><a href="#三个工作区" class="headerlink" title="三个工作区"></a>三个工作区</h2><p>Git 在本地电脑上，其实把文件分成了三个状态（区域）：</p>
+<ol>
+<li><strong>工作区 (Working Directory)：</strong> 平时写代码、能看到文件的地方（比如 VS Code 打开的文件夹）。</li>
+<li><strong>暂存区 (Staging Area&#x2F;Index)：</strong> 一个临时的“购物车”。把想提交的修改先放在这里。</li>
+<li><strong>版本库 (Repository&#x2F;.git)：</strong> 最终的档案库，保存了所有历史版本。</li>
+</ol>
+<hr>
+<h2 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h2><p>第一步：配置用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git config --global user.name <span class="hljs-string">&quot;YourName&quot;</span><br>git config --global user.email <span class="hljs-string">&quot;your_email@example.com&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>第二步：初始化仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> test-demo       <span class="hljs-comment"># 新建文件夹</span><br><span class="hljs-built_in">cd</span> test-demo          <span class="hljs-comment"># 进入文件夹</span><br>git init              <span class="hljs-comment"># 初始化！你会发现多了一个隐藏的 .git 文件夹</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>第三步： <code>add</code> 和 <code>commit</code></strong></p>
+<ol>
+<li><p>新建一个文件 <code>test_login.py</code>，随便写点内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git status<br></code></pre></td></tr></table></figure>
+
+<p><em>看到文件名是红色的，表示它只在*<em>工作区</em></em>，Git 还没追踪它。*</p>
+</li>
+<li><p>添加到暂存区：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git add test_login.py<br></code></pre></td></tr></table></figure>
+
+<p><em>再次输入 <code>git status</code>，文件名变绿了，表示进了*<em>暂存区</em></em>。*</p>
+</li>
+<li><p>正式提交到版本库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git commit -m <span class="hljs-string">&quot;Create login test script&quot;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-m</code> 后面跟的是提交信息（Commit Message）。*</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>问：“git add 是做什么的？为什么不直接 commit？”</p>
+<p>答： add 允许我们要挑选一部分修改进行提交。比如改了3个文件，但只想先把其中2个相关的提交为一个版本，就可以只 add 那两个文件。这体现了提交的原子性。</p>
+</blockquote>
+<hr>
+<h2 id="常用查看命令"><a href="#常用查看命令" class="headerlink" title="常用查看命令"></a>常用查看命令</h2><p>当提交了几次后，需要回顾历史：</p>
+<ul>
+<li><strong><code>git log</code></strong>：查看详细的提交历史（按 <code>q</code> 退出）。</li>
+<li><strong><code>git log --oneline</code></strong>：一行显示一条历史，非常简洁（推荐）。</li>
+</ul>
+<hr>
+<h1 id="分支与合并"><a href="#分支与合并" class="headerlink" title="分支与合并"></a>分支与合并</h1><p>想象一下，现在的 test-demo 仓库里有一套稳定运行的自动化测试脚本。开发新增加了一个“购物车”功能，老板让你写对应的测试脚本。</p>
+<ul>
+<li><strong>如果不通过分支：</strong> 直接在现有文件里改改改。万一写错了，或者改到一半要去修别的 Bug，代码就乱了，原来的稳定版本也跑不起来了。</li>
+<li><strong>使用分支：</strong> 就像开启了一个**“平行宇宙”**。在这个新宇宙里，随便折腾，原来的宇宙（主分支）不受任何影响。等写好了，再把两个宇宙合并。</li>
+</ul>
+<p>在业内，通常把主分支叫做 <code>main</code> (旧版本叫 <code>master</code>)，把干活的分支叫做 <code>feature/xxx</code> (新功能) 或 <code>bugfix/xxx</code> (修补丁)。</p>
+<p>请回到终端，确保在 <code>test-demo</code> 文件夹下。</p>
+<p><strong>第一步：查看当前分支</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git branch<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>应该会看到 <code>* master</code> 或 <code>* main</code>。那个星号 <code>*</code> 表示你当前所在的宇宙。</li>
+</ul>
+<p><strong>第二步：创建并切换到新分支</strong></p>
+<p>要去写“购物车”的测试了，起个名字叫 feature&#x2F;cart-test。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 旧命令：git checkout -b feature/cart-test</span><br><span class="hljs-comment"># 新命令（推荐使用）：</span><br>git switch -c feature/cart-test<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-c</code> 的意思是 Create（创建）。</li>
+<li>再输入 <code>git branch</code>，发现星号跑到了 <code>feature/cart-test</code> 前面。</li>
+</ul>
+<p><strong>第三步：在新分支上修改代码</strong></p>
+<ol>
+<li><p>新建一个文件 <code>cart_test.py</code>。</p>
+</li>
+<li><p>输入内容：<code>print(&quot;Testing shopping cart...&quot;)</code>。</p>
+</li>
+<li><p>提交它：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git add cart_test.py<br>git commit -m <span class="hljs-string">&quot;Add shopping cart test case&quot;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>第四步：见证“平行宇宙”的隔离性</strong></p>
+<p>现在关键来了！切回主分支看看。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git switch master  <span class="hljs-comment"># (或者 main，根据第一步看到的来)</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>动作：</strong> 此时请去你的文件夹里看一眼，或者输入 <code>ls</code>。</li>
+<li><strong>现象：</strong> 那个 <code>cart_test.py</code> <strong>消失了</strong>！</li>
+<li><strong>原因：</strong> 那个文件只存在于 <code>feature/cart-test</code> 这个平行宇宙里，主宇宙（Master）完全不知道它的存在。这就是分支隔离。</li>
+</ul>
+<p><strong>第五步：合并分支（Merge）</strong></p>
+<p>假设在 feature&#x2F;cart-test 里测试通过了，要把成果合并回主分支。</p>
+<ul>
+<li><strong>前提：</strong> 必须先切回想“接收”改动的分支（通常是 master&#x2F;main）</li>
+</ul>
+<p>执行合并：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git merge feature/cart-test<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>现在，<code>cart_test.py</code> 就会出现在 master 分支里了。</li>
+</ul>
+<p><strong>第六步：删除分支</strong></p>
+<p>功能上线了，这个分支使命结束，可以删掉清理垃圾。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git branch -d feature/cart-test<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>问：<strong>“Git 里的 HEAD 指针是什么？”</strong></p>
+<p>答：</p>
+<blockquote>
+<p>“HEAD 就是一个指向当前光标的指针。当切换分支（checkout&#x2F;switch）时，HEAD 就指到了那个分支的最新一次提交上。所有的 commit 操作，都是基于 HEAD 当前的位置继续向前走的。”</p>
+</blockquote>
+<hr>
+<h1 id="协作"><a href="#协作" class="headerlink" title="协作"></a>协作</h1><h2 id="远程仓库的核心命令（概念与流程）"><a href="#远程仓库的核心命令（概念与流程）" class="headerlink" title="远程仓库的核心命令（概念与流程）"></a>远程仓库的核心命令（概念与流程）</h2><p>在团队里，不会每个人都只在自己电脑上保存代码，而是有一个<strong>中央仓库</strong>（Remote Repository），通常托管在 GitHub 或 GitLab 上。</p>
+<ol>
+<li><strong><code>git clone &lt;url&gt;</code></strong><ul>
+<li><strong>场景：</strong> 入职第一天。</li>
+<li><strong>作用：</strong> 把远程的代码完整地下载到本地电脑，生成一个文件夹。</li>
+</ul>
+</li>
+<li><strong><code>git pull</code></strong><ul>
+<li><strong>场景：</strong> 每天早上开工前。</li>
+<li><strong>作用：</strong> 把同事们昨天写的代码拉取下来，同步到本地，保持最新。</li>
+<li><em>口诀：Pull &#x3D; Download + Merge</em></li>
+</ul>
+</li>
+<li><strong><code>git push</code></strong><ul>
+<li><strong>场景：</strong> 写完了测试脚本，在本地 commit 过了。</li>
+<li><strong>作用：</strong> 把你的提交推送到远程服务器，这样导师和同事才能看到你的代码。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>如果push 失败，通常是因为同事刚更新了代码，而自己本地不是最新的。</p>
+<p>原则：先 pull（同步最新），再 push（推送自己）。</p>
+</blockquote>
+<hr>
+<h2 id="解决冲突-Merge-Conflict"><a href="#解决冲突-Merge-Conflict" class="headerlink" title="解决冲突 (Merge Conflict)"></a>解决冲突 (Merge Conflict)</h2><p><strong>冲突的本质：</strong> 两个人（或者两个分支）修改了<strong>同一个文件的同一行代码</strong>，Git 懵了，不知道该听谁的，于是把烂摊子扔给你来决定。</p>
+<h3 id="1-制造冲突"><a href="#1-制造冲突" class="headerlink" title="1. 制造冲突"></a>1. 制造冲突</h3><p>制造一个场景：两个分支都改了同一行代码。</p>
+<ul>
+<li><p><strong>Step 1:</strong> 在 <code>master</code> 分支。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git switch master<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Step 2:</strong> 创建并切换到新分支 <code>feature/a</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git switch -c feature/a<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Step 3:</strong> 修改 <code>test_login.py</code> 的第一行。</p>
+<ul>
+<li><p>改为：<code>print(&quot;User Login: V1&quot;)</code></p>
+</li>
+<li><p>提交：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git add test_login.py<br>git commit -m <span class="hljs-string">&quot;Update login to V1&quot;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>Step 4:</strong> <strong>切回 master，再创建另一个分支 <code>feature/b</code>。</strong> (注意：是从 master 切出来的，所以它还没有 V1 的改动)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git switch master<br>git switch -c feature/b<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Step 5:</strong> 修改 <code>test_login.py</code> 的<strong>同一行（第一行）</strong>。</p>
+<ul>
+<li><p>改为：<code>print(&quot;User Login: V2&quot;)</code> </p>
+</li>
+<li><p>提交：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git add test_login.py<br>git commit -m <span class="hljs-string">&quot;Update login to V2&quot;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-引爆冲突"><a href="#2-引爆冲突" class="headerlink" title="2. 引爆冲突"></a>2. 引爆冲突</h3><p>现在，<code>feature/a</code> 说是 V1，<code>feature/b</code> 说是 V2。Master 说：我要合并你们！</p>
+<ul>
+<li><p><strong>Step 6:</strong> 切回 master。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git switch master<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Step 7:</strong> 合并分支 A（这一步会顺利成功）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git merge feature/a<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Step 8:</strong> 合并分支 B（<strong>BOOM! 💥 冲突出现</strong>）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git merge feature/b<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>看到类似这样的提示：<code>CONFLICT (content): Merge conflict in test_login.py</code>。</li>
+<li>Git ：自动合并失败，请手动修复。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-解决冲突"><a href="#3-解决冲突" class="headerlink" title="3. 解决冲突"></a>3. 解决冲突</h3><p>现在输入 <code>git status</code>，会看到 <code>test_login.py</code> 处于 <code>both modified</code> 状态。</p>
+<p><strong>Step 9: 打开代码编辑器，查看 test_login.py</strong>。</p>
+<p>会看到 Git 给你留下的“记号”，长这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;User Login: V1&quot;</span>)<br>=======<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;User Login: V2&quot;</span>)<br>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/b<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> 到 <code>=======</code> 之间：是当前（Master&#x2F;A）的代码。</li>
+<li><code>=======</code> 到 <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/b</code> 之间：是要合并进来（B）的代码。</li>
+</ul>
+<p><strong>Step 10: 手动修改代码</strong></p>
+<p>需要做决策。假设觉得 V2 才是对的，或者是要保留两者的逻辑。总之要手动解决</p>
+<p>操作： 删除那些 &lt;&lt;&lt;, &#x3D;&#x3D;&#x3D;, &gt;&gt;&gt; 符号，只保留你想要的代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;User Login: V2&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>Step 11:</strong> <strong>标记解决并提交。</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git add test_login.py  <span class="hljs-comment"># 告诉 Git：我改好了</span><br>git commit -m <span class="hljs-string">&quot;Fix merge conflict between feature A and B&quot;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="IDE中使用Git"><a href="#IDE中使用Git" class="headerlink" title="IDE中使用Git"></a>IDE中使用Git</h1><h3 id="VS-Code"><a href="#VS-Code" class="headerlink" title="VS Code"></a>VS Code</h3><p><strong>适用场景：</strong> Python 脚本、前端测试、轻量级项目。VS Code 的 Git 功能是开箱即用的，集成在左侧侧边栏。</p>
+<ul>
+<li><p>查看状态 (git status)：</p>
+<p>点击左侧的 “源代码管理” (Source Control) 图标（看起来像个树杈）。这里会列出所有 Changes（修改过的文件）。</p>
+<ul>
+<li><strong>M</strong>: Modified (修改)</li>
+<li><strong>U</strong>: Untracked (未追踪&#x2F;新建)</li>
+<li><strong>D</strong>: Deleted (删除)</li>
+</ul>
+</li>
+<li><p><strong>暂存与提交 (<code>git add</code> &amp; <code>git commit</code>)</strong>：</p>
+<ol>
+<li>鼠标悬停在文件名上，点击 <strong><code>+</code> 号</strong> &#x3D; <code>git add</code> (放入暂存区)。</li>
+<li>在上方的输入框写 Commit Message。</li>
+<li>点击输入框上方的 <strong><code>Commit</code> (提交)</strong> 按钮（或者按 <code>Cmd/Ctrl + Enter</code>）。</li>
+</ol>
+</li>
+<li><p>同步 (git pull &amp; git push)：</p>
+<p>VS Code 极其贴心，提交后，左下角会显示一个 “Sync Changes” (同步更改) 按钮（或者在左侧菜单里是个刷新图标）。点击它，VS Code 会自动先 Pull 再 Push。</p>
+</li>
+<li><p>分支切换 (git switch)：</p>
+<p>看窗口左下角。那里显示着当前分支名（如 main）。点击它屏幕顶部会弹出一个列表，让选择或创建新分支。</p>
+</li>
+</ul>
+<hr>
+<h3 id="PyCharm-IDEA"><a href="#PyCharm-IDEA" class="headerlink" title="PyCharm &#x2F; IDEA"></a>PyCharm &#x2F; IDEA</h3><p>适用场景： 大型自动化测试框架、Java&#x2F;Spring Boot 项目。JetBrains 的 Git 功能非常强大，尤其是“对比差异”和“解决冲突”的界面。</p>
+<ul>
+<li><p>提交窗口 (add &amp; commit)：</p>
+<p>默认在左侧有一个 Commit 标签页（或者按 Cmd&#x2F;Ctrl + K 唤起）。</p>
+<ul>
+<li>它用<strong>复选框 (Checkbox)</strong> 代替了 <code>git add</code>。勾选文件 &#x3D; 放入暂存区。</li>
+<li>在下方写 Message，然后点右下角的 <strong>Commit</strong> 按钮。</li>
+<li><strong>技巧：</strong> 按钮旁边有个箭头，点开可以选择 <strong>Commit and Push</strong>，一步到位。</li>
+</ul>
+</li>
+<li><p>拉取与推送 (pull &amp; push)：</p>
+<p>右上角通常有一组 Git 按钮：</p>
+<ul>
+<li>↙️ (蓝色箭头向下)：<strong>Update Project</strong> (相当于 <code>git pull</code>)。</li>
+<li>↗️ (绿色箭头向上)：<strong>Push</strong>。</li>
+</ul>
+</li>
+<li><p>分支管理：</p>
+<p>看窗口右下角（或者顶部导航栏右侧）。显示分支名，点击它会弹出一个强大的菜单，可以新建分支、Merge、Rebase 等。</p>
+</li>
+</ul>
+<hr>
+<h3 id="可视化解决冲突"><a href="#可视化解决冲突" class="headerlink" title="可视化解决冲突"></a>可视化解决冲突</h3><p>在命令行里看到的 <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> 那些乱七八糟的符号，在 IDE 里，再也不用看那些了。当发生冲突时，IDE 会弹出一个 <strong>“Resolve Conflicts”</strong> 窗口。</p>
+<p><strong>三栏视图 (3-Way Merge)：</strong></p>
+<ul>
+<li><strong>左边：</strong> 自己的代码。</li>
+<li><strong>右边：</strong> 传入的代码 (Their Changes &#x2F; From Server)。</li>
+<li><strong>中间：</strong> 最终结果 (Result)。</li>
+</ul>
+<p>只需要看着中间的结果栏。</p>
+<ul>
+<li>想要左边的？点击左边的 <code>&gt;&gt;</code> 箭头。</li>
+<li>想要右边的？点击右边的 <code>&lt;&lt;</code> 箭头。</li>
+<li>都不想要？直接在中间那栏手动打字修改。</li>
+<li>改完点 <strong>Apply</strong>，IDE 帮你自动生成 <code>git add</code> 和 <code>git commit</code>。</li>
+</ul>
+<hr>
+<h1 id="回滚与查错"><a href="#回滚与查错" class="headerlink" title="回滚与查错"></a>回滚与查错</h1><p>问：“假如自动测试突然挂了，但不知道是哪次提交导致的，怎么办？” 或者 “写到一半需要去修别的 Bug 怎么办？”</p>
+<h2 id="git-stash"><a href="#git-stash" class="headerlink" title="git stash"></a>git stash</h2><p>场景：正在写一个复杂的测试脚本，才写了一半，代码乱糟糟的根本没法提交（commit）。</p>
+<p>突然，老板跑过来说：“线上有个紧急 Bug，快切分支去复现一下！”</p>
+<ul>
+<li><strong>错误做法：</strong> <code>commit</code> 一个半成品（比如 message 写“没写完”），污染提交历史。</li>
+<li><strong>正确做法：</strong> 使用 <code>git stash</code> 把当前工作“藏起来”。</li>
+</ul>
+<p><strong>操作流程：</strong></p>
+<ol>
+<li><p><strong>暂存现场：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git stash<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>执行完后，用 <code>git status</code> 看，工作区变干净了！修改被 Git 存到了一个临时堆栈里。</li>
+</ul>
+</li>
+<li><p>去干别的事：</p>
+<p>此时可以放心地 git switch 去别的分支修 Bug。</p>
+</li>
+<li><p>恢复现场：</p>
+<p>Bug 修完了，切回原来的分支，把刚才藏起来的代码拿回来：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git stash pop<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>pop</code> 的意思是“弹出并恢复”，你的代码又回来了，接着写！</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>IDE 操作：</strong> 在 PyCharm&#x2F;VS Code 里通常叫 “Stash Changes” (存) 和 “Unstash&#x2F;Pop Changes” (取)。</p>
+</blockquote>
+<hr>
+<h2 id="git-reset和git-revert"><a href="#git-reset和git-revert" class="headerlink" title="git reset和git revert"></a>git reset和git revert</h2><p>场景：提交了一个版本，结果发现把环境配错了，或者代码有重大逻辑漏洞。需要“撤销”它。</p>
+<h3 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a><code>git reset</code></h3><ul>
+<li><p><strong>作用：</strong> 彻底删除历史，回到过去。</p>
+</li>
+<li><p><strong>场景：</strong> 只有自己一个人在开发的<strong>本地分支</strong>，且代码还没 push 给别人。</p>
+</li>
+<li><p><strong>命令：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git reset --hard HEAD^<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>HEAD^</code> 表示上一个版本。</li>
+<li><code>--hard</code> 表示<strong>强制</strong>，刚才写的代码会全部消失，<strong>找不回来的</strong>！</li>
+</ul>
+</li>
+</ul>
+<h3 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert"></a><code>git revert</code></h3><ul>
+<li><p><strong>作用：</strong> 不删除历史，而是新增一个“反向提交”来抵消错误。</p>
+</li>
+<li><p><strong>场景：</strong> <strong>公共分支 (master&#x2F;main)</strong>，或者代码已经 push 出去了。</p>
+</li>
+<li><p><strong>命令：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git revert &lt;CommitID&gt;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>Git 会自动生成一个新的 Commit，内容是把那次修改删掉。历史记录里会诚实地保留“我犯错了”和“我修正了”的记录。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="git-bisect"><a href="#git-bisect" class="headerlink" title="git bisect"></a>git bisect</h2><p>场景：自动化测试每晚跑一次。</p>
+<ul>
+<li>周一：测试全部通过 ✅</li>
+<li>周五：测试挂了 ❌</li>
+</ul>
+<p>这期间开发提交了 <strong>50 个 commit</strong>。是哪一个 commit 搞坏了代码？如果一个个 checkout 去试，天都黑了。Git 内置了<strong>二分查找算法</strong>来定位 Bug</p>
+<p><strong>实战演练（逻辑篇）：</strong></p>
+<ol>
+<li><p><strong>启动捉虫模式：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git bisect start<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>告诉 Git 现在的状态（坏的）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git bisect bad  <span class="hljs-comment"># 表示当前版本是有 Bug 的</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>告诉 Git 过去的状态（好的）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git bisect good &lt;CommitID_of_Monday&gt; <span class="hljs-comment"># 比如周一那个版本的 ID</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>自动排查：Git 会自动计算中间点，跳到第 25 个 commit，然后问：“现在这个版本，Bug 还在吗？”</p>
+<ul>
+<li>需要跑一下测试。</li>
+<li>如果<strong>还在</strong>：输入 <code>git bisect bad</code>（说明 Bug 在前半段）。</li>
+<li>如果<strong>好了</strong>：输入 <code>git bisect good</code>（说明 Bug 在后半段）。</li>
+</ul>
+</li>
+<li><p>循环往复：</p>
+<p>Git 会不断缩小范围（25 -&gt; 12 -&gt; 6 -&gt; 3 -&gt; 1），最后告诉你：</p>
+<blockquote>
+<p><strong>“abc1234 is the first bad commit”</strong> (找到罪魁祸首了！)</p>
+</blockquote>
+</li>
+<li><p><strong>结束捉虫：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git bisect reset  <span class="hljs-comment"># 回到你最开始的地方</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h1 id="CI-CD-与自动化流水线"><a href="#CI-CD-与自动化流水线" class="headerlink" title="CI&#x2F;CD 与自动化流水线"></a>CI&#x2F;CD 与自动化流水线</h1><p>“我不只写测试脚本，还配置了 CI 流水线，保证每次代码提交都能自动运行测试。”</p>
+<h3 id="CI-CD"><a href="#CI-CD" class="headerlink" title="CI&#x2F;CD"></a>CI&#x2F;CD</h3><p>有一个<strong>不知疲倦、24小时待命的机器人</strong>，名字叫“CI Server”（比如 Jenkins, GitLab CI, GitHub Actions）。它的工作很简单，但非常重要：</p>
+<ol>
+<li><strong>监听 (Listen)：</strong> 它死死盯着 Git 仓库。</li>
+<li><strong>触发 (Trigger)：</strong> 一旦发现有人 <code>git push</code>（提交代码）或者提了 PR。</li>
+<li><strong>执行 (Execute)：</strong> 它立马把代码下载下来，在它的电脑上自动安装环境，自动运行写的 <code>pytest</code> 脚本。</li>
+<li><strong>报告 (Report)：</strong><ul>
+<li>如果代码没问题：它给你打个 ✅。</li>
+<li>如果代码有 Bug（测试挂了）：它给你打个 ❌，并直接通知。</li>
+</ul>
+</li>
+</ol>
+<p><strong>这就叫 CI (Continuous Integration - 持续集成)。</strong> 它的核心目的是：<strong>尽早发现 Bug</strong>。</p>
+<hr>
+<h3 id="用-GitHub-Actions-搭建第一条流水线"><a href="#用-GitHub-Actions-搭建第一条流水线" class="headerlink" title="用 GitHub Actions 搭建第一条流水线"></a>用 GitHub Actions 搭建第一条流水线</h3><p>因为我们不需要自己搭服务器，<strong>GitHub Actions</strong> 是最容易上手的工具，且完全免费。现在的目标是：<strong>只要把代码推送到 GitHub，GitHub 就自动运行测试。</strong></p>
+<h4 id="第一步：准备“机器人指令书”"><a href="#第一步：准备“机器人指令书”" class="headerlink" title="第一步：准备“机器人指令书”"></a>第一步：准备“机器人指令书”</h4><p>机器人是很笨的，必须把指令写在一个 <strong>YAML 文件</strong> 里告诉它怎么做。</p>
+<ol>
+<li>在你的项目根目录下，创建两层文件夹：<code>.github/workflows</code><ul>
+<li>注意：<code>.github</code> 前面有个点。</li>
+</ul>
+</li>
+<li>在这个文件夹里新建一个文件，比如叫 <code>test_pipeline.yml</code>。</li>
+</ol>
+<h4 id="第二步：编写指令-YAML"><a href="#第二步：编写指令-YAML" class="headerlink" title="第二步：编写指令 (YAML)"></a>第二步：编写指令 (YAML)</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">Automated</span> <span class="hljs-string">Testing</span> <span class="hljs-string">Demo</span>  <span class="hljs-comment"># 流水线的名字</span><br><br><span class="hljs-comment"># 1. 什么时候干活？(Trigger)</span><br><span class="hljs-attr">on:</span><br>  <span class="hljs-attr">push:</span><br>    <span class="hljs-attr">branches:</span> [ <span class="hljs-string">&quot;master&quot;</span>, <span class="hljs-string">&quot;main&quot;</span> ]  <span class="hljs-comment"># 当有人 push 到 master 或 main 分支时</span><br>  <span class="hljs-attr">pull_request:</span><br>    <span class="hljs-attr">branches:</span> [ <span class="hljs-string">&quot;master&quot;</span>, <span class="hljs-string">&quot;main&quot;</span> ]  <span class="hljs-comment"># 当有人提 PR 到这些分支时</span><br><br><span class="hljs-comment"># 2. 干什么活？(Jobs)</span><br><span class="hljs-attr">jobs:</span><br>  <span class="hljs-attr">test-job:</span><br>    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>  <span class="hljs-comment"># 指定运行环境：给我分配一台最新的 Ubuntu 虚拟机</span><br><br>    <span class="hljs-attr">steps:</span><br>    <span class="hljs-comment"># 第一步：把代码从仓库里拉取下来</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Checkout</span> <span class="hljs-string">code</span><br>      <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v3</span><br><br>    <span class="hljs-comment"># 第二步：安装 Python 环境</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Set</span> <span class="hljs-string">up</span> <span class="hljs-string">Python</span><br>      <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-python@v4</span><br>      <span class="hljs-attr">with:</span><br>        <span class="hljs-attr">python-version:</span> <span class="hljs-string">&quot;3.9&quot;</span><br><br>    <span class="hljs-comment"># 第三步：安装依赖 (比如 pytest)</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Install</span> <span class="hljs-string">dependencies</span><br>      <span class="hljs-attr">run:</span> <span class="hljs-string">|</span><br><span class="hljs-string">        pip install pytest</span><br><span class="hljs-string"></span><br>    <span class="hljs-comment"># 第四步：正式运行测试</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Run</span> <span class="hljs-string">Tests</span><br>      <span class="hljs-attr">run:</span> <span class="hljs-string">|</span><br>        <span class="hljs-string">pytest</span>  <span class="hljs-comment"># 执行这一行命令</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>💡 测开视角：这其实就是把平时在本地终端里手动敲的命令（git pull, pip install, pytest），翻译成列表告诉服务器去自动执行。</p>
+</blockquote>
+<h4 id="第三步：推送到-GitHub"><a href="#第三步：推送到-GitHub" class="headerlink" title="第三步：推送到 GitHub"></a>第三步：推送到 GitHub</h4><ol>
+<li><p>把这个新文件提交并推送：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git add .github/workflows/test_pipeline.yml<br>git commit -m <span class="hljs-string">&quot;Add CI pipeline&quot;</span><br>git push<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="第四步：见证奇迹"><a href="#第四步：见证奇迹" class="headerlink" title="第四步：见证奇迹"></a>第四步：见证奇迹</h4><ol>
+<li>打开你的 GitHub 仓库页面。</li>
+<li>点击顶部的 <strong>“Actions”</strong> 标签。</li>
+<li>会看到一个正在旋转的圆圈或者 ✅。<ul>
+<li>点进去，能看到详细的日志。GitHub 给你分配了一台虚拟电脑，正在一行行执行命令。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="它怎么“挡住”Bug"><a href="#它怎么“挡住”Bug" class="headerlink" title="它怎么“挡住”Bug"></a>它怎么“挡住”Bug</h3><p>模拟一次**“拦截事故”**。</p>
+<ol>
+<li><strong>修改本地代码：</strong> 故意把测试脚本改坏。<ul>
+<li>比如在 <code>test_login.py</code> 里写一个肯定报错的断言：<code>assert 1 == 2</code>。</li>
+</ul>
+</li>
+<li><strong>推送代码：</strong> <code>git push</code>。</li>
+<li><strong>观察 GitHub Actions：</strong><ul>
+<li>几秒钟后，会发现 Actions 变成了一个 <strong>红色的 ❌ (Failure)</strong>。</li>
+<li>GitHub 会发邮件告诉你构建失败了。</li>
+</ul>
+</li>
+</ol>
+<p>在公司里的实际应用：通常会设置**“保护分支” (Branch Protection)。如果 CI 流水线是红色的（测试没过），GitLab&#x2F;GitHub 会禁止**你把代码合并进 master 分支。必须先把测试修好。</p>
+<p>这就是测开存在的意义：<strong>代码质量的守门员。</strong></p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Testing/" class="category-chain-item">Testing</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Git/" class="print-no-link">#Git</a>
+      
+        <a href="/tags/%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/" class="print-no-link">#基础命令</a>
+      
+        <a href="/tags/%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93/" class="print-no-link">#远程仓库</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>git基础学习</div>
+      <div>https://lilpear2002.github.io/2025/12/22/git基础学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/22/Locust%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="Locust基础学习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Locust基础学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/22/PostgreSQL%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="PostgreSQL基础学习">
+                        <span class="hidden-mobile">PostgreSQL基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

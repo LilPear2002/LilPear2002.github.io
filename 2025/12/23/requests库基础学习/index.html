@@ -1,0 +1,835 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="requests是Python中最流行的HTTP客户端库，以简洁 API 和强大功能著称，常用于REST API 调用、Web爬虫、文件传输等场景">
+<meta property="og:type" content="article">
+<meta property="og:title" content="requests库基础学习">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/23/requests%E5%BA%93%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="requests是Python中最流行的HTTP客户端库，以简洁 API 和强大功能著称，常用于REST API 调用、Web爬虫、文件传输等场景">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/request.png">
+<meta property="article:published_time" content="2025-12-22T16:09:21.000Z">
+<meta property="article:modified_time" content="2025-12-23T02:08:39.395Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="requests">
+<meta property="article:tag" content="接口测试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/request.png">
+  
+  
+  
+  <title>requests库基础学习 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="requests库基础学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-23 00:09" pubdate>
+          2025年12月23日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">requests库基础学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><p>接口测试本质上就是<strong>客户端（你的代码）</strong> 发送请求，<strong>服务器</strong> 处理并返回响应。</p>
+<h2 id="GET-请求"><a href="#GET-请求" class="headerlink" title="GET 请求"></a>GET 请求</h2><p>GET 请求通常用于“获取”数据（比如查询商品列表）。在接口自动化中，<code>GET</code> 请求最常见的场景是：<strong>带参数查询</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br><span class="hljs-comment"># 1. 定义目标 URL</span><br>url = <span class="hljs-string">&quot;https://httpbin.org/get&quot;</span><br><br><span class="hljs-comment"># 2. 定义查询参数 (例如：搜索 keyword=&#x27;python&#x27;, page=1)</span><br><span class="hljs-comment"># requests 允许你直接传一个字典，它会自动帮你拼接成 url?key=value 的形式</span><br>payload = &#123;<br>    <span class="hljs-string">&quot;keyword&quot;</span>: <span class="hljs-string">&quot;python&quot;</span>,<br>    <span class="hljs-string">&quot;page&quot;</span>: <span class="hljs-number">1</span><br>&#125;<br><br><span class="hljs-comment"># 3. 发送 GET 请求</span><br><span class="hljs-comment"># 这里的 params 参数就是用来处理 URL 后面跟着的参数的</span><br>response = requests.get(url, params=payload)<br><br><span class="hljs-comment"># 4. 获取结果 (测试人员最关心的部分)</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;--- 状态码 ---&quot;</span>)<br><span class="hljs-built_in">print</span>(response.status_code)  <span class="hljs-comment"># 200 表示成功</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n--- 响应的 URL (自动拼接好的) ---&quot;</span>)<br><span class="hljs-built_in">print</span>(response.url) <br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n--- 响应文本 (String 格式) ---&quot;</span>)<br><span class="hljs-built_in">print</span>(response.text)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>httpbin.org 是一个专门用来练习 HTTP 请求的网站，它会把发送给它的东西原样返回，适合用来调试代码。</p>
+</blockquote>
+<hr>
+<h2 id="POST-请求"><a href="#POST-请求" class="headerlink" title="POST 请求"></a>POST 请求</h2><p>POST 请求通常用于“提交”数据（比如登录、注册、创建订单）。这是测试中最容易出错的地方，因为<strong>数据格式</strong>必须准确。</p>
+<p>区分两种最常见的数据格式：</p>
+<ol>
+<li><strong>Form 表单 (<code>application/x-www-form-urlencoded</code>)</strong>：传统的网页提交方式。</li>
+<li><strong>JSON (<code>application/json</code>)</strong>：现代前后端分离接口（RESTful API）最常用的方式。****</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><br>url = <span class="hljs-string">&quot;https://httpbin.org/post&quot;</span><br><br><span class="hljs-comment"># --- 场景 A: 提交 JSON 数据 (推荐) ---</span><br><span class="hljs-comment"># 现在的后端接口 90% 都是这种格式</span><br>data_json = &#123;<br>    <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;tester_01&quot;</span>,<br>    <span class="hljs-string">&quot;action&quot;</span>: <span class="hljs-string">&quot;login&quot;</span><br>&#125;<br><br><span class="hljs-comment"># 注意：这里使用 json= 参数</span><br><span class="hljs-comment"># requests 库会自动帮你把字典转成 JSON 字符串，并添加 Content-Type: application/json 头</span><br>response_json = requests.post(url, json=data_json)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;--- JSON 提交响应 ---&quot;</span>)<br><span class="hljs-comment"># 使用 .json() 方法直接把返回的字符串解析成 Python 字典，方便后续断言</span><br><span class="hljs-built_in">print</span>(response_json.json()) <br><br><br><span class="hljs-comment"># --- 场景 B: 提交表单数据 ---</span><br>data_form = &#123;<br>    <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;tester_02&quot;</span>,<br>    <span class="hljs-string">&quot;password&quot;</span>: <span class="hljs-string">&quot;123&quot;</span><br>&#125;<br><br><span class="hljs-comment"># 注意：这里使用 data= 参数</span><br>response_form = requests.post(url, data=data_form)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n--- 表单提交响应 ---&quot;</span>)<br><span class="hljs-built_in">print</span>(response_form.json())<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="解析响应"><a href="#解析响应" class="headerlink" title="解析响应"></a>解析响应</h2><table>
+<thead>
+<tr>
+<th><strong>属性</strong></th>
+<th><strong>说明</strong></th>
+<th><strong>测开用途</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>response.status_code</code></td>
+<td>HTTP 状态码</td>
+<td><strong>第一层断言</strong>：先判断是不是 200。</td>
+</tr>
+<tr>
+<td><code>response.json()</code></td>
+<td>解析 JSON 响应</td>
+<td><strong>核心断言</strong>：获取业务字段（如 <code>code</code>, <code>msg</code>, <code>token</code>）。</td>
+</tr>
+<tr>
+<td><code>response.text</code></td>
+<td>原始文本</td>
+<td>当返回不是 JSON（如 HTML 或报错信息）时查看。</td>
+</tr>
+<tr>
+<td><code>response.elapsed</code></td>
+<td>响应耗时</td>
+<td>用于简单的性能监控（如断言响应必须 &lt; 500ms）。</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br>url = <span class="hljs-string">&quot;https://httpbin.org/get&quot;</span><br>resp = requests.get(url)<br><br><span class="hljs-comment"># --- 自动化测试的核心逻辑 ---</span><br><br><span class="hljs-comment"># 1. 断言状态码</span><br><span class="hljs-keyword">if</span> resp.status_code == <span class="hljs-number">200</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;✅ 接口连通性测试通过&quot;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;❌ 接口报错，状态码: <span class="hljs-subst">&#123;resp.status_code&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 2. 断言业务逻辑 (假设返回的 JSON 中必须包含 headers 字段)</span><br>resp_dict = resp.json() <span class="hljs-comment"># 转成字典</span><br><br><span class="hljs-keyword">if</span> <span class="hljs-string">&quot;headers&quot;</span> <span class="hljs-keyword">in</span> resp_dict:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;✅ 业务字段校验通过&quot;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;❌ 缺少关键字段&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="身份伪装与会话管理"><a href="#身份伪装与会话管理" class="headerlink" title="身份伪装与会话管理"></a>身份伪装与会话管理</h1><p>在真实的测试场景中，大部分接口不是“裸奔”的。比如：</p>
+<ol>
+<li>有些接口必须<strong>登录</strong>后才能访问（需要 Cookie 或 Token）。</li>
+<li>有些接口限制了<strong>客户端类型</strong>（需要 User-Agent）。</li>
+<li>接口测试通常是<strong>连续</strong>的：先登录 -&gt; 再查询 -&gt; 再下单。</li>
+</ol>
+<p>“<strong>如何让代码像浏览器一样，记住登录状态？</strong>”</p>
+<hr>
+<h2 id="定制请求头-Headers"><a href="#定制请求头-Headers" class="headerlink" title="定制请求头 (Headers)"></a>定制请求头 (Headers)</h2><p>很多时候直接请求接口会返回 403 Forbidden，或者返回的数据不对，大概率是因为缺少了 <code>Headers</code>。</p>
+<p>在自动化框架中，有两个 Header 最常用：</p>
+<ul>
+<li><code>User-Agent</code>: 告诉服务器你是谁（浏览器？手机？还是爬虫脚本）。</li>
+<li><code>Authorization</code> &#x2F; <code>token</code>: 用于鉴权（告诉服务器你登录了）。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br>url = <span class="hljs-string">&quot;https://httpbin.org/headers&quot;</span><br><br><span class="hljs-comment"># 定义 headers 字典</span><br><span class="hljs-comment"># 模拟自己是一个 Chrome 浏览器，或者是你的测试框架专用的 User-Agent</span><br>headers = &#123;<br>    <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;MyTestFramework/1.0&quot;</span>,<br>    <span class="hljs-string">&quot;token&quot;</span>: <span class="hljs-string">&quot;a1b2c3d4e5&quot;</span>  <span class="hljs-comment"># 假设这是登录后获取的 token</span><br>&#125;<br><br><span class="hljs-comment"># 发送请求时带上 headers</span><br>response = requests.get(url, headers=headers)<br><br><span class="hljs-built_in">print</span>(response.json())<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>测试开发视角：在封装框架时，会把 headers 放在公共配置里（比如 config.py），这样不用每个测试用例都手动写一遍 User-Agent。</p>
+</blockquote>
+<hr>
+<h2 id="会话对象-Session"><a href="#会话对象-Session" class="headerlink" title="会话对象 (Session)"></a>会话对象 (Session)</h2><p>问题场景：假设有两个接口：</p>
+<ol>
+<li><code>/login</code> (登录成功后，服务器会给浏览器发一个 Cookie)</li>
+<li><code>/profile</code> (查询个人信息，需要带着刚才那个 Cookie 才能查)</li>
+</ol>
+<p>如果直接用 <code>requests.post</code> 登录，再用 <code>requests.get</code> 查信息，<strong>第二次请求会失败</strong>。因为 <code>requests</code> 是“无状态”的，第二次请求时它已经忘记了第一次请求发生的事。</p>
+<p>解决方案：requests.Session()。Session 对象就像一个浏览器，它会自动帮你保存和携带 Cookie。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br><span class="hljs-comment"># 1. 初始化一个 Session 对象（把它想象成打开了一个浏览器窗口）</span><br>s = requests.Session()<br><br><span class="hljs-comment"># 2. 先访问设置 Cookie 的接口（模拟登录）</span><br><span class="hljs-comment"># httpbin/cookies/set 会模拟服务器给客户端种下 cookie</span><br>login_url = <span class="hljs-string">&quot;https://httpbin.org/cookies/set/sessioncookie/123456789&quot;</span><br>s.get(login_url) <br><br><span class="hljs-comment"># 注意：此时 s 这个对象里已经存了 cookie 了</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;当前会话中的 Cookie:&quot;</span>, s.cookies.get_dict())<br><br><span class="hljs-comment"># 3. 带着状态去访问下一个接口（模拟查询）</span><br><span class="hljs-comment"># httpbin/cookies 会返回当前请求带了哪些 cookie</span><br>profile_url = <span class="hljs-string">&quot;https://httpbin.org/cookies&quot;</span><br><br><span class="hljs-comment"># 注意：这里用 s.get 而不是 requests.get</span><br>resp = s.get(profile_url)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;个人中心接口收到的 Cookie:&quot;</span>, resp.json())<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在未来写的自动化框架中，通常会创建一个 BaseApi 类，并在 <strong>init</strong> 方法里实例化 self.session &#x3D; requests.Session()。所有的接口请求都通过 self.session 发送，从而保证全流程登录状态不丢失。</p>
+</blockquote>
+<hr>
+<h2 id="超时处理-Timeout"><a href="#超时处理-Timeout" class="headerlink" title="超时处理 (Timeout)"></a>超时处理 (Timeout)</h2><p>自动化测试要想稳定，必须要有超时控制。如果服务器挂了，脚本不能一直卡在那里等死。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br><span class="hljs-comment"># 设为 0.1 秒，连接 github 这种国外网站通常会超时报错</span><br><span class="hljs-keyword">try</span>:<br>    requests.get(<span class="hljs-string">&#x27;https://github.com&#x27;</span>, timeout=<span class="hljs-number">0.1</span>)<br><span class="hljs-keyword">except</span> requests.exceptions.Timeout:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;❌ 请求超时了！测试用例执行失败，请检查网络或服务器性能。&quot;</span>)<br><span class="hljs-keyword">except</span> requests.exceptions.RequestException <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;❌ 发生了其他错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">DemoApi</span>:<br>    <span class="hljs-comment"># 类变量：通常放一些固定的配置，比如域名</span><br>    <span class="hljs-comment"># 注意：httpbin.org/cookies/set... 是用来模拟让服务器种 Cookie 的</span><br>    host = <span class="hljs-string">&quot;https://httpbin.org&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 1. 初始化 Session 工具箱</span><br>        <span class="hljs-variable language_">self</span>.session = requests.Session()<br>        <br>        <span class="hljs-comment"># (可选) 如果有些接口一开始就需要 headers，可以在这里统一定义</span><br>        <span class="hljs-variable language_">self</span>.session.headers = &#123;<br>            <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;TestDev-Client/1.0&quot;</span><br>        &#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">login</span>(<span class="hljs-params">self, username</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;模拟登录：这里演示发送 POST 请求&quot;&quot;&quot;</span><br>        url = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;self.host&#125;</span>/post&quot;</span> <span class="hljs-comment"># 拼接 URL</span><br>        <br>        data_json = &#123;<br>            <span class="hljs-string">&quot;user&quot;</span>: username  <span class="hljs-comment"># 注意：这里使用传入的变量，不要加引号</span><br>        &#125;<br>        <br>        <span class="hljs-comment"># 2. 使用 self.session 发送请求</span><br>        <span class="hljs-comment"># 必须 return 响应对象，否则外面调用的人拿不到结果</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.session.post(url, json=data_json)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">set_cookie_action</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;模拟一个会产生 Cookie 的操作&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 这个接口访问后，Session 里就会自动存入 cookie</span><br>        url = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;self.host&#125;</span>/cookies/set/my_token/123456&quot;</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.session.get(url)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_user_info</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;模拟查询：演示携带 Cookie 的 GET 请求&quot;&quot;&quot;</span><br>        url = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;self.host&#125;</span>/cookies&quot;</span> <span class="hljs-comment"># 这个接口会返回当前 Session 里所有的 Cookie</span><br>        <br>        <span class="hljs-comment"># 3. 再次使用 self.session</span><br>        <span class="hljs-comment"># 因为前面如果调用过 set_cookie_action，这里的 session 会自动带上那个 cookie</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.session.get(url, timeout=<span class="hljs-number">5</span>)<br><br><span class="hljs-comment"># --- 验证代码 (你可以直接复制运行) ---</span><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># 1. 实例化 (相当于打开了一个浏览器)</span><br>    api = DemoApi()<br>    <br>    <span class="hljs-comment"># 2. 模拟登录 (虽然 httpbin 的 post 不会真的种 cookie，但演示了 post 写法)</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&gt;&gt;&gt; 正在登录...&quot;</span>)<br>    resp_login = api.login(<span class="hljs-string">&quot;admin_001&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;登录响应: <span class="hljs-subst">&#123;resp_login.json()[<span class="hljs-string">&#x27;json&#x27;</span>]&#125;</span>&quot;</span>) <span class="hljs-comment"># 打印出来看看 username 对不对</span><br><br>    <span class="hljs-comment"># 3. 模拟一个种 Cookie 的操作</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&gt;&gt;&gt; 正在获取 Cookie...&quot;</span>)<br>    api.set_cookie_action()<br>    <br>    <span class="hljs-comment"># 4. 查询个人信息 (验证 Cookie 是否被自动带过去了)</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&gt;&gt;&gt; 正在查询信息(检查Cookie)...&quot;</span>)<br>    resp_info = api.get_user_info()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;查询结果: <span class="hljs-subst">&#123;resp_info.json()&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="分层管理-自动化测试框架雏形"><a href="#分层管理-自动化测试框架雏形" class="headerlink" title="分层管理-自动化测试框架雏形"></a>分层管理-自动化测试框架雏形</h1><p>遵循一个核心原则：<strong>分层设计 (Layered Architecture)</strong>。把“发送请求的代码”和“测试验证的代码”拆分开。</p>
+<h2 id="创建标准目录结构"><a href="#创建标准目录结构" class="headerlink" title="创建标准目录结构"></a>创建标准目录结构</h2><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nix">ApiTestFramework<span class="hljs-symbol">/</span>  (项目根目录)<br>├── api<span class="hljs-symbol">/</span>             <span class="hljs-comment"># 【API层】只负责发请求，不负责断言</span><br>│   └── user_api.py      <span class="hljs-operator">&lt;</span><span class="hljs-operator">-</span>- 刚才写的 Class 放在这里<br>├── testcases<span class="hljs-symbol">/</span>       <span class="hljs-comment"># 【用例层】调用 API 层，进行断言 (pytest)</span><br>│   └── test_login.py    <span class="hljs-operator">&lt;</span><span class="hljs-operator">-</span>- 真正的测试脚本<br>├── utils<span class="hljs-symbol">/</span>           <span class="hljs-comment"># 【工具层】读取配置、生成日志等</span><br>└── run.py           <span class="hljs-comment"># 【执行入口】一键运行所有测试</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="拆分代码"><a href="#拆分代码" class="headerlink" title="拆分代码"></a>拆分代码</h2><p>把刚才写的 <code>DemoApi</code> 拆成两部分。</p>
+<h3 id="编写-API-层"><a href="#编写-API-层" class="headerlink" title="编写 API 层"></a>编写 API 层</h3><p>规则：这里只写 requests 相关操作，不要出现 assert（断言），也不要出现测试数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 文件路径: api/user_api.py</span><br><span class="hljs-keyword">import</span> requests<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserApi</span>:<br>    host = <span class="hljs-string">&quot;https://httpbin.org&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.session = requests.Session()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">login</span>(<span class="hljs-params">self, username</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;发送登录请求&quot;&quot;&quot;</span><br>        url = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;self.host&#125;</span>/post&quot;</span><br>        data = &#123;<span class="hljs-string">&quot;user&quot;</span>: username&#125;<br>        <span class="hljs-comment"># 只负责返回响应对象，不负责判断对错</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.session.post(url, json=data)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_info</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;发送查询请求&quot;&quot;&quot;</span><br>        url = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;self.host&#125;</span>/get&quot;</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.session.get(url)<br></code></pre></td></tr></table></figure>
+
+<h3 id="编写用例层"><a href="#编写用例层" class="headerlink" title="编写用例层"></a>编写用例层</h3><p>这里引入一个强大的测试运行框架：Pytest。负责<strong>调用 API</strong> 并 <strong>断言 (assert)</strong> 结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 文件路径: testcases/test_login.py</span><br><br><span class="hljs-comment"># 1. 导入刚才写的 API 类</span><br><span class="hljs-comment"># 注意：如果在 PyCharm 中报红线找不到模块，右键根目录 -&gt; Mark Directory as -&gt; Sources Root</span><br><span class="hljs-keyword">from</span> api.user_api <span class="hljs-keyword">import</span> UserApi<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestUserLogin</span>:<br>    <br>    <span class="hljs-comment"># setup_class 是 pytest 的钩子函数：在所有测试开始前只执行一次</span><br>    <span class="hljs-comment"># 适合用来初始化 API 对象</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">setup_class</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.user_api = UserApi()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_login_success</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;测试用例1：正常登录&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 步骤 1: 调用接口</span><br>        res = <span class="hljs-variable language_">self</span>.user_api.login(<span class="hljs-string">&quot;admin_01&quot;</span>)<br>        <br>        <span class="hljs-comment"># 步骤 2: 获取数据</span><br>        res_json = res.json()<br>        <br>        <span class="hljs-comment"># 步骤 3: 断言 (判定测试是通过还是失败)</span><br>        <span class="hljs-comment"># 这里的 assert 是 pytest 的核心</span><br>        <span class="hljs-keyword">assert</span> res.status_code == <span class="hljs-number">200</span><br>        <span class="hljs-keyword">assert</span> res_json[<span class="hljs-string">&#x27;json&#x27;</span>][<span class="hljs-string">&#x27;user&#x27;</span>] == <span class="hljs-string">&quot;admin_01&quot;</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;✅ 登录测试通过&quot;</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_get_info</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;测试用例2：查询信息&quot;&quot;&quot;</span><br>        res = <span class="hljs-variable language_">self</span>.user_api.get_info()<br>        <span class="hljs-keyword">assert</span> res.status_code == <span class="hljs-number">200</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;✅ 查询测试通过&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="运行测试"><a href="#运行测试" class="headerlink" title="运行测试"></a>运行测试</h3><p>现在我们不再右键点击文件运行了，而是使用命令行。打开终端，进入项目根目录 <code>ApiTestFramework</code>，输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pytest -vs<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-v</code>: 显示详细信息 (verbose)。</li>
+<li><code>-s</code>: 显示代码里的 <code>print</code> 输出 (默认 pytest 会吃掉 print)。</li>
+</ul>
+<p>预期结果：应该会看到绿色的文字，显示 passed，类似这样：</p>
+<p>testcases&#x2F;test_login.py::TestUserLogin::test_login_success PASSED</p>
+<p>testcases&#x2F;test_login.py::TestUserLogin::test_get_info PASSED</p>
+<blockquote>
+<p>“为了解耦和复用。</p>
+<p>如果接口的 URL 或参数变了，只需要去 API 层 修改 1 个地方，而不用去修改几十个 测试用例。</p>
+<p>测试用例只关注业务逻辑（断言），API 层只关注协议细节。”</p>
+</blockquote>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Testing/" class="category-chain-item">Testing</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/" class="print-no-link">#接口测试</a>
+      
+        <a href="/tags/requests/" class="print-no-link">#requests</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>requests库基础学习</div>
+      <div>https://lilpear2002.github.io/2025/12/23/requests库基础学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/22/Locust%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="Locust基础学习">
+                        <span class="hidden-mobile">Locust基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

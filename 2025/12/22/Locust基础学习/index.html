@@ -1,0 +1,894 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Locust是一款开源的性能测试工具，可以模拟大量用户访问Web服务器，跟踪和报告每个用户的响应时间。它使用Python编程语言编写，允许使用Python脚本编写测试脚本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Locust基础学习">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/22/Locust%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="Locust是一款开源的性能测试工具，可以模拟大量用户访问Web服务器，跟踪和报告每个用户的响应时间。它使用Python编程语言编写，允许使用Python脚本编写测试脚本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/locust.png">
+<meta property="article:published_time" content="2025-12-22T14:42:01.000Z">
+<meta property="article:modified_time" content="2025-12-22T15:58:28.648Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="Locust">
+<meta property="article:tag" content="压力测试">
+<meta property="article:tag" content="性能测试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/locust.png">
+  
+  
+  
+  <title>Locust基础学习 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Locust基础学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-22 22:42" pubdate>
+          2025年12月22日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Locust基础学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><p>Locust 是非常适合**测试开发（Test Dev）**岗位的工具</p>
+<ol>
+<li><strong>它是 Python 编写的</strong>：完全符合测开对代码能力的要求。</li>
+<li><strong>Code-as-Infrastructure</strong>：测试脚本就是代码，易于维护和版本控制。</li>
+<li><strong>高并发能力</strong>：基于协程（Gevent），单机能模拟极高并发。</li>
+</ol>
+<p> Locust 的三个核心概念：</p>
+<ul>
+<li><strong>User Class (用户类)</strong>：每一个虚拟用户都是这个类的一个实例。</li>
+<li><strong>Task (任务)</strong>：用户具体要做的事（比如：刷首页、下单、搜索），用 <code>@task</code> 装饰器标记。</li>
+<li><strong>Wait Time (等待时间)</strong>：模拟真实人类的操作间隔。</li>
+</ul>
+<p>模拟一个场景：<strong>用户访问百度的首页，并且偶尔访问一下百度的“新闻”页面。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> locust <span class="hljs-keyword">import</span> HttpUser, task, between<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BaiduUser</span>(<span class="hljs-title class_ inherited__">HttpUser</span>):<br>    <span class="hljs-comment"># wait_time 模拟用户思考时间</span><br>    <span class="hljs-comment"># between(1, 3) 表示每个用户做完一个任务后，会随机休息 1 到 3 秒</span><br>    wait_time = between(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>)<br><br>    <span class="hljs-comment"># host 是被测网站的地址，也可以在命令行里指定</span><br>    <span class="hljs-comment"># 这里我们先不写，一会儿在网页界面里填</span><br><br><span class="hljs-meta">    @task(<span class="hljs-params"><span class="hljs-number">1</span></span>)  </span><span class="hljs-comment"># 权重为 1</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">visit_news</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># client 继承自 requests 库，用法几乎一样</span><br>        <span class="hljs-comment"># 这里模拟搜索</span><br>        <span class="hljs-variable language_">self</span>.client.get(<span class="hljs-string">&quot;/s?wd=哈哈&quot;</span>)<br><br><span class="hljs-meta">    @task(<span class="hljs-params"><span class="hljs-number">3</span></span>)  </span><span class="hljs-comment"># 权重为 3</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">visit_homepage</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 模拟访问根目录</span><br>        <span class="hljs-variable language_">self</span>.client.get(<span class="hljs-string">&quot;/&quot;</span>)<br><br><span class="hljs-comment"># 逻辑解释：</span><br><span class="hljs-comment"># 这里的权重(1 和 3)意味着：</span><br><span class="hljs-comment"># 这是一个概率游戏。Locust 每次挑任务时，</span><br><span class="hljs-comment"># 有 3/4 的概率会去访问首页，有 1/4 的概率会去访问新闻页。</span><br><span class="hljs-comment"># 这比单纯的轮询更像真实用户的行为。</span><br></code></pre></td></tr></table></figure>
+
+<p>启动 Locust-在终端中，进入 locustfile.py 所在的文件夹，运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">locust<br></code></pre></td></tr></table></figure>
+
+<p><em>注意：不需要加文件名，因为它默认找 <code>locustfile.py</code>。</em></p>
+<ol>
+<li><p>打开 Web 界面</p>
+<p>看到终端提示：Starting web interface at <a href="http://0.0.0.0:8089。打开浏览器访问">http://0.0.0.0:8089。打开浏览器访问</a></p>
+</li>
+<li><p>配置参数（重点）</p>
+<p>界面上会有三个框，这样填：</p>
+<ul>
+<li><strong>Number of users (Peak Concurrency)</strong>: <code>10</code> (我们要模拟 10 个用户)</li>
+<li><strong>Spawn rate (Users started&#x2F;second)</strong>: <code>1</code> (每秒增加 1 个用户，也就是 10 秒后达到满载)</li>
+<li><strong>Host</strong>: <code>https://www.baidu.com</code> (不要忘了 https)</li>
+</ul>
+</li>
+<li><p><strong>点击 “Start swarming”</strong></p>
+</li>
+</ol>
+<p>跑起来后，会看到几个核心指标：</p>
+<ol>
+<li><strong>RPS (Requests Per Second)</strong>: 吞吐量。每秒服务器处理了多少请求。<em>数值越大，性能越好。</em></li>
+<li><strong>Failures</strong>: 失败率。如果这个不为 0，说明服务器报错了或者网络有问题。</li>
+<li><strong>Average &#x2F; Median &#x2F; 95%ile (ms)</strong>: 响应时间。<ul>
+<li><strong>坑点</strong>：永远不要只看 Average（平均值），因为平均值会掩盖问题。</li>
+<li><strong>要看 95%ile (P95)</strong>：意思是 95% 的请求都在这个时间内完成了。这才是衡量用户体验的真实标准。</li>
+</ul>
+</li>
+</ol>
+
+
+<hr>
+<h1 id="参数化"><a href="#参数化" class="headerlink" title="参数化"></a>参数化</h1><p>如果 10 个用户都搜同一个词：</p>
+<ul>
+<li><strong>服务器端</strong>：可能有缓存，导致测试结果比实际快，数据<strong>失真</strong>。</li>
+<li><strong>业务逻辑</strong>：无法覆盖数据库查询的多样性。</li>
+</ul>
+<p><strong>解决方法</strong>：建立一个“词库”，让用户每次随机挑一个词去搜。</p>
+<p>另外，如果直接把 URL 写成动态的，比如：</p>
+<ul>
+<li>用户A 访问 <code>/s?wd=apple</code></li>
+<li>用户B 访问 <code>/s?wd=banana</code></li>
+</ul>
+<p>Locust 的报告里会把这两条当成<strong>两个完全不同的接口</strong>来展示。如果有 1000 个搜索词，报告里就会有 1000 行数据，<strong>没法看</strong>。</p>
+<p><strong>需要做的是</strong>：告诉 Locust，“不管后面参数是什么，这些都是‘搜索接口’，请把它们合并成一行统计”。</p>
+<hr>
+<p>修改 <code>locustfile.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random  <span class="hljs-comment"># &lt;--- 1. 引入随机库</span><br><span class="hljs-keyword">from</span> locust <span class="hljs-keyword">import</span> HttpUser, task, between<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BaiduUser</span>(<span class="hljs-title class_ inherited__">HttpUser</span>):<br>    wait_time = between(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>)<br><br>    <span class="hljs-comment"># &lt;--- 2. 准备测试数据（真实项目中通常从 CSV 文件读取）</span><br>    search_keywords = [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;locust&quot;</span>, <span class="hljs-string">&quot;测试开发&quot;</span>, <span class="hljs-string">&quot;字节跳动&quot;</span>, <span class="hljs-string">&quot;高并发&quot;</span>]<br><br><span class="hljs-meta">    @task(<span class="hljs-params"><span class="hljs-number">3</span></span>)</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">visit_homepage</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.client.get(<span class="hljs-string">&quot;/&quot;</span>)<br><br><span class="hljs-meta">    @task(<span class="hljs-params"><span class="hljs-number">1</span></span>)</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 随机选一个词</span><br>        word = random.choice(<span class="hljs-variable language_">self</span>.search_keywords)<br>        <br>        <span class="hljs-comment"># &lt;--- 3. 核心考点：使用 name 参数</span><br>        <span class="hljs-comment"># 这里的 f&quot;/s?wd=&#123;word&#125;&quot; 是真正发给百度的请求</span><br>        <span class="hljs-comment"># 这里的 name=&quot;/s?wd=[keyword]&quot; 是你在 Locust 网页报告里想看到的名字</span><br>        <span class="hljs-variable language_">self</span>.client.get(<span class="hljs-string">f&quot;/s?wd=<span class="hljs-subst">&#123;word&#125;</span>&quot;</span>, name=<span class="hljs-string">&quot;/s?wd=[keyword]&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>保存代码。</li>
+<li>回到终端，<strong>必须</strong>按 <code>Ctrl+C</code> 停止之前的运行，然后重新输入 <code>locust</code> 启动（代码修改后必须重启）。</li>
+<li>回到浏览器 <code>http://localhost:8089</code>，再次启动测试。</li>
+</ol>
+<p>这一次，请盯着 Statistics 列表里的 Name 那一列。</p>
+<ul>
+<li><strong>如果做对了</strong>：不管通过了多少请求，搜索接口那一行永远只显示 <code>GET /s?wd=[keyword]</code>，所有的搜索请求都被合并统计到了这一行里。</li>
+<li><strong>如果做错了</strong>（比如忘了加 <code>name</code> 参数）：你会发现列表越来越长，每一行都是具体的 <code>/s?wd=python</code>, <code>/s?wd=locust</code>…</li>
+</ul>
+
+
+<hr>
+<h1 id="模拟登陆"><a href="#模拟登陆" class="headerlink" title="模拟登陆"></a>模拟登陆</h1><blockquote>
+<p><em>如果在每一个任务里都写一遍登录，导致服务器压力爆炸（每秒登录 1000 次），还会被安全系统封号。</em></p>
+</blockquote>
+<p>在 Locust 里，处理登录只需要记住两点：</p>
+<ol>
+<li><strong><code>on_start</code> 方法</strong>：这是一个特殊的方法。Locust 启动每个虚拟用户时，<strong>只运行一次</strong>这个方法。它是放登录代码的最佳位置。</li>
+<li><strong>Session 自动保持</strong>：<code>self.client</code> 继承自 <code>requests.Session</code>。这意味着，只要在 <code>on_start</code> 里登录成功了，后续所有的 task（任务）都会<strong>自动带上 Cookie</strong>，不需要手动传 Cookie。</li>
+</ol>
+<hr>
+<p>使用 <code>httpbin.org</code>（一个专门用于测试 HTTP 请求的工具网站）来模拟登录过程。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> locust <span class="hljs-keyword">import</span> HttpUser, task, between<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">LoginUser</span>(<span class="hljs-title class_ inherited__">HttpUser</span>):<br>    wait_time = between(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">on_start</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        这个方法在每个用户启动时只运行一次。</span><br><span class="hljs-string">        我们在这里进行登录操作。</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 1. 准备登录数据 (模拟账号密码)</span><br>        login_data = &#123;<br>            <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;test_admin&quot;</span>,<br>            <span class="hljs-string">&quot;password&quot;</span>: <span class="hljs-string">&quot;123456&quot;</span><br>        &#125;<br>        <br>        <span class="hljs-comment"># 2. 发送登录请求 (POST)</span><br>        <span class="hljs-comment"># 我们用 httpbin.org/post 模拟登录接口，它会返回我们需要的数据</span><br>        response = <span class="hljs-variable language_">self</span>.client.post(<span class="hljs-string">&quot;/post&quot;</span>, json=login_data, name=<span class="hljs-string">&quot;Login_Action&quot;</span>)<br>        <br>        <span class="hljs-comment"># 3. 检查是否登录成功 (关键！测开必须有的健壮性思维)</span><br>        <span class="hljs-keyword">if</span> response.status_code == <span class="hljs-number">200</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;登录成功！&quot;</span>)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;登录失败，停止该用户&quot;</span>)<br>            <span class="hljs-variable language_">self</span>.stop() <span class="hljs-comment"># 如果登录失败，直接杀掉这个用户，防止产生错误数据</span><br><br><span class="hljs-meta">    @task(<span class="hljs-params"><span class="hljs-number">3</span></span>)</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">view_profile</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 因为 on_start 已经运行过，这里的请求会自动带上 Cookie</span><br>        <span class="hljs-comment"># 模拟查看个人主页</span><br>        <span class="hljs-variable language_">self</span>.client.get(<span class="hljs-string">&quot;/get&quot;</span>, name=<span class="hljs-string">&quot;View_Profile&quot;</span>)<br><br><span class="hljs-meta">    @task(<span class="hljs-params"><span class="hljs-number">1</span></span>)</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">logout</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 模拟注销 (通常注销后我们会停止该用户，或者重新登录)</span><br>        <span class="hljs-comment"># 这里为了演示，我们只是发个请求</span><br>        <span class="hljs-variable language_">self</span>.client.get(<span class="hljs-string">&quot;/get?action=logout&quot;</span>, name=<span class="hljs-string">&quot;Logout_Action&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><p>场景：<strong>参数化登录（每个人用不同的账号登录）</strong>。</p>
+<p>这里有两种常用的策略，需要根据业务场景选：</p>
+<ol>
+<li><strong>随机抽取（Random）</strong>：适合搜索词、商品ID。数据可以重复使用。</li>
+<li><strong>独占消耗（Queue）</strong>：适合登录账号。<strong>绝对不能</strong>两个虚拟用户同时用同一个账号登录，否则会被互踢。</li>
+</ol>
+<p><strong>以下用第二种：使用队列（Queue）实现账号的“独占读取”</strong>。</p>
+<hr>
+<p>在脚本同级目录下，新建一个文件叫 <code>users.csv</code>，内容如下（模拟账号和密码）：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">user1</span>,<span class="hljs-number">123456</span><br><span class="hljs-attribute">user2</span>,<span class="hljs-number">123456</span><br><span class="hljs-attribute">user3</span>,<span class="hljs-number">123456</span><br><span class="hljs-attribute">user4</span>,<span class="hljs-number">123456</span><br><span class="hljs-attribute">user5</span>,<span class="hljs-number">123456</span><br></code></pre></td></tr></table></figure>
+
+<p>这里有一个<strong>至关重要的性能点</strong>：</p>
+<blockquote>
+<p>文件读取一定要放在 User 类外面（全局）！</p>
+<p>如果写在类里面，Locust 每启动一个虚拟用户就会去读一次文件。如果有 1000 个用户，文件就会被打开 1000 次，内存直接爆炸。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> csv<br><span class="hljs-keyword">import</span> queue  <span class="hljs-comment"># 引入队列库，用于保证数据先进先出，不重复</span><br><span class="hljs-keyword">from</span> locust <span class="hljs-keyword">import</span> HttpUser, task, between<br><br><span class="hljs-comment"># =========================================</span><br><span class="hljs-comment"># 1. 全局数据加载区 (只运行一次)</span><br><span class="hljs-comment"># =========================================</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在加载测试数据...&quot;</span>)<br>user_data_queue = queue.Queue() <span class="hljs-comment"># 创建一个先进先出队列</span><br><br><span class="hljs-keyword">try</span>:<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;users.csv&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        reader = csv.reader(f)<br>        <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> reader:<br>            <span class="hljs-comment"># row 也是一个列表，比如 [&#x27;user1&#x27;, &#x27;123456&#x27;]</span><br>            user_data_queue.put(row) <br><span class="hljs-keyword">except</span> FileNotFoundError:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;错误：找不到 users.csv 文件！&quot;</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;数据加载完成，队列中共有 <span class="hljs-subst">&#123;user_data_queue.qsize()&#125;</span> 条数据&quot;</span>)<br><br><br><span class="hljs-comment"># =========================================</span><br><span class="hljs-comment"># 2. 虚拟用户类</span><br><span class="hljs-comment"># =========================================</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">CsvLoginUser</span>(<span class="hljs-title class_ inherited__">HttpUser</span>):<br>    wait_time = between(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">on_start</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        用户启动时，从队列里领一个账号。</span><br><span class="hljs-string">        如果队列空了，说明账号用完了，这个用户就必须直接退出。</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">try</span>:<br>            <span class="hljs-comment"># get(block=False) 表示如果队列空了直接报错，不等待</span><br>            <span class="hljs-comment"># pop 出一条数据，比如 [&#x27;user1&#x27;, &#x27;123456&#x27;]</span><br>            user_info = user_data_queue.get(block=<span class="hljs-literal">False</span>) <br>            <br>            <span class="hljs-variable language_">self</span>.username = user_info[<span class="hljs-number">0</span>]<br>            <span class="hljs-variable language_">self</span>.password = user_info[<span class="hljs-number">1</span>]<br>            <br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前用户领取账号: <span class="hljs-subst">&#123;self.username&#125;</span>&quot;</span>)<br>            <br>            <span class="hljs-comment"># 这里调用登录逻辑（模拟）</span><br>            <span class="hljs-variable language_">self</span>.login()<br>            <br>        <span class="hljs-keyword">except</span> queue.Empty:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;【悲报】账号不够分了！当前用户无法启动，直接退出。&quot;</span>)<br>            <span class="hljs-variable language_">self</span>.stop()  <span class="hljs-comment"># 关键：停止该用户</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">login</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 模拟登录请求</span><br>        <span class="hljs-variable language_">self</span>.client.post(<span class="hljs-string">&quot;/login&quot;</span>, json=&#123;<br>            <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-variable language_">self</span>.username, <br>            <span class="hljs-string">&quot;password&quot;</span>: <span class="hljs-variable language_">self</span>.password<br>        &#125;, name=<span class="hljs-string">&quot;Login_Action&quot;</span>)<br><br><span class="hljs-meta">    @task</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">do_something</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 登录后的业务操作</span><br>        <span class="hljs-variable language_">self</span>.client.get(<span class="hljs-string">&quot;/profile&quot;</span>, name=<span class="hljs-string">&quot;View_Profile&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>运行脚本</strong></li>
+<li><strong>设置 Web 界面</strong>：<ul>
+<li><strong>Users</strong>: 设置 <strong>6</strong> 个 ( CSV 里只有 <strong>5</strong> 条数据)。</li>
+<li><strong>Spawn rate</strong>: 1</li>
+<li>Host: <code>https://httpbin.org</code></li>
+</ul>
+</li>
+<li><strong>观察终端输出</strong>：<ul>
+<li>看到前 5 个用户打印 <code>当前用户领取账号: userX</code>。</li>
+<li><strong>第 6 个用户</strong>启动时，会触发 <code>【悲报】账号不够分了！</code>，然后自动退出。</li>
+</ul>
+</li>
+</ol>
+
+
+<hr>
+<p>问：<em>“直接把数据读到一个 list 列表里，然后用 random.choice 随机选不行吗？”</em></p>
+<blockquote>
+<p>“如果是搜索关键词，可以用 list+random。</p>
+<p>但如果是登录账号，用 random 会导致两个虚拟用户随机到了同一个账号 user1。</p>
+<p>现实中，后登录的 user1 会把先登录的 user1 踢下线（Session 互斥），导致前一个用户的后续请求全部报错。</p>
+<p>所以对于消耗型数据（如账号、优惠券码），必须用 Queue 做到取一个少一个，保证线程安全。”</p>
+</blockquote>
+<hr>
+<h1 id="无界面运行"><a href="#无界面运行" class="headerlink" title="无界面运行"></a>无界面运行</h1><p>在真实的生产环境中（ Linux 服务器），通常是没有图形界面的，往往需要把它集成到 Jenkins 或 GitLab CI 里的自动化流水线中，这时候<strong>必须</strong>使用命令行模式。</p>
+<ul>
+<li><strong>节省资源</strong>：图形界面（Web UI）本身也会消耗电脑资源。当要模拟几万并发时，哪怕一点点资源都很宝贵。</li>
+<li><strong>自动化集成</strong>：CI&#x2F;CD 流水线（比如 Jenkins）只能运行命令，没有人去点网页上的 “Start” 按钮。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">locust --headless -u 10 -r 2 -t 30s --html result.html --host https://httpbin.org<br></code></pre></td></tr></table></figure>
+
+<p><strong>参数详解：</strong></p>
+<ul>
+<li><code>--headless</code>: <strong>核心开关</strong>。告诉 Locust 不要启动网页，直接在后台跑。</li>
+<li><code>-u 10</code> (Users): 启动 <strong>10</strong> 个用户。</li>
+<li><code>-r 2</code> (Rate): 每秒启动 <strong>2</strong> 个用户（5秒后达到满载）。</li>
+<li><code>-t 30s</code> (Time): 运行 <strong>30秒</strong> 后自动停止。</li>
+<li><code>--html result.html</code>: 测试结束后，自动生成一个漂亮的 HTML 报告文件。</li>
+</ul>
+<hr>
+<p>输入命令后，会看到屏幕上只有简单的文字在滚动，不再有网页弹出来。</p>
+<ul>
+<li>它会显示 <code>Ramping to 10 users...</code></li>
+<li>然后每隔几秒打印一次当前的统计数据。</li>
+<li>30秒倒计时结束后，它会自动停止，并显示 <code>Shutting down</code>。</li>
+</ul>
+<p>去文件夹里找一找，多了一个叫 result.html 的文件。打开会看到一个包含图表、统计数据的完整报告。</p>
+<p>“每次自动化压力测试结束后，会配置 Locust 自动导出 HTML 报告，并发送邮件给开发团队，这样大家不用跑脚本也能看到性能趋势。”</p>
+
+
+<hr>
+<p>问 <strong>“为什么要用 Locust 而不用 JMeter？”</strong></p>
+<blockquote>
+<p>“JMeter 虽然功能强大，但它是基于线程的，并发很高时非常吃内存。而 Locust 是**基于协程（Gevent）**的，更轻量，单机能支持更高的并发。</p>
+<p>更重要的是，Locust 是 Code-as-Infrastructure（代码即各种配置），更喜欢用 Python 代码来维护复杂的测试逻辑（比如复杂的加密、断言），而不是在 XML 界面里点点点，这样更利于版本控制和团队协作。”</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Testing/" class="category-chain-item">Testing</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" class="print-no-link">#性能测试</a>
+      
+        <a href="/tags/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" class="print-no-link">#压力测试</a>
+      
+        <a href="/tags/Locust/" class="print-no-link">#Locust</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Locust基础学习</div>
+      <div>https://lilpear2002.github.io/2025/12/22/Locust基础学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/23/requests%E5%BA%93%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="requests库基础学习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">requests库基础学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/22/git%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="git基础学习">
+                        <span class="hidden-mobile">git基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
