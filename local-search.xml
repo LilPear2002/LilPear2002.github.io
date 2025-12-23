@@ -47,9 +47,9 @@
     
     <tags>
       
-      <tag>Locust</tag>
-      
       <tag>性能测试</tag>
+      
+      <tag>Locust</tag>
       
       <tag>压力测试</tag>
       
@@ -434,11 +434,11 @@
     
     <tags>
       
-      <tag>性能测试</tag>
-      
       <tag>接口测试</tag>
       
       <tag>自动化测试</tag>
+      
+      <tag>性能测试</tag>
       
       <tag>Mock</tag>
       
@@ -649,9 +649,9 @@
       
       <tag>Web自动化测试</tag>
       
-      <tag>selenium</tag>
-      
       <tag>java</tag>
+      
+      <tag>selenium</tag>
       
     </tags>
     
@@ -709,6 +709,8 @@
     
     <tags>
       
+      <tag>Python基础</tag>
+      
       <tag>流程控制</tag>
       
       <tag>数组</tag>
@@ -716,8 +718,6 @@
       <tag>方法</tag>
       
       <tag>基础语法</tag>
-      
-      <tag>Python基础</tag>
       
     </tags>
     
@@ -742,8 +742,6 @@
     
     <tags>
       
-      <tag>Java SE</tag>
-      
       <tag>流程控制</tag>
       
       <tag>数组</tag>
@@ -751,6 +749,8 @@
       <tag>方法</tag>
       
       <tag>基础语法</tag>
+      
+      <tag>Java SE</tag>
       
     </tags>
     
