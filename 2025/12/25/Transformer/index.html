@@ -1,0 +1,851 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Transformer 架构是一种基于自注意力机制（Self-Attention）的深度学习模型，由 Google 团队在 2017 年的论文《Attention Is All You Need》中首次提出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Transformer">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/25/Transformer/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="Transformer 架构是一种基于自注意力机制（Self-Attention）的深度学习模型，由 Google 团队在 2017 年的论文《Attention Is All You Need》中首次提出">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/transformer.jpg">
+<meta property="article:published_time" content="2025-12-25T01:20:20.000Z">
+<meta property="article:modified_time" content="2025-12-25T03:17:20.024Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="NLP">
+<meta property="article:tag" content="Transformer">
+<meta property="article:tag" content="大模型">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/transformer.jpg">
+  
+  
+  
+  <title>Transformer - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Transformer"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-25 09:20" pubdate>
+          2025年12月25日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Transformer</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <img src="/2025/12/25/Transformer/image1.png" srcset="/img/loading.gif" lazyload class="" title="Transformer架构">
+
+<h1 id="基础架构"><a href="#基础架构" class="headerlink" title="基础架构"></a>基础架构</h1><p>Transformer 的本质是一个 <strong>Encoder-Decoder（编码器-解码器）</strong> 架构。想象成一个“翻译官”：编码器负责读懂原文，解码器负责根据理解出的意思写出译文。</p>
+<hr>
+<h3 id="Encoder（左侧：编码器堆栈）"><a href="#Encoder（左侧：编码器堆栈）" class="headerlink" title="Encoder（左侧：编码器堆栈）"></a>Encoder（左侧：编码器堆栈）</h3><p>编码器的任务是提取特征。它由 6 层（原论文参数，可调整）相同的层堆叠而成。每一层都有两个主要的子层：</p>
+<ul>
+<li><strong>Multi-Head Self-Attention（多头自注意力层）：</strong> 帮助模型在对某个词编码时，查看输入序列中的其他单词。</li>
+<li><strong>Feed Forward（前馈神经网络）：</strong> 对每个位置的特征进行独立的处理和非线性变换。</li>
+</ul>
+<h3 id="Decoder（右侧：解码器堆栈）"><a href="#Decoder（右侧：解码器堆栈）" class="headerlink" title="Decoder（右侧：解码器堆栈）"></a><strong>Decoder（右侧：解码器堆栈）</strong></h3><p>解码器的任务是生成输出。它同样由 6 层组成，但比编码器多了一个子层：</p>
+<ul>
+<li><strong>Masked Multi-Head Attention（掩码多头自注意力层）：</strong> 确保在生成当前词时，模型只能看到之前已经生成的词，而不能“偷看”后面的答案。</li>
+<li><strong>Encoder-Decoder Attention（编码器-解码器注意力层）：</strong> 这是两者的桥梁。它让解码器可以重点关注输入序列中与当前生成词相关的部分（比如翻译“苹果”时，注意力会集中在原句中的 “Apple” 上）。</li>
+</ul>
+<hr>
+<p>看一个句子是如何被处理的：</p>
+<ol>
+<li><strong>词嵌入（Input Embedding）：</strong> 单词（如 “Hello”）被转换成高维向量。</li>
+<li><strong>位置编码（Positional Encoding）：</strong> 由于 Transformer 没有顺序感，我们需要给向量加上“位置标签”，告诉模型单词在句子里的顺序。</li>
+<li><strong>进入 Encoder：</strong><ul>
+<li>自注意力机制计算词与词之间的关系。</li>
+<li>通过**残差连接（Residual Connection）<strong>和</strong>层归一化（Layer Norm）**防止训练时的梯度消失。</li>
+</ul>
+</li>
+<li><strong>传递给 Decoder：</strong> Encoder 的输出作为“记忆”传递给 Decoder。</li>
+<li><strong>Decoder 生成：</strong> Decoder 逐个生成单词。生成下一个词时，它会同时参考：<ul>
+<li>已经生成的词。</li>
+<li>Encoder 提供的原文上下文。</li>
+</ul>
+</li>
+<li><strong>线性层与 Softmax：</strong> 最后通过一个全连接层和 Softmax 函数，从词汇表中选出概率最大的那个词。</li>
+</ol>
+<hr>
+<h1 id="BERT"><a href="#BERT" class="headerlink" title="BERT"></a>BERT</h1><p>BERT 的全称是 <strong>Bidirectional Encoder Representations from Transformers</strong>。它的核心逻辑是：<strong>“既然 Encoder 能够一眼看全句，那我就让它把全句的上下文信息压榨到极致。”</strong></p>
+<hr>
+<h2 id="1-BERT-的架构：Encoder-Only"><a href="#1-BERT-的架构：Encoder-Only" class="headerlink" title="1. BERT 的架构：Encoder-Only"></a>1. BERT 的架构：Encoder-Only</h2><p>BERT 彻底舍弃了 Transformer 的 Decoder 部分，只保留了 <strong>Encoder</strong> 堆栈。</p>
+<ul>
+<li><strong>双向性 (Bidirectional)</strong>：与传统模型从左到右阅读不同，BERT 在处理每一个词时，都能<strong>同时</strong>看到它左边和右边的所有词。</li>
+<li><strong>目标</strong>：它不是为了“生成”句子（比如翻译或聊天），而是为了“理解”句子。它要把每个词转变成包含极其丰富上下文信息的<strong>特征向量</strong>。</li>
+</ul>
+<hr>
+<h2 id="2-如何训练"><a href="#2-如何训练" class="headerlink" title="2. 如何训练"></a>2. 如何训练</h2><p>既然没有 Decoder 目标序列，BERT 怎么训练呢？Google 提出了两个自监督任务：</p>
+<h3 id="任务-A：掩码语言模型-Masked-LM-MLM"><a href="#任务-A：掩码语言模型-Masked-LM-MLM" class="headerlink" title="任务 A：掩码语言模型 (Masked LM, MLM)"></a><strong>任务 A：掩码语言模型 (Masked LM, MLM)</strong></h3><p>这是 BERT 最著名的“完形填空”训练法：</p>
+<ol>
+<li>输入一句话，比如：“我 [MASK] 猫”。</li>
+<li>模型通过双向 Attention 观察“我”和“猫”，推测出 [MASK] 位置应该是“爱”。</li>
+</ol>
+<ul>
+<li><strong>意义</strong>：这强制模型去理解词与词之间的双向逻辑关系，而不是像 GPT 那样只根据前文猜后文。</li>
+</ul>
+<h3 id="任务-B：下一句预测-Next-Sentence-Prediction-NSP"><a href="#任务-B：下一句预测-Next-Sentence-Prediction-NSP" class="headerlink" title="任务 B：下一句预测 (Next Sentence Prediction, NSP)"></a><strong>任务 B：下一句预测 (Next Sentence Prediction, NSP)</strong></h3><ol>
+<li>给模型两句话：A 和 B。</li>
+<li>让模型判断 B 是不是 A 的下一句话。</li>
+</ol>
+<ul>
+<li><strong>意义</strong>：这让模型学会了理解<strong>句子与句子之间</strong>的层级关系，对问答（QA）任务极其重要。</li>
+</ul>
+<hr>
+<h2 id="3-BERT-的输入表征"><a href="#3-BERT-的输入表征" class="headerlink" title="3. BERT 的输入表征"></a>3. BERT 的输入表征</h2><p>BERT 为了能处理各种下游任务，设计了非常精巧的输入：</p>
+<ul>
+<li><strong>Token Embeddings</strong>：词向量。</li>
+<li><strong>Segment Embeddings</strong>：区分第一句话和第二句话。</li>
+<li><strong>Position Embeddings</strong>：位置编码（BERT 使用的是可学习的向量，而不是正余弦函数）。</li>
+<li><strong>[CLS] 标志</strong>：放在句首，它的输出向量被看作是<strong>整句话的语义总结</strong>，常用于分类任务。</li>
+</ul>
+<hr>
+<h1 id="GPT"><a href="#GPT" class="headerlink" title="GPT"></a>GPT</h1><p>既然我们已经理解了 BERT 这种“双向全能”的 Encoder 架构，现在我们来看看目前大模型（LLM）的主流——<strong>Decoder-only 架构</strong>。以 GPT（Generative Pre-trained Transformer）为例，它的核心逻辑是：<strong>“只看过去，预测未来”</strong>。</p>
+<hr>
+<h2 id="1-架构核心：单向性（Unidirectional）"><a href="#1-架构核心：单向性（Unidirectional）" class="headerlink" title="1. 架构核心：单向性（Unidirectional）"></a>1. 架构核心：单向性（Unidirectional）</h2><p>与 BERT 能同时看到左右两边不同，GPT 的 Decoder 架构在处理信息时是<strong>单向自回归</strong>的。</p>
+<ul>
+<li><strong>受限视野</strong>：在处理第n个词时，模型只能看到前 n-1个词。</li>
+<li><strong>物理实现</strong>：这是通过 <strong>Masked Multi-Head Attention（掩码多头注意力）</strong> 实现的。在训练时，我们会用一个上三角矩阵（Look-ahead Mask）把当前位置之后的词全部遮住。</li>
+<li><strong>为什么这么做？</strong>：为了模拟真实的生成场景。在现实中，我们说话是一个字一个字往外蹦的，你不可能在说第一个字时就“预见”到最后一个字的精确表征。</li>
+</ul>
+<hr>
+<h2 id="2-为什么现在的-LLM-几乎全是-Decoder-only？"><a href="#2-为什么现在的-LLM-几乎全是-Decoder-only？" class="headerlink" title="2. 为什么现在的 LLM 几乎全是 Decoder-only？"></a>2. 为什么现在的 LLM 几乎全是 Decoder-only？</h2><h3 id="1-训练与推理的一致性"><a href="#1-训练与推理的一致性" class="headerlink" title="(1) 训练与推理的一致性"></a><strong>(1) 训练与推理的一致性</strong></h3><ul>
+<li><strong>BERT</strong> 训练时是做完形填空（填中间），但实际使用时往往是生成长文本（往后写）。这种训练和使用的不一致会导致性能损耗。</li>
+<li><strong>GPT</strong> 训练时就是“根据前文猜下一个词”，这和它实际聊天时的逻辑完全一样。</li>
+</ul>
+<h3 id="2-零样本迁移能力（Zero-shot-Learning）"><a href="#2-零样本迁移能力（Zero-shot-Learning）" class="headerlink" title="(2) 零样本迁移能力（Zero-shot Learning）"></a><strong>(2) 零样本迁移能力（Zero-shot Learning）</strong></h3><p>Decoder-only 架构天生适合<strong>指令遵循</strong>。只要你给它一个开头（Prompt），它就能顺着你的意思一直写下去。研究发现，当模型参数规模足够大时，这种单向预测的能力会产生“涌现”现象，展现出极强的通用性。</p>
+<h3 id="3-显存效率"><a href="#3-显存效率" class="headerlink" title="(3) 显存效率"></a><strong>(3) 显存效率</strong></h3><p>在生成长文本时，Decoder 只需要维护一个 <strong>KV Cache</strong>（缓存已经算过的词的 Key 和 Value），每次预测新词只需要计算新词的特征，而不需要像 Encoder 那样重新扫描全句，这在大规模生成时效率更高。</p>
+<hr>
+<h2 id="3-GPT-的训练全过程（Generative-Pre-training）"><a href="#3-GPT-的训练全过程（Generative-Pre-training）" class="headerlink" title="3. GPT 的训练全过程（Generative Pre-training）"></a>3. GPT 的训练全过程（Generative Pre-training）</h2><p>GPT 的训练通常分为两个阶段：</p>
+<h3 id="第一阶段：无监督预训练（Pre-training）"><a href="#第一阶段：无监督预训练（Pre-training）" class="headerlink" title="第一阶段：无监督预训练（Pre-training）"></a><strong>第一阶段：无监督预训练（Pre-training）</strong></h3><p>在海量的互联网文本上进行“接龙游戏”。</p>
+<ul>
+<li><strong>目标函数</strong>：最大化似然概率。</li>
+<li><strong>意义</strong>：这一步是为了让模型学会人类世界的知识、语法、逻辑和常识。</li>
+</ul>
+<h3 id="第二阶段：有监督微调（SFT）与-RLHF"><a href="#第二阶段：有监督微调（SFT）与-RLHF" class="headerlink" title="第二阶段：有监督微调（SFT）与 RLHF"></a><strong>第二阶段：有监督微调（SFT）与 RLHF</strong></h3><p>预训练后的模型是一个“复读机”，它只会顺着话往下说，不一定会听你的指令。</p>
+<ul>
+<li><strong>SFT</strong>：用人工编写的问答对来教它：“当我问你问题时，你要给出答案，而不是重复我的问题。”</li>
+<li><strong>RLHF</strong>：通过人类反馈强化学习，让模型更符合人类的价值观和偏好。</li>
+</ul>
+<hr>
+<h2 id="4-Decoder-only-vs-Encoder-only"><a href="#4-Decoder-only-vs-Encoder-only" class="headerlink" title="4. Decoder-only vs. Encoder-only"></a>4. Decoder-only vs. Encoder-only</h2><table>
+<thead>
+<tr>
+<th><strong>维度</strong></th>
+<th><strong>Encoder-only (如 BERT)</strong></th>
+<th><strong>Decoder-only (如 GPT)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>注意力机制</strong></td>
+<td>双向（Bidirectional）</td>
+<td>单向（Masked &#x2F; Causal）</td>
+</tr>
+<tr>
+<td><strong>核心任务</strong></td>
+<td>理解、分类、标注</td>
+<td>生成、对话、推理</td>
+</tr>
+<tr>
+<td><strong>预训练目标</strong></td>
+<td>掩码预测（完形填空）</td>
+<td>下一个词预测（文本接龙）</td>
+</tr>
+<tr>
+<td><strong>优势</strong></td>
+<td>对词的表征极其精准</td>
+<td>逻辑推理能力强，适合长文本生成</td>
+</tr>
+</tbody></table>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/LLM/" class="category-chain-item">LLM</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Transformer/" class="print-no-link">#Transformer</a>
+      
+        <a href="/tags/NLP/" class="print-no-link">#NLP</a>
+      
+        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" class="print-no-link">#大模型</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Transformer</div>
+      <div>https://lilpear2002.github.io/2025/12/25/Transformer/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/25/Vibe-Coding/" title="Vibe Coding">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Vibe Coding</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/23/requests%E5%BA%93%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="requests库基础学习">
+                        <span class="hidden-mobile">requests库基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

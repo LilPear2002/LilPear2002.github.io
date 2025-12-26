@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="AI for Software Engineering">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vibe Coding">
+<meta property="og:url" content="https://lilpear2002.github.io/2025/12/25/Vibe-Coding/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="AI for Software Engineering">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/vibe-coding.jpg">
+<meta property="article:published_time" content="2025-12-25T03:41:04.000Z">
+<meta property="article:modified_time" content="2025-12-25T05:20:37.240Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="agent">
+<meta property="article:tag" content="mcp">
+<meta property="article:tag" content="vibe-coding">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/vibe-coding.jpg">
+  
+  
+  
+  <title>Vibe Coding - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Vibe Coding"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-25 11:41" pubdate>
+          2025年12月25日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Vibe Coding</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Vibe-Coding"><a href="#Vibe-Coding" class="headerlink" title="Vibe Coding"></a>Vibe Coding</h1><p>Vibe Coding 压根就不关心你代码具体怎么实现的，核心关注点是代码生成的结果对不对。至于实现逻辑、底层细节这些繁琐的活，都交给 AI 去搞定。我只需要盯着效果，觉得哪里不对、哪里有问题，就直接改 prompt，重新提需求，AI 会自动帮你调整和优化，直到最后结果完全符合你的预期为止。整个过程你都沉浸在“<strong>说想法—&gt;看结果—&gt;继续调整—&gt;再出结果</strong>”的循环里。</p>
+<h3 id="集成开发环境-IDE-终端"><a href="#集成开发环境-IDE-终端" class="headerlink" title="集成开发环境 (IDE) &amp; 终端"></a>集成开发环境 (IDE) &amp; 终端</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/"><strong>Visual Studio Code</strong></a>: 一款功能强大的集成开发环境，适合代码阅读与手动修改。其 <code>Local History</code> 插件对项目版本管理尤为便捷。</li>
+<li><strong>虚拟环境 (.venv)</strong>: 强烈推荐使用，可实现项目环境的一键配置与隔离，特别适用于 Python 开发。</li>
+<li><a target="_blank" rel="noopener" href="https://cursor.com/"><strong>Cursor</strong></a>: 已经占领用户心智高地，人尽皆知。</li>
+<li><a target="_blank" rel="noopener" href="https://www.warp.dev/"><strong>Warp</strong></a>: 集成 AI 功能的现代化终端，能有效提升命令行操作和错误排查的效率。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/neovim/neovim"><strong>Neovim (nvim)</strong></a>: 一款高性能的现代化 Vim 编辑器，拥有丰富的插件生态，是键盘流开发者的首选。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/LazyVim/LazyVim"><strong>LazyVim</strong></a>: 基于 Neovim 的配置框架，预置了 LSP、代码补全、调试等全套功能，实现了开箱即用与深度定制的平衡。</li>
+</ul>
+<h3 id="AI-模型-服务"><a href="#AI-模型-服务" class="headerlink" title="AI 模型 &amp; 服务"></a>AI 模型 &amp; 服务</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://claude.ai/new"><strong>Claude Opus 4.5</strong></a>: 性能强大的 AI 模型，通过 Claude Code 等平台提供服务，并支持 CLI 和 IDE 插件。</li>
+<li><a target="_blank" rel="noopener" href="https://chatgpt.com/codex/"><strong>gpt-5.1-codex.1-codex (xhigh)</strong></a>: 适用于处理大型项目和复杂逻辑的 AI 模型，可通过 Codex CLI 等平台使用。</li>
+<li><a target="_blank" rel="noopener" href="https://factory.ai/news/terminal-bench"><strong>Droid</strong></a>: 提供对 Claude Opus 4.5 等多种模型的 CLI 访问。</li>
+<li><a target="_blank" rel="noopener" href="https://kiro.dev/"><strong>Kiro</strong></a>: 目前提供免费的 Claude Opus 4.5 模型访问，并提供客户端及 CLI 工具。</li>
+<li><a target="_blank" rel="noopener" href="https://geminicli.com/"><strong>Gemini CLI</strong></a>: 提供对 Gemini 模型的免费访问，适合执行脚本、整理文档和探索思路。</li>
+<li><a target="_blank" rel="noopener" href="https://antigravity.google/"><strong>antigravity</strong></a>: 目前由 Google 提供的免费 AI 服务，支持使用 Claude Opus 4.5 和 Gemini 3.0 Pro。</li>
+<li><a target="_blank" rel="noopener" href="https://aistudio.google.com/prompts/new_chat"><strong>AI Studio</strong></a>: Google 提供的免费服务，支持使用 Gemini 3.0 Pro 和 Nano Banana。</li>
+<li><a target="_blank" rel="noopener" href="https://cloud.google.com/gemini-enterprise"><strong>Gemini Enterprise</strong></a>: 面向企业用户的 Google AI 服务，目前可以免费使用。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/copilot"><strong>GitHub Copilot</strong></a>: 由 GitHub 和 OpenAI 联合开发的 AI 代码补全工具。</li>
+<li><a target="_blank" rel="noopener" href="https://www.kimi.com/"><strong>Kimi K2</strong></a>: 一款国产 AI 模型，适用于多种常规任务。</li>
+<li><a target="_blank" rel="noopener" href="https://bigmodel.cn/"><strong>GLM</strong></a>: 由智谱 AI 开发的国产大语言模型。</li>
+<li><a target="_blank" rel="noopener" href="https://qwenlm.github.io/qwen-code-docs/zh/cli/"><strong>Qwen</strong></a>: 由阿里巴巴开发的 AI 模型，其 CLI 工具提供免费使用额度。</li>
+</ul>
+<h3 id="开发与辅助工具"><a href="#开发与辅助工具" class="headerlink" title="开发与辅助工具"></a>开发与辅助工具</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://app.augmentcode.com/"><strong>Augment</strong></a>: 提供强大的上下文引擎和提示词优化功能。</li>
+<li><a target="_blank" rel="noopener" href="https://windsurf.com/"><strong>Windsurf</strong></a>: 为新用户提供免费额度的 AI 开发工具。</li>
+<li><a target="_blank" rel="noopener" href="https://ollama.com/"><strong>Ollama</strong></a>: 本地大模型管理工具，可通过命令行方便地拉取和运行开源模型。</li>
+<li><a target="_blank" rel="noopener" href="https://www.mermaidchart.com/"><strong>Mermaid Chart</strong></a>: 用于将文本描述转换为架构图、序列图等可视化图表。</li>
+<li><a target="_blank" rel="noopener" href="https://notebooklm.google.com/"><strong>NotebookLM</strong></a>: 一款用于 AI 解读资料、音频和生成思维导图的工具。</li>
+<li><a target="_blank" rel="noopener" href="https://zread.ai/"><strong>Zread</strong></a>: AI 驱动的 GitHub 仓库阅读工具，有助于快速理解项目代码。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tmux/tmux"><strong>tmux</strong></a>: 强大的终端复用工具，支持会话保持、分屏和后台任务，是服务器与多项目开发的理想选择。</li>
+<li><a target="_blank" rel="noopener" href="https://dbeaver.io/"><strong>DBeaver</strong></a>: 一款通用数据库管理客户端，支持多种数据库，功能全面。</li>
+</ul>
+<p>国内大厂IDE：Qoder、Trae、CodeBuddy、comate、joyCode、codeFlicker、catpaw……</p>
+<p>GLM4.7  minimax2.1</p>
+<hr>
+<h1 id="Tools-Function-Function-Calling"><a href="#Tools-Function-Function-Calling" class="headerlink" title="Tools Function(Function Calling)"></a>Tools Function(Function Calling)</h1><p>AI擅长的是非结构化数据的分析，如果需求中包含严格的逻辑校验或需要读写数据库，纯Prompt模式就难以实现了</p>
+<p>例如一个业务流程如下：</p>
+<img src="/2025/12/25/Vibe-Coding/image1.png" srcset="/img/loading.gif" lazyload class="" title="业务流程图">
+
+<p>这里就涉及到了很多数据库操作，比如：</p>
+<ul>
+<li>查询课程信息</li>
+<li>查询校区信息</li>
+<li>新增课程试听预约单</li>
+</ul>
+<p>可以看出整个业务流程有一部分任务是负责与用户沟通，获取用户意图的，这些是大模型擅长的事情：</p>
+<ul>
+<li>大模型的任务：<ul>
+<li>了解、分析用户的兴趣、学历等信息</li>
+<li>给用户推荐课程</li>
+<li>引导用户预约试听</li>
+<li>引导学生留下联系方式</li>
+</ul>
+</li>
+</ul>
+<p>还有一些任务是需要操作数据库的，这些任务是java&#x2F;python程序擅长的：</p>
+<ul>
+<li>传统应用需要完成的任务：<ul>
+<li>根据条件查询课程</li>
+<li>查询校区信息</li>
+<li>新增预约单</li>
+</ul>
+</li>
+</ul>
+<p>为了能实现智能客服功能，我们就需要结合两者的能力。Function Calling就是起到这样的作用。</p>
+<p>首先，可以把数据库的操作都定义成Function，或者也可以叫Tool，也就是工具。</p>
+<p>然后，可以在提示词中，告诉大模型，什么情况下需要调用什么工具。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs markdown">你是一家名为“黑马程序员”的职业教育公司的智能客服小黑。<br>你的任务给用户提供课程咨询、预约试听服务。<br>1.课程咨询：<br><span class="hljs-bullet">-</span> 提供课程建议前必须从用户那里获得：学习兴趣、学员学历信息<br><span class="hljs-bullet">-</span> 然后基于用户信息，调用工具查询符合用户需求的课程信息,推荐给用户<br><span class="hljs-bullet">-</span> 不要直接告诉用户课程价格，而是想办法让用户预约课程。<br><span class="hljs-bullet">-</span> 与用户确认想要了解的课程后，再进入课程预约环节<br>2.课程预约<br><span class="hljs-bullet">-</span> 在帮助用户预约课程之前，你需要询问学生要去哪个校区试听。<br><span class="hljs-bullet">-</span> 可以通过工具查询校区列表，供用户选择要预约的校区。<br><span class="hljs-bullet">-</span> 你还需要从用户那里获得用户的联系方式、姓名，才能进行课程预约。<br><span class="hljs-bullet">-</span> 收集到预约信息后要跟用户最终确认信息是否正确。<br>-信息无误后，调用工具生成课程预约单。<br><br>查询课程的工具如下：xxx<br>查询校区的工具如下：xxx<br>新增预约单的工具如下：xxx<br></code></pre></td></tr></table></figure>
+
+<p>也就是说，在提示词中告诉大模型，什么情况下需要调用什么工具，将来用户在与大模型交互的时候，大模型就可以在适当的时候调用工具了。</p>
+<p>流程如下：</p>
+<img src="/2025/12/25/Vibe-Coding/image2.png" srcset="/img/loading.gif" lazyload class="" title="流程">
+
+<p>流程解读：</p>
+<ol>
+<li>提前把这些操作定义为Function，</li>
+<li>然后将Function的名称、作用、需要的参数等信息都封装为Prompt提示词与用户的提问一起发送给大模型</li>
+<li>大模型在与用户交互的过程中，根据用户交流的内容判断是否需要调用Function</li>
+<li>如果需要则返回Function名称、参数等信息</li>
+<li>后端解析结果，判断要执行哪个函数，代码执行Function，把结果再次封装到Prompt中发送给AI</li>
+<li>AI继续与用户交互，直到完成任务</li>
+</ol>
+<hr>
+<h1 id="RAG"><a href="#RAG" class="headerlink" title="RAG"></a>RAG</h1><p>大模型存在<strong>知识限制</strong>问题：</p>
+<ul>
+<li>知识数据往往是几个月之前的</li>
+<li>不包含太过<strong>专业领域</strong>或者<strong>企业私有</strong>的数据</li>
+</ul>
+<p>为了解决这些问题，就需要用到RAG了。下面我们简单回顾下RAG原理</p>
+<h3 id="RAG原理"><a href="#RAG原理" class="headerlink" title="RAG原理"></a>RAG原理</h3><p>要解决大模型的知识限制问题，其实并不复杂。解决的思路就是给大模型外挂一个<strong>知识库</strong>，可以是专业领域知识，也可以是企业私有的数据。</p>
+<p>不过，知识库不能简单的直接拼接在提示词中。因为通常知识库数据量都是非常大的，而大模型的上下文是有大小限制的，因此知识库不能直接写在提示词中。</p>
+<p>思路很简单，庞大的知识库中与用户问题相关的其实并不多。所以，需要想办法<strong>从庞大的知识库中找到与用户问题相关的一小部分，组装成提示词</strong>，发送给大模型就可以了。</p>
+<p>全文检索是文字匹配，这里我们要求的是内容上的相似度。而要从内容相似度来判断，这就不得不提到<strong>向量模型</strong>的知识了。</p>
+<h4 id="向量模型"><a href="#向量模型" class="headerlink" title="向量模型"></a>向量模型</h4><p>向量是空间中有方向和长度的量，空间可以是二维，也可以是多维。向量既然是在空间中，两个向量之间就一定能计算距离。</p>
+<p>以二维向量为例，向量之间的距离有两种计算方法：</p>
+<img src="/2025/12/25/Vibe-Coding/image3.png" srcset="/img/loading.gif" lazyload class="" title="相似度计算">
+
+<p>通常，两个向量之间<strong>欧式距离越近</strong>，我们认为两个向量的<strong>相似度越高</strong>。（余弦距离相反，越大相似度越高）</p>
+<p>所以，如果我们能<strong>把文本转为向量</strong>，就可以<strong>通过向量距离来判断文本的相似度</strong>了。</p>
+<p>现在有非常多的文本嵌入模型**，就可以实现将文本向量化。一个好的向量模型，就是要<strong>尽可能让文本含义相似的向量，在空间中距离更近</strong>：</p>
+<img src="/2025/12/25/Vibe-Coding/image4.png" srcset="/img/loading.gif" lazyload class="" title="嵌入模型">
+
+<h3 id="向量数据库"><a href="#向量数据库" class="headerlink" title="向量数据库"></a>向量数据库</h3><table>
+<thead>
+<tr>
+<th><strong>数据库</strong></th>
+<th><strong>特点</strong></th>
+<th><strong>适用场景</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Milvus &#x2F; Zilliz</strong></td>
+<td><strong>老牌霸主。</strong> 性能极强，支持百亿级数据，由国产团队（Zilliz）主导开源。</td>
+<td><strong>大型企业级应用</strong>。如果你面试的是大厂，聊这个最稳。</td>
+</tr>
+<tr>
+<td><strong>Pinecone</strong></td>
+<td><strong>全托管 Serverless。</strong> 不需要自己运维，按需付费，开发者体验极好。</td>
+<td><strong>初创公司或快速原型</strong>。面试时可以提：“我们为了快速验证 RAG 效果，选用了 Pinecone。”</td>
+</tr>
+<tr>
+<td><strong>Qdrant</strong></td>
+<td><strong>Rust 编写。</strong> 极致的查询效率和内存优化，过滤功能非常强大。</td>
+<td><strong>高性能、低延迟</strong>的检索需求。</td>
+</tr>
+</tbody></table>
+<p>还有像ChromaDB、FAISS、pgvector等等常用的向量数据库</p>
+<h3 id="RAG痛点"><a href="#RAG痛点" class="headerlink" title="RAG痛点"></a>RAG痛点</h3><p><strong>切片（Chunking）策略：</strong> “如果文档切得太碎，上下文会丢失；切得太长，噪声又太多。采用 <strong>Semantic Chunking（语义切片）</strong>。”</p>
+<p><strong>重排序（Rerank）：</strong> “初步搜出来的结果不一定最准，可以加一层 <strong>Rerank 模型</strong>，对搜索结果进行二次精选，确保喂给 AI 的是最高质量的参考资料。”</p>
+<p><strong>多路召回：</strong> “结合传统的关键字搜索（BM25）和向量搜索，防止搜不到专有名词。”</p>
+<p>如果答案分散在 A 文档和 B 文档中，传统 RAG 很难把它们串联起来。传统 RAG 如果有新文档加入，往往需要全量重做 Embedding</p>
+<p>现在很多新型RAG系统出现解决这些问题，例如香港大学黄超老师团队开源的LightRAG</p>
+<hr>
+<h1 id="Agent"><a href="#Agent" class="headerlink" title="Agent"></a>Agent</h1><p>Agent 就是给 AI 一个 <strong>“大脑（控制系统）”</strong>，让它能够自主拆解任务、反思错误并闭环解决问题</p>
+<ul>
+<li><strong>大脑（Brain）</strong>：大模型负责推理和决策。</li>
+<li><strong>规划（Planning）</strong>：分解任务为子步骤（如思维链、任务列表）。</li>
+<li><strong>工具使用（Tool Use）</strong>：调用外部工具（搜索、计算、API）。</li>
+<li><strong>记忆（Memory）</strong>：短期记忆（上下文）和长期记忆（向量数据库）。</li>
+<li><strong>行动（Action）</strong>：执行具体操作并观察结果。</li>
+</ul>
+<hr>
+<h1 id="MCP"><a href="#MCP" class="headerlink" title="MCP"></a>MCP</h1><p>MCP（Model Context Protocol，模型上下文协议） ，2024年11月底，由  Anthropic 推出的一种开放标准。旨在为大语言模型（LLM）提供统一的、 标准化方式与外部数据源和工具之间进行通信。</p>
+<img src="/2025/12/25/Vibe-Coding/image5.png" srcset="/img/loading.gif" lazyload class="" title="MCP">
+
+<p>传统AI集成的问题：这种为每个数据源构建独立连接的方式，可以被视为一个M*N问题。 问题：架构碎片化，难以扩展，限制了AI获取必要上下文信息的能力 MCP解决方案：提供统一且可靠的方式来访问所需数据，克服了以往集成方法的局限性</p>
+<p>MCP 作为一种标准化协议，极大地简化了大语言模型与外部世界的交互方式，使开发者能够以统一 的方式为 AI 应用添加各种能力</p>
+<img src="/2025/12/25/Vibe-Coding/image6.png" srcset="/img/loading.gif" lazyload class="" title="MCP2">
+
+<img src="/2025/12/25/Vibe-Coding/image7.png" srcset="/img/loading.gif" lazyload class="" title="MCP3">
+
+<img src="/2025/12/25/Vibe-Coding/image8.png" srcset="/img/loading.gif" lazyload class="" title="MCP4">
+
+<img src="/2025/12/25/Vibe-Coding/image9.png" srcset="/img/loading.gif" lazyload class="" title="MCP5">
+
+<img src="/2025/12/25/Vibe-Coding/image10.png" srcset="/img/loading.gif" lazyload class="" title="MCP6">
+
+<img src="/2025/12/25/Vibe-Coding/image11.png" srcset="/img/loading.gif" lazyload class="" title="MCP7">
+
+<img src="/2025/12/25/Vibe-Coding/image12.png" srcset="/img/loading.gif" lazyload class="" title="MCP8">
+
+<img src="/2025/12/25/Vibe-Coding/image13.png" srcset="/img/loading.gif" lazyload class="" title="MCP9">
+
+<hr>
+<h1 id="A2A"><a href="#A2A" class="headerlink" title="A2A"></a>A2A</h1><p>单一的大型 Agent（通常被称为 Monolithic Agent）会面临以下问题：</p>
+<ul>
+<li><strong>上下文过载：</strong> 让一个 AI 同时负责写代码、调接口、查文档、写报告，它的 Prompt 会变得极其臃肿，导致执行成功率下降。</li>
+<li><strong>术业有专攻：</strong> 就像公司里分开发、测试、产品一样，不同的任务需要不同的“性格”和“技能包”。</li>
+</ul>
+<p><strong>A2A 的本质：</strong> 将复杂任务拆分给多个角色，通过它们之间的<strong>对话、博弈、监督</strong>来提高最终结果的质量。</p>
+<p>谷歌，25年4月10日发布开源的、应用层协议 A2A（Agent-to-Agent 协议），即  Agent-to-Agent。其设计目的是使智能体（Agent）间能够以一种自然的模态进行协 作，类似于人与人之间的互动。</p>
+<p>举例：阿里云 &amp; 火山云 阿里云上创建的 AI Agent，通过A2A协议，可以与火山云上创建的 AI  Agent 进行无缝的通信与协作。</p>
+<hr>
+<h1 id="Agentic-Workflow"><a href="#Agentic-Workflow" class="headerlink" title="Agentic Workflow"></a>Agentic Workflow</h1><p><strong>Agentic Workflow</strong>，即 <strong>“智能体工作流”</strong>，是指由<strong>一个或多个AI智能体</strong>按照预设的规划、逻辑和协作方式，自主或半自主地完成一项复杂任务的多步骤过程。它超越了单次问答，强调的是为达成目标而进行的<strong>动态、序列化、可循环</strong>的行动链条。</p>
+<p><strong>工作流就是指将复杂的任务拆解为一系列</strong>确定的步骤。是一个能够自我规划、反思、调用工具的流程</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/LLM/" class="category-chain-item">LLM</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/vibe-coding/" class="print-no-link">#vibe-coding</a>
+      
+        <a href="/tags/mcp/" class="print-no-link">#mcp</a>
+      
+        <a href="/tags/agent/" class="print-no-link">#agent</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Vibe Coding</div>
+      <div>https://lilpear2002.github.io/2025/12/25/Vibe-Coding/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/25/Transformer/" title="Transformer">
+                        <span class="hidden-mobile">Transformer</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
