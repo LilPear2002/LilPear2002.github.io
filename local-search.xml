@@ -105,11 +105,11 @@
     
     <tags>
       
+      <tag>Locust</tag>
+      
       <tag>性能测试</tag>
       
       <tag>压力测试</tag>
-      
-      <tag>Locust</tag>
       
     </tags>
     
@@ -618,9 +618,9 @@
     
     <tags>
       
-      <tag>python</tag>
-      
       <tag>APP测试理论基础</tag>
+      
+      <tag>python</tag>
       
       <tag>Appium</tag>
       
@@ -674,11 +674,11 @@
     
     <tags>
       
+      <tag>python</tag>
+      
       <tag>Web自动化测试</tag>
       
       <tag>playwright</tag>
-      
-      <tag>python</tag>
       
     </tags>
     
@@ -703,9 +703,9 @@
     
     <tags>
       
-      <tag>Web自动化测试</tag>
-      
       <tag>python</tag>
+      
+      <tag>Web自动化测试</tag>
       
       <tag>java</tag>
       
