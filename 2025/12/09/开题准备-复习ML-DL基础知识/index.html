@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lilpear2002.github.io/img/ML.jpg">
 <meta property="article:published_time" content="2025-12-09T00:51:01.000Z">
-<meta property="article:modified_time" content="2025-12-25T10:04:18.504Z">
+<meta property="article:modified_time" content="2026-01-11T03:32:02.857Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="图神经网络">
 <meta property="article:tag" content="大模型">
@@ -302,7 +302,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          85 字
+          5.1k 字
         
       </span>
     
@@ -313,7 +313,7 @@
         
         
         
-          1 分钟
+          43 分钟
         
       </span>
     
@@ -355,7 +355,378 @@
             
               <div class="markdown-body">
                 
-                <h1 id="机器学习基础"><a href="#机器学习基础" class="headerlink" title="机器学习基础"></a>机器学习基础</h1><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><p>机器学习是人工智能的一个重要分支，旨在通过算法和模型使计算机从数据中学习，从而实现预测或决策。其核心目标是通过分析数据中的模式和规律，构建能够适应新数据的模型</p>
+                <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><p>机器学习是人工智能的一个重要分支，旨在通过算法和模型使计算机从数据中学习，从而实现预测或决策。其核心目标是通过分析数据中的模式和规律，构建能够适应新数据的模型</p>
+<ul>
+<li><strong>监督学习</strong>：数据有明确的“标签”或答案。例如，给模型看大量“邮件内容 + 是否是垃圾邮件”的数据，让它学会区分垃圾邮件。<ul>
+<li><em>常见任务</em>：分类、回归。</li>
+<li><em>常用算法</em>：线性回归、决策树、支持向量机、随机森林。</li>
+</ul>
+</li>
+<li><strong>无监督学习</strong>：数据没有标签。目标是发现数据内在的结构或分组。<ul>
+<li><em>常见任务</em>：聚类、降维。</li>
+<li><em>常用算法</em>：K-Means聚类、主成分分析。</li>
+</ul>
+</li>
+<li><strong>强化学习</strong>：智能体通过与环境互动，根据“奖励”或“惩罚”来学习最佳策略。就像训练小狗做动作。<ul>
+<li><em>常见应用</em>：AlphaGo、机器人控制、游戏AI。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="常见损失函数"><a href="#常见损失函数" class="headerlink" title="常见损失函数"></a>常见损失函数</h2><img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image1.png" srcset="/img/loading.gif" lazyload class="" title="回归损失">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image2.png" srcset="/img/loading.gif" lazyload class="" title="分类损失">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image3.png" srcset="/img/loading.gif" lazyload class="" title="其他损失">
+
+<hr>
+<h2 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h2><p>深度学习是<strong>机器学习的一个特定子领域</strong>，它使用被称为<strong>人工神经网络</strong>的复杂结构，特别是具有许多“层”的深度神经网络来学习。在传统机器学习中，专家需要手工设计和提取数据的特征。<strong>深度学习的最大优势在于，它能自动从原始数据中学习多层次的特征表示</strong>，避免了繁琐的手工特征工程</p>
+<p><strong>关键技术：</strong></p>
+<ul>
+<li><strong>深度神经网络</strong>：如卷积神经网络、循环神经网络、Transformer。</li>
+<li><strong>大数据和强大算力</strong>：深度学习模型通常需要海量数据和GPU等高性能硬件进行训练。</li>
+</ul>
+<hr>
+<h2 id="自监督学习"><a href="#自监督学习" class="headerlink" title="自监督学习"></a>自监督学习</h2><p>它不依赖人工标注，而是<strong>将无监督数据（没有标签）转化为监督学习任务</strong>，通过完成这个“ pretext task ”来学习数据的内在表示</p>
+<p>更广义的定义是：<strong>从数据本身的结构或关系中，自动构造出监督信号</strong>。</p>
+<p><strong>经典例子：</strong></p>
+<ul>
+<li><strong>NLP（如BERT）</strong>：随机遮盖句子中15%的单词，让模型根据上下文预测被遮盖的词。通过这个过程，模型学会了语法、语义和世界知识。</li>
+<li><strong>CV（图像）</strong>：<ul>
+<li>将图片随机旋转，让模型预测旋转的角度。</li>
+<li>将图片切成几块并打乱，让模型拼回原样。</li>
+<li><strong>对比学习（如SimCLR）</strong>：对同一张图片做两种不同的随机裁剪&#x2F;变色，让模型学习“这两个视图来自同一原图”的表示，而与其他图片的视图区分开。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="弱监督学习"><a href="#弱监督学习" class="headerlink" title="弱监督学习"></a>弱监督学习</h2><p><strong>核心思想：使用不完美、不精确、有噪声的标注数据进行学习。</strong><br>它承认无法获得强监督学习所需的“黄金标准”标签，转而利用更易获得但质量较弱的监督信号。</p>
+<hr>
+<h2 id="BPR-算不算自监督学习"><a href="#BPR-算不算自监督学习" class="headerlink" title="BPR 算不算自监督学习"></a>BPR 算不算自监督学习</h2><p>BPR 通常被视为“监督学习”或“协同过滤的主任务损失”，而并不直接等同于现代意义上的“自监督学习”</p>
+<p><strong>标签来源</strong>：BPR 使用的是<strong>真实观测到</strong>的用户-课程交互数据作为“标签”（即：用户点击过的课程比没点击过的分值高）。这些行为数据在传统推荐任务中被看作是训练的“真值”。</p>
+<p><strong>任务目的</strong>：BPR 的目的是直接完成排序任务，而不是为了学习某种更好的特征表达而设计的辅助任务。</p>
+<p><strong>标签的含义：绝对真值 vs. 相对偏好</strong></p>
+<ul>
+<li><strong>传统机器学习</strong>：标签代表<strong>绝对真值 (Ground Truth)</strong>。如果标签是 1，模型就必须向 1 靠拢。</li>
+<li><strong>BPR</strong>：标签代表的是<strong>相对偏好 (Relative Preference)</strong>。BPR 并不关心用户对某门课的绝对评分（是 4 分还是 5 分），它只关心<strong>排序</strong>。<ul>
+<li><strong>BPR 的核心逻辑</strong>：对于用户 u，观测到的交互课程i和未观测到的课程 j，模型只需要学习到：Score(u, i) &gt; Score(u, j)。</li>
+<li><strong>区别点</strong>：在传统分类中，没被标记的样本通常就是“负样本”；而在 BPR 中，没被交互的课程不一定是用户讨厌，可能只是他还没看到。</li>
+</ul>
+</li>
+</ul>
+<p>“我想特别说明的是，本研究中使用的 BPR 损失与传统机器学习中的人工预定义标签有所不同：</p>
+<p>第一，<strong>它是基于隐反馈的自动构造</strong>。传统标签依赖人工标注，而 BPR 利用用户与课程的自然交互行为，通过<strong>负采样技术</strong>自动构造监督信号，这更符合在线教育场景下数据规模大、人工标注难的特点。</p>
+<p>第二，<strong>它体现的是‘相对偏好’而非‘绝对判别’</strong>。不同于传统分类任务对单点样本进行‘是非判断’，BPR 旨在建模一种 <strong>Pairwise（成对）</strong> 的排序关系。通过约束‘已交互课程’的预测值高于‘未交互课程’，从而让模型学习到学习者潜在的意图排序，这与推荐系统提升 Top-N 排序效果的目标直接对齐。”</p>
+<hr>
+<h2 id="推荐中的自监督学习三种范式"><a href="#推荐中的自监督学习三种范式" class="headerlink" title="推荐中的自监督学习三种范式"></a>推荐中的自监督学习三种范式</h2><p><strong>1. 对比学习（Contrastive Learning）</strong></p>
+<p>通过构造同一数据的不同“视角”，拉近正样本对（相似样本）的距离，推远负样本对（不相似样本）的距离。</p>
+<ul>
+<li><strong>视角创建</strong>：<ul>
+<li>数据层面的增强（如掩码、裁剪、添加噪声）</li>
+<li>特征层面的扰动（如向嵌入向量添加噪声）</li>
+<li>模型层面的生成（如通过神经网络模块生成不同视角）</li>
+</ul>
+</li>
+<li><strong>配对采样</strong>：<ul>
+<li>自然采样：同一数据的不同视角为正对，不同数据的视角为负对</li>
+<li>基于分数的采样：通过聚类或距离计算确定正负对</li>
+</ul>
+</li>
+<li><strong>对比目标函数</strong>：<ul>
+<li>常用 <strong>InfoNCE</strong> 损失</li>
+<li>也可使用 <strong>JS散度</strong> 或显式相似度损失（如余弦相似度）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2. 生成学习（Generative Learning）</strong></p>
+<p>通过重构被掩码或噪声化的数据，让模型学习到数据的潜在结构和模式。</p>
+<ul>
+<li><strong>掩码自编码器（Masked Autoencoding）</strong>：<ul>
+<li>对输入进行随机掩码，让模型重建原始数据</li>
+<li>常用于序列（如 BERT4Rec）和图数据（如 GraphMAE）</li>
+</ul>
+</li>
+<li><strong>变分自编码器（Variational Autoencoding, VAE）</strong>：<ul>
+<li>学习一个潜变量分布，通过采样生成数据</li>
+<li>常用于协同过滤中的隐变量建模</li>
+</ul>
+</li>
+<li><strong>去噪扩散模型（Denoised Diffusion）</strong>：<ul>
+<li>通过逐步加噪和去噪的过程生成高质量数据</li>
+<li>适用于图结构和交互数据的生成与增强</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>3. 对抗学习（Adversarial Learning）</strong></p>
+<p>通过生成器与判别器的对抗训练，提升生成样本的质量，增强模型的鲁棒性和泛化能力。</p>
+<ul>
+<li><strong>可微分对抗学习</strong>：<ul>
+<li>判别器的梯度可以直接反向传播到生成器</li>
+<li>适用于连续特征空间（如嵌入向量）</li>
+</ul>
+</li>
+<li><strong>不可微分对抗学习</strong>：<ul>
+<li>涉及离散采样（如物品ID），需使用强化学习（如策略梯度）进行优化</li>
+</ul>
+</li>
+</ul>
+<hr>
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image4.png" srcset="/img/loading.gif" lazyload class="" title="损失函数1">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image5.png" srcset="/img/loading.gif" lazyload class="" title="损失函数2">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image6.png" srcset="/img/loading.gif" lazyload class="" title="损失函数3">
+
+<hr>
+<p>好的，这是一个非常核心的问题。掩码自编码器（Masked Autoencoder, MAE）和变分自编码器（Variational Autoencoder, VAE）虽然都叫“自编码器”，但它们在<strong>目标、原理、结构和应用</strong>上有根本性的区别。</p>
+<p>我们可以用以下表格进行一个直观的对比：</p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left"><strong>掩码自编码器</strong></th>
+<th align="left"><strong>变分自编码器</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>核心目标</strong></td>
+<td align="left"><strong>数据重构</strong>。学习从部分&#x2F;损坏的输入中恢复完整数据。</td>
+<td align="left"><strong>数据生成</strong>。学习数据的<strong>潜在概率分布</strong>，并从中采样以生成新数据。</td>
+</tr>
+<tr>
+<td align="left"><strong>本质</strong></td>
+<td align="left">一个强大的<strong>特征提取器&#x2F;表示学习器</strong>。</td>
+<td align="left">一个<strong>生成模型</strong>（属于深度生成模型）。</td>
+</tr>
+<tr>
+<td align="left"><strong>编码器输出</strong></td>
+<td align="left">一个<strong>确定性的</strong>、稠密的隐式表示向量。</td>
+<td align="left">两个向量：<strong>均值μ</strong> 和 <strong>对数方差log σ²</strong>，共同定义了一个<strong>概率分布</strong>（通常是高斯分布）。</td>
+</tr>
+<tr>
+<td align="left"><strong>隐空间</strong></td>
+<td align="left"><strong>没有明确的概率约束</strong>。隐表示的结构由重构任务驱动，可能是不规则、不连续的。</td>
+<td align="left"><strong>有明确的概率约束</strong>（通过KL散度）。隐空间被正则化为连续、平滑、结构化的，便于插值和采样。</td>
+</tr>
+<tr>
+<td align="left"><strong>解码器输入</strong></td>
+<td align="left">编码器输出的<strong>确定向量</strong>。</td>
+<td align="left">从 <code>N(μ， σ²)</code> 分布中<strong>随机采样</strong>的一个点 <code>z</code>。</td>
+</tr>
+<tr>
+<td align="left"><strong>关键损失函数</strong></td>
+<td align="left"><strong>重构损失</strong>（如MSE或交叉熵）。</td>
+<td align="left"><strong>证据下界</strong> &#x3D; <strong>重构损失</strong> + <strong>KL散度正则项</strong>。</td>
+</tr>
+<tr>
+<td align="left"><strong>优势</strong></td>
+<td align="left">训练稳定、高效，能学习到对下游任务非常有效的特征。擅长处理大规模、高维数据。</td>
+<td align="left">能生成多样、新颖的数据样本。隐空间具有可解释性和可操作性。</td>
+</tr>
+<tr>
+<td align="left"><strong>劣势</strong></td>
+<td align="left">本身不是一个合格的生成模型，直接从隐空间采样可能产生无意义输出。</td>
+<td align="left">训练相对复杂，生成样本的清晰度&#x2F;保真度有时不及其他生成模型。</td>
+</tr>
+<tr>
+<td align="left"><strong>推荐中的典型应用</strong></td>
+<td align="left">• 序列推荐：掩码序列中的物品，预测被掩码的物品。<br>• 图推荐：掩码用户-物品交互图中的边或节点特征，进行重构。</td>
+<td align="left">• 协同过滤：将用户-物品交互向量编码为隐分布，生成用户对所有物品的评分。<br>• 多行为&#x2F;多模态推荐：建模多源数据背后的统一潜变量分布。</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>1. 掩码自编码器</strong></p>
+<ul>
+<li><strong>思想</strong>：随机“遮挡”（掩码）输入数据的一部分（例如，一句话中的某些词，一张图中的某些块，一个序列中的某些物品），然后训练模型根据剩余可见部分来预测被遮挡的部分。</li>
+<li><strong>工作流程</strong>：<ol>
+<li><strong>编码</strong>：仅将<strong>可见部分</strong>输入编码器，得到一个特征表示。</li>
+<li><strong>解码</strong>：将特征表示（以及一个表示缺失位置的可学习掩码标记）输入解码器，<strong>重构出完整的原始数据</strong>（包括被掩码的部分）。</li>
+</ol>
+</li>
+<li><strong>关键</strong>：它迫使模型理解数据各部分之间的<strong>上下文关系和结构</strong>，从而学习到高质量的数据表示。它不关心隐空间是否连续，只关心“能否准确还原”。</li>
+</ul>
+<p><strong>2. 变分自编码器</strong></p>
+<ul>
+<li><p><strong>思想</strong>：假设所有数据都由一个<strong>连续的、低维的潜变量</strong>生成。VAE的目标是学会这个生成过程。</p>
+</li>
+<li><p><strong>工作流程</strong>：</p>
+<ol>
+<li><strong>编码</strong>：输入数据 <code>x</code>，编码器不是输出一个确定向量，而是输出一个<strong>概率分布</strong>的参数（均值μ和方差σ²）。我们假设这个分布是高斯分布。</li>
+<li><strong>采样</strong>：从这个分布 <code>N(μ， σ²)</code> 中随机采样一个点 <code>z</code>。这一步引入了<strong>随机性</strong>，是生成能力的关键。</li>
+<li><strong>解码</strong>：将采样的 <code>z</code> 输入解码器，重构出数据 <code>x’</code>。</li>
+</ol>
+</li>
+<li><p><strong>关键</strong>：损失函数包含两部分：</p>
+<ul>
+<li><strong>重构损失</strong>：让 <code>x’</code> 接近 <code>x</code>。</li>
+<li><strong>KL散度</strong>：让编码器输出的分布 <code>N(μ， σ²)</code> 接近标准正态分布 <code>N(0, I)</code>。这项正则化迫使所有数据的隐分布都向原点收缩，使得隐空间变得<strong>连续、平滑、完整</strong>。你可以在两个数据的隐向量之间插值，解码器也能产出合理的过渡样本。</li>
+</ul>
+</li>
+<li><p><strong>MAE 像一个高超的“文物修复师”</strong>。给你一件破损的文物（掩码数据），他能基于经验和残留部分，完美地修复（重构）出原貌。他专注于理解物件本身的结构。</p>
+</li>
+<li><p><strong>VAE 像一个“风格化画家”</strong>。他观察了大量某类画作（数据）后，不仅学会了临摹（重构），更掌握了这类画作的“精髓”和“风格分布”（隐空间）。当你给他一个坐标（采样点），他能创作出一幅全新的、符合该风格的作品（生成）。</p>
+</li>
+</ul>
+<p>在推荐系统中：</p>
+<ul>
+<li>如果你想<strong>学习更鲁棒、更具上下文感知能力的特征表示</strong>来提升预测精度，<strong>MAE</strong> 是很好的选择。</li>
+<li>如果你想<strong>对用户兴趣进行概率建模、生成多样化的推荐、或处理不确定性</strong>，<strong>VAE</strong> 是更合适的基础架构。</li>
+</ul>
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image7.png" srcset="/img/loading.gif" lazyload class="" title="例子1">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image8.png" srcset="/img/loading.gif" lazyload class="" title="例子2">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image9.png" srcset="/img/loading.gif" lazyload class="" title="例子3">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image10.png" srcset="/img/loading.gif" lazyload class="" title="例子4">
+
+<hr>
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image11.png" srcset="/img/loading.gif" lazyload class="" title="例子5">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image12.png" srcset="/img/loading.gif" lazyload class="" title="例子6">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image13.png" srcset="/img/loading.gif" lazyload class="" title="例子7">
+
+<img src="/2025/12/09/%E5%BC%80%E9%A2%98%E5%87%86%E5%A4%87-%E5%A4%8D%E4%B9%A0ML-DL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image14.png" srcset="/img/loading.gif" lazyload class="" title="例子8">
+
+<hr>
+<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><hr>
+<h2 id="优化器、学习率、正则化"><a href="#优化器、学习率、正则化" class="headerlink" title="优化器、学习率、正则化"></a>优化器、学习率、正则化</h2><p><strong>1. 优化器 (Optimizer)</strong></p>
+<p>优化器的作用是根据损失函数计算出的梯度，决定<strong>如何更新</strong>模型参数（在你的研究中主要是用户和课程的 Embedding）。</p>
+<p><strong>Adam (Adaptive Moment Estimation)</strong>：这是你在实验中首选的优化器。它结合了“动量”和“自适应学习率” 。</p>
+<ul>
+<li><strong>动量（Momentum）</strong>：模拟物理中的惯性，如果梯度一直往一个方向走，就加速；如果方向变了，就减速。这能帮助模型冲出“局部最优解”或“平稳区域”。</li>
+<li><strong>自适应（Adaptive）</strong>：它能为每个参数维护不一样的学习率。经常更新的参数，步子小一点；不常更新的参数，步子大一点。</li>
+</ul>
+<p><strong>为什么选 Adam？</strong> 因为它对超参数不敏感，在处理像 <strong>MOOCCube</strong> 这样具有稀疏性的推荐数据时，收敛速度通常比传统的 SGD 快很多 。</p>
+<p><strong>2. 学习率 (Learning Rate, LR)</strong></p>
+<p>学习率决定了模型参数在每一轮更新中“步子跨多大”。</p>
+<ul>
+<li><strong>过大</strong>：可能跨过了最优点，导致 Loss 曲线反复震荡，甚至模型崩溃（发散）。</li>
+<li><strong>过小</strong>：步子太碎，模型收敛极慢，或者还没走到最低点就耗尽了 Epoch 轮次。</li>
+<li><strong>学习率衰减 (LR Scheduler)</strong>：你可能会在训练中设置：如果连续 10 个 Epoch 效果不提升，就把学习率减半。这能让模型在训练后期更加精准地“微调”到最优位置。</li>
+</ul>
+<p><strong>3. 正则化 (Regularization)</strong></p>
+<p>正则化是防止模型<strong>过拟合</strong>（即只记住训练集数据，在测试集上表现很烂）的主要手段。</p>
+<ul>
+<li><p><strong>L2 正则化 (权重衰减)</strong>：</p>
+<p><strong>原理</strong>：在损失函数中增加一个惩罚项，公式为。它会惩罚那些数值过大的参数，强迫参数尽量保持在较小的值。</p>
+<p><strong>你的应用</strong>：在 BPR 损失函数中，通常会加上 L2 项，防止某些热门课程的 Embedding 变得极大，导致推荐失去公平性和泛化性。</p>
+</li>
+<li><p><strong>Dropout</strong>：</p>
+<ul>
+<li><p><strong>原理</strong>：在训练过程中随机“关闭”一部分神经元（让它们的输出为 0）。</p>
+<p><strong>在图推荐中的变体（Edge Dropout）</strong>：你在<strong>研究点 2</strong> 的技术路线中提到了“Edge Dropout” 。即随机丢弃交互图中的一部分边，目的是让模型不依赖于某几条特定的交互，从而学习到更稳健的语义关联。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h2><p><strong>激活函数</strong>是神经网络中一个关键且必不可少的组件，它位于神经元的输出端，对神经元的<strong>加权输入总和</strong>（输入信号与权重的乘积，再加上偏置）进行<strong>非线性变换</strong>，然后输出到下一层。1. Sigmoid 函数</p>
+<ul>
+<li><strong>公式</strong>：<code>σ(x) = 1 / (1 + e^(-x))</code></li>
+<li><strong>输出范围</strong>：(0, 1)</li>
+<li><strong>优点</strong>：输出平滑，可解释为“概率”。</li>
+<li><strong>缺点</strong>：<ul>
+<li><strong>梯度消失</strong>：当输入很大或很小时，梯度接近于0，在深度网络中会导致靠前的层参数更新缓慢甚至停止（训练困难）。</li>
+<li><strong>输出非零中心化</strong>：输出均值不为0，会使后续层的输入产生偏置偏移，降低梯度下降效率。</li>
+<li><strong>计算量稍大</strong>（涉及指数运算）。</li>
+</ul>
+</li>
+<li><strong>用途</strong>：主要用于二分类问题的<strong>输出层</strong>，历史上也用于隐藏层，现在较少见。</li>
+</ul>
+<h4 id="2-Tanh-函数（双曲正切）"><a href="#2-Tanh-函数（双曲正切）" class="headerlink" title="2. Tanh 函数（双曲正切）"></a>2. Tanh 函数（双曲正切）</h4><ul>
+<li><strong>公式</strong>：<code>tanh(x) = (e^x - e^(-x)) / (e^x + e^(-x))</code></li>
+<li><strong>输出范围</strong>：(-1, 1)</li>
+<li><strong>优点</strong>：<ul>
+<li><strong>零中心化</strong>：输出以0为中心，收敛速度通常比Sigmoid快。</li>
+<li>同样平滑可导。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：依然存在<strong>梯度消失</strong>问题。</li>
+<li><strong>用途</strong>：在RNN（循环神经网络）中较为常见。</li>
+</ul>
+<h4 id="3-ReLU-函数（整流线性单元）-当前最主流"><a href="#3-ReLU-函数（整流线性单元）-当前最主流" class="headerlink" title="3. ReLU 函数（整流线性单元）- 当前最主流"></a>3. ReLU 函数（整流线性单元）- <strong>当前最主流</strong></h4><ul>
+<li><strong>公式</strong>：<code>f(x) = max(0, x)</code></li>
+<li><strong>输出范围</strong>：[0, +∞)</li>
+<li><strong>优点</strong>：<ul>
+<li><strong>计算极其高效</strong>：只有比较和取最大值操作。</li>
+<li><strong>缓解梯度消失</strong>：在正区间梯度恒为1，能有效传递梯度。</li>
+<li><strong>稀疏激活</strong>：负值输出为0，使得网络具有稀疏性，更高效。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li><strong>死亡ReLU问题</strong>：如果输入始终为负，梯度永远为0，神经元“死亡”且无法恢复。</li>
+<li><strong>输出非零中心化</strong>。</li>
+</ul>
+</li>
+<li><strong>用途</strong>：绝大多数深度神经网络隐藏层的<strong>默认选择</strong>。</li>
+</ul>
+<h4 id="4-Leaky-ReLU-及其变种"><a href="#4-Leaky-ReLU-及其变种" class="headerlink" title="4. Leaky ReLU 及其变种"></a>4. Leaky ReLU 及其变种</h4><ul>
+<li><strong>公式</strong>：<code>f(x) = max(αx, x)</code>，其中α是一个很小的正数（如0.01）。</li>
+<li><strong>输出范围</strong>：(-∞, +∞)</li>
+<li><strong>优点</strong>：<ul>
+<li>解决了“死亡ReLU”问题，负区间有一个很小的梯度α，允许信息微弱传递。</li>
+</ul>
+</li>
+<li><strong>变种</strong>：Parametric ReLU (PReLU)，其中的α作为可学习的参数。</li>
+</ul>
+<h4 id="5-Softmax-函数（特殊类别）"><a href="#5-Softmax-函数（特殊类别）" class="headerlink" title="5. Softmax 函数（特殊类别）"></a>5. Softmax 函数（特殊类别）</h4><ul>
+<li><strong>公式</strong>：将K个实数值映射为概率分布，<code>σ(z_i) = e^(z_i) / Σ(e^(z_j))</code></li>
+<li><strong>输出范围</strong>：(0, 1)，且所有输出之和为1。</li>
+<li><strong>用途</strong>：<strong>专用于多分类神经网络的输出层</strong>，将神经元的输出解释为属于每个类别的概率。</li>
+</ul>
+<hr>
+<h2 id="线性层、全连接层、前馈网络、多层感知机"><a href="#线性层、全连接层、前馈网络、多层感知机" class="headerlink" title="线性层、全连接层、前馈网络、多层感知机"></a>线性层、全连接层、前馈网络、多层感知机</h2><h3 id="1-线性层"><a href="#1-线性层" class="headerlink" title="1. 线性层"></a>1. 线性层</h3><p>这是<strong>最基础、最核心的计算单元</strong>。</p>
+<ul>
+<li><strong>本质</strong>：一个<strong>数学运算</strong>：<code>y = Wx + b</code><ul>
+<li><code>x</code>：输入向量（例如有 <code>n</code> 个特征）</li>
+<li><code>W</code>：<strong>权重矩阵</strong>（可学习的参数）。如果输出有 <code>m</code> 个神经元，则 <code>W</code> 的形状是 <code>(m, n)</code></li>
+<li><code>b</code>：<strong>偏置向量</strong>（可学习的参数），形状为 <code>(m,)</code></li>
+<li><code>y</code>：输出向量（有 <code>m</code> 个值）</li>
+</ul>
+</li>
+<li><strong>功能</strong>：对输入数据进行<strong>线性变换</strong>（缩放、旋转、平移）。</li>
+<li><strong>核心特点</strong>：<strong>仅能建模线性关系</strong>。单独的一个线性层，无论输入输出维度多高，它拟合的仍然是输入空间到输出空间的线性映射。</li>
+</ul>
+<h3 id="2-全连接层"><a href="#2-全连接层" class="headerlink" title="2. 全连接层"></a>2. 全连接层</h3><p>这是对<strong>网络结构</strong>的描述。</p>
+<ul>
+<li><strong>本质</strong>：指一种<strong>连接方式</strong>。在一个全连接层中，<strong>当前层的每一个神经元都与前一层的所有神经元相连接</strong>，同时也与后一层的所有神经元相连接（如果存在）。</li>
+<li><strong>与线性层的关系</strong>：<ul>
+<li>在绝大多数语境下，<strong>一个全连接层在实现上就是一个线性层</strong>。因为全连接层所做的操作正是线性变换 <code>y = Wx + b</code>。</li>
+<li>有时，“全连接层”也特指 <strong>“线性层 + 激活函数”</strong> 这个完整组合。但在严谨的框架（如PyTorch）中，<code>torch.nn.Linear</code> 被称为“线性层”，它只做线性变换；而在Keras中，<code>tf.keras.layers.Dense</code> 被称为“密集层&#x2F;全连接层”，它默认包含激活函数选项。</li>
+</ul>
+</li>
+<li><strong>别名</strong>：密集层（Dense Layer）。</li>
+</ul>
+<h3 id="3-多层感知机"><a href="#3-多层感知机" class="headerlink" title="3. 多层感知机"></a>3. 多层感知机</h3><p>这是第一个真正意义上的<strong>深度学习模型结构</strong>。</p>
+<ul>
+<li><strong>结构</strong>：由<strong>多个全连接层（线性层+激活函数）堆叠</strong>而成。<ul>
+<li><strong>输入层</strong>：接收原始数据。</li>
+<li><strong>隐藏层</strong>：一个或多个全连接层。<strong>关键点在于，每个全连接层后面必须紧跟一个非线性激活函数（如ReLU， Sigmoid， Tanh）</strong>。</li>
+<li><strong>输出层</strong>：最后一个全连接层，根据任务选择激活函数（如分类用Softmax，回归用线性或Sigmoid）。</li>
+</ul>
+</li>
+<li><strong>历史地位</strong>：MLP是神经网络的基础原型，证明了<strong>通过引入非线性激活函数和多个隐藏层，网络可以拟合任何复杂的连续函数</strong>（万能近似定理）。</li>
+<li><strong>工作方式</strong>：信息从输入层开始，逐层向前传递（前馈），每一层都对数据进行一次“线性变换+非线性激活”，从而逐步提取和组合更高级的特征。</li>
+</ul>
+<h3 id="4-前馈神经网络"><a href="#4-前馈神经网络" class="headerlink" title="4. 前馈神经网络"></a>4. 前馈神经网络</h3><p>这是最<strong>广义</strong>的类别描述。</p>
+<ul>
+<li><strong>本质</strong>：描述一种<strong>信息流向</strong>。在FNN中，信息<strong>单向流动</strong>：从输入层，经过各隐藏层，最终到达输出层。<strong>没有反馈或循环连接</strong>。</li>
+<li><strong>与MLP的关系</strong>：<ul>
+<li><strong>MLP是FNN的一种最典型、最常见的形式。</strong></li>
+<li>FNN是一个更大的集合，它不仅包含MLP，还包含其他结构的前馈网络，例如：<ul>
+<li><strong>卷积神经网络</strong>：如果忽略其特殊的卷积、池化等操作，从层与层之间的连接方式看，它也是前馈的。</li>
+<li><strong>自动编码器</strong>（其编码器-解码器结构是前馈的）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>核心特点</strong>：<strong>无环</strong>。这是与<strong>循环神经网络</strong>（RNN）最根本的区别。</li>
+</ul>
+<hr>
 
                 
               </div>

@@ -1,0 +1,1232 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="基于LightRAG+阿里云百炼构建的智能校园问答系统，针对《江苏师范大学研究生手册（2025）》提供精准的知识问答服务。项目参加「第十九届全国大学生软件创新大赛」">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rag-app开发">
+<meta property="og:url" content="https://lilpear2002.github.io/2026/01/02/rag-app%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="基于LightRAG+阿里云百炼构建的智能校园问答系统，针对《江苏师范大学研究生手册（2025）》提供精准的知识问答服务。项目参加「第十九届全国大学生软件创新大赛」">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/uniapp.jpg">
+<meta property="article:published_time" content="2026-01-02T01:03:53.000Z">
+<meta property="article:modified_time" content="2026-01-02T05:54:33.362Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="FastAPI">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="app开发">
+<meta property="article:tag" content="uniapp">
+<meta property="article:tag" content="大模型">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/uniapp.jpg">
+  
+  
+  
+  <title>rag-app开发 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="rag-app开发"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-02 09:03" pubdate>
+          2026年1月2日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          58 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">rag-app开发</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="LightRAG介绍"><a href="#LightRAG介绍" class="headerlink" title="LightRAG介绍"></a>LightRAG介绍</h1><p>LightRAG（Lightweight Retrieval-Augmented Generation）是香港大学团队开发的一种轻量级、高效的检索增强生成（RAG）系统</p>
+<p>[EMNLP2025] “LightRAG: Simple and Fast Retrieval-Augmented Generation”  香港大学黄超老师团队，相关论文发表在EMNLP 2025</p>
+<p>检索增强生成（RAG）系统通过整合外部知识源来增强大型语言模型（LLMs）的能力，能够生成更准确、与上下文更相关且符合用户需求的响应。然而，现有的RAG系统存在显著局限性，包括依赖扁平的数据表示以及上下文感知不足，这可能导致生成的答案碎片化，无法捕捉复杂的相互依赖关系。为了应对这些挑战，LightRAG将图结构融入文本索引和检索过程中。这个创新框架采用双层次检索系统，从低层次和高层次知识发现两个方面增强全面的信息检索。此外，将图结构与向量表示相结合，有助于高效检索相关实体及其关系，在保持上下文相关性的同时显著缩短响应时间。增量更新算法进一步增强了这一能力，确保新数据得到及时整合，使系统在快速变化的数据环境中仍能保持有效性和响应性。大量的实验验证表明，与现有方法相比，该方法在检索准确性和效率方面有显著提升。</p>
+<p>简单来说，LightRAG 是对传统 RAG 和 GraphRAG 的一次重要优化。它旨在解决传统方法在处理<strong>复杂查询</strong>、<strong>海量数据关联</strong>以及<strong>索引更新成本</strong>等方面的问题。</p>
+<hr>
+<h2 id="总体架构"><a href="#总体架构" class="headerlink" title="总体架构"></a>总体架构</h2><h3 id="双层检索架构-Dual-level-Retrieval"><a href="#双层检索架构-Dual-level-Retrieval" class="headerlink" title="双层检索架构 (Dual-level Retrieval)"></a>双层检索架构 (Dual-level Retrieval)</h3><p>传统的 RAG 通常只能处理局部信息（通过向量检索），而早期的 GraphRAG 则侧重于全局摘要。LightRAG 将两者结合：</p>
+<ul>
+<li><p><strong>低层检索（Low-level）：</strong> 针对具体的实体和关系，处理具体的、细节的问题。</p>
+</li>
+<li><p><strong>高层检索（High-level）</strong>： 针对抽象的主题和总结性问题。</p>
+<p>这使得它在回答“某人住在哪里？”（具体）和“这本书的主旨是什么？”（抽象）时都能表现出色。</p>
+</li>
+</ul>
+<h3 id="基于图的结构化索引"><a href="#基于图的结构化索引" class="headerlink" title="基于图的结构化索引"></a>基于图的结构化索引</h3><p>LightRAG 会自动从文本中提取<strong>实体（Entities）和关系（Relationships）</strong>，并构建成一个知识图谱。</p>
+<ul>
+<li><strong>优势：</strong> 相比于简单的向量分块（Chunks），图结构能更好地捕捉信息之间的跨文本关联。当你询问涉及多个知识点的问题时，它能沿着图的路径找到完整的答案。</li>
+</ul>
+<h3 id="增量更新-Incremental-Update"><a href="#增量更新-Incremental-Update" class="headerlink" title="增量更新 (Incremental Update)"></a>增量更新 (Incremental Update)</h3><p>这是 LightRAG 最大的痛点改进之一。</p>
+<ul>
+<li><strong>传统 GraphRAG：</strong> 每次添加新文档时，往往需要重新构建整个索引，成本极高。</li>
+<li><strong>LightRAG：</strong> 支持增量式地将新数据整合进现有图结构中，无需从头开始，大大降低了维护成本和处理时间。</li>
+</ul>
+<h3 id="检索效率与成本"><a href="#检索效率与成本" class="headerlink" title="检索效率与成本"></a>检索效率与成本</h3><ul>
+<li>相比于微软的 GraphRAG，LightRAG 在保持类似甚至更优效果的前提下，<strong>大幅减少了 Token 的消耗</strong>。它通过更智能的索引和检索算法，避免了在大规模知识图谱上进行极其昂贵的全局扫描。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>传统 RAG</strong></th>
+<th><strong>微软 GraphRAG</strong></th>
+<th><strong>LightRAG</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>关系建模</strong></td>
+<td>弱（基于文本块相似度）</td>
+<td>强（基于社区摘要）</td>
+<td><strong>极强（双层检索+图关联）</strong></td>
+</tr>
+<tr>
+<td><strong>更新成本</strong></td>
+<td>低</td>
+<td>高（通常需重建）</td>
+<td><strong>低（支持增量更新）</strong></td>
+</tr>
+<tr>
+<td><strong>全局理解</strong></td>
+<td>差</td>
+<td>好</td>
+<td><strong>优秀</strong></td>
+</tr>
+<tr>
+<td><strong>运行开销</strong></td>
+<td>低</td>
+<td>极高</td>
+<td><strong>中等偏低</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<img src="/2026/01/02/rag-app%E5%BC%80%E5%8F%91/image1.jpg" srcset="/img/loading.gif" lazyload class="" title="LightRAG框架图">
+
+<p>根据箭头的指向，将其分为左右两个主要阶段：<strong>基于图的文本索引 (Graph-based Text Indexing)</strong> 和 <strong>双层检索范式 (Dual-level Retrieval Paradigm)</strong>。</p>
+<hr>
+<h3 id="基于图的文本索引-左侧"><a href="#基于图的文本索引-左侧" class="headerlink" title="基于图的文本索引 (左侧)"></a>基于图的文本索引 (左侧)</h3><p>这一步的目标是将非结构化的文本转变为大模型易于理解和关联的“知识网”。</p>
+<ul>
+<li><strong>文本处理与提取 (D, P, R 算子)：</strong><ul>
+<li><strong>Deduplication (去重):</strong> 识别文本中提到的相同概念（如图中将大写的 “BEEKEEPER” 和小写的 “beekeepers” 统一）。</li>
+<li><strong>LLM Profiling (实体描述):</strong> 利用大模型为提取出的实体（如 “Beekeeper”）生成简洁的定义或属性描述。</li>
+<li><strong>Entity &amp; Rel Extraction (关系提取):</strong> 识别实体之间的动作或关联（例如：”Beekeeper” -&gt; “Observe” -&gt; “Bees”）。</li>
+</ul>
+</li>
+<li><strong>Index Graph (索引图生成):</strong><ul>
+<li>最终生成一个<strong>索引图</strong>。图中每个点（Node）代表一个实体，每条线（Edge）代表关系。</li>
+<li><strong>关键点：</strong> 每个节点和关系都附带了详细的元数据（如右侧橙色和蓝色气泡所示），包括实体名称、类型、描述以及它来源于哪些原始文本块（Original Chunks ID）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="双层检索范式-右侧"><a href="#双层检索范式-右侧" class="headerlink" title="双层检索范式 (右侧)"></a>双层检索范式 (右侧)</h3><p>这是 LightRAG 能够同时处理“细节”和“宏观”问题的奥秘所在。</p>
+<ul>
+<li><strong>Query + LLM (查询处理):</strong> 当用户提出问题时，大模型会生成两组关键词：<ol>
+<li><strong>Low-level Keys (低层关键词):</strong> 关注具体的实体名，如 “Beekeeper”, “Honey Bee”。这对应图中的具体节点。</li>
+<li><strong>High-level Keys (高层关键词):</strong> 关注抽象的概念或主题，如 “Agriculture”, “Environmental Impact”。这对应图中的全局特征。</li>
+</ol>
+</li>
+<li><strong>Retrieved Content (内容检索):</strong> 系统会根据这些关键词从图中拉取三个层面的信息：<ul>
+<li><strong>Entities:</strong> 相关的实体定义。</li>
+<li><strong>Relations:</strong> 实体间的逻辑链路。</li>
+<li><strong>Contexts:</strong> 关联的原始文本片段。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="索引过程"><a href="#索引过程" class="headerlink" title="索引过程"></a>索引过程</h2><img src="/2026/01/02/rag-app%E5%BC%80%E5%8F%91/image2.jpg" srcset="/img/loading.gif" lazyload class="" title="索引过程">
+
+<p>这张流程图详细揭示了 LightRAG 在处理输入文档时的工程步骤。</p>
+<ul>
+<li><strong>分块与嵌入 (Text Chunks &amp; Embedding)：</strong><ul>
+<li>文档首先被切分为 Chunks，并生成向量存储在向量数据库（Nano Vector DB）中。</li>
+</ul>
+</li>
+<li><strong>实体与关系提取：</strong><ul>
+<li>利用 LLM 提取 <code>name</code>, <code>type</code>, <code>description</code>, <code>source</code>, <code>target</code> 等数据。</li>
+</ul>
+</li>
+<li><strong>增量更新的关键——去重与更新 (Deduped &amp; Update)：</strong><ul>
+<li>系统使用 <strong>“Set” dedupe</strong> 机制。如果新提取的实体&#x2F;关系已存在，它不会创建一个重复节点，而是利用 LLM <strong>更新描述 (Update Description)</strong>。</li>
+<li>这种机制让 LightRAG 只需要处理新增部分，并将其平滑地“织入”现有的知识图谱中，而不需要像 GraphRAG 那样重算整个社区摘要。</li>
+</ul>
+</li>
+<li><strong>多模态存储：</strong><ul>
+<li>最终数据会被分别存入：<strong>KV 存储</strong>（Json 格式）、<strong>向量数据库</strong>（用于相似度检索）以及<strong>知识图谱</strong>（用于结构化查询）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="检索过程"><a href="#检索过程" class="headerlink" title="检索过程"></a>检索过程</h2>
+
+<ul>
+<li><strong>查询扩展（Query Expansion）：</strong> 当输入一个 Query 时，系统利用 LLM 提取出两类关键词：<ul>
+<li><strong>Low-level Keywords（低层关键词）：</strong> 针对具体的实体名，对应具体的节点。</li>
+<li><strong>High-level Keywords（高层关键词）：</strong> 针对更广泛的主题或概括性词汇。</li>
+</ul>
+</li>
+<li><strong>并行检索：</strong><ul>
+<li><strong>本地查询上下文（Local Query Context）：</strong> 寻找 Top-K 的具体实体、关系及相关的原始文本块。</li>
+<li><strong>全局查询上下文（Global Query Context）：</strong> 寻找更宏观的关联实体和文本单元，以支持总结性回答。</li>
+</ul>
+</li>
+<li><strong>多维数据召回：</strong> 检索结果不仅包含文本块，还包含图谱中的<strong>实体定义</strong>和<strong>逻辑链条</strong>。</li>
+</ul>
+<p>最后是 <strong>Generation</strong> 阶段（Yellow 区域）：</p>
+<ul>
+<li><strong>上下文融合（Combined Context）：</strong> 系统将“本地”和“全局”检索到的所有信息（Entities + Relations + Contexts）整合成一个丰富的上下文包。</li>
+<li><strong>LLM 生成：</strong> 将这些结构化的知识喂给 LLM，生成既有细节支撑、又有宏观视野的回答。</li>
+</ul>
+<hr>
+<h2 id="存储类型"><a href="#存储类型" class="headerlink" title="存储类型"></a>存储类型</h2><p>系统主要使用 4 种类型的存储来协同工作。它们各自承担不同的任务，确保了从文档处理到复杂检索的高效运行：</p>
+<h3 id="KV-存储-KV-STORAGE"><a href="#KV-存储-KV-STORAGE" class="headerlink" title="KV 存储 (KV_STORAGE)"></a>KV 存储 (KV_STORAGE)</h3><p><strong>主要功能：缓存与元数据存储</strong></p>
+<ul>
+<li><strong>LLM 响应缓存：</strong> 存储大模型生成过的响应结果。如果开启了 <code>enable_llm_cache</code>，当遇到相同的 Prompt 时，系统会直接从 KV 存储中读取结果，从而<strong>节省 Token 消耗</strong>并显著<strong>加快响应速度</strong>。</li>
+<li><strong>文本块（Chunks）：</strong> 存储原始文档切割后的完整文本片段。当系统确定了哪些 Chunk 与问题相关时，会根据 ID 从这里调取原文。</li>
+<li><strong>文档信息：</strong> 存储文档本身的元数据，如文件路径、时间戳等。</li>
+</ul>
+<h3 id="向量存储-VECTOR-STORAGE"><a href="#向量存储-VECTOR-STORAGE" class="headerlink" title="向量存储 (VECTOR_STORAGE)"></a>向量存储 (VECTOR_STORAGE)</h3><p><strong>主要功能：语义相似度检索 (Vector Search)</strong></p>
+<ul>
+<li><strong>三维向量化：</strong> LightRAG 会将<strong>实体、关系以及文本块</strong>全部进行 Embedding（向量化）并存入此处。</li>
+<li><strong>快速召回：</strong> 当你提出一个问题时，系统会先将问题转化为向量，然后在向量数据库中寻找与之语义最接近的实体或文本片段。这是实现 <strong>“Naive”（朴素搜索）</strong> 和 <strong>“Local”（本地搜索）</strong> 的基础。</li>
+</ul>
+<h3 id="图存储-GRAPH-STORAGE"><a href="#图存储-GRAPH-STORAGE" class="headerlink" title="图存储 (GRAPH_STORAGE)"></a>图存储 (GRAPH_STORAGE)</h3><p><strong>主要功能：结构化关联与拓扑搜索</strong></p>
+<ul>
+<li><strong>存储实体关系网：</strong> 记录从文档中提取的实体（点）和它们之间的逻辑关联（边）。</li>
+<li><strong>多跳推理：</strong> 它是 LightRAG 区别于传统 RAG 的核心。图存储允许系统沿着关系链条进行搜索（例如：从 A 找到 B，再从 B 找到 C），从而回答那些<strong>需要跨文档关联</strong>的复杂问题。</li>
+<li><strong>双层检索支撑：</strong> 在进行 “Global”（全局）或 “Mix”（混合）检索时，系统会遍历图结构来提取更深层次的上下文。</li>
+</ul>
+<h3 id="文档状态存储-DOC-STATUS-STORAGE"><a href="#文档状态存储-DOC-STATUS-STORAGE" class="headerlink" title="文档状态存储 (DOC_STATUS_STORAGE)"></a>文档状态存储 (DOC_STATUS_STORAGE)</h3><p><strong>主要功能：索引任务管理与数据一致性</strong></p>
+<ul>
+<li><strong>进度追踪：</strong> 记录每一个上传文档的索引状态（如：已上传、处理中、已完成、处理失败）。</li>
+<li><strong>增量更新保障：</strong> 它是实现“增量更新”的指挥部。系统通过查看此处记录，确定哪些文档是新加入的，从而只对这部分文档进行实体提取和图谱合并，避免重复处理旧数据。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>存储类型</strong></th>
+<th><strong>默认实现</strong></th>
+<th><strong>生产环境推荐</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>KV</strong></td>
+<td><code>JsonKVStorage</code> (本地文件)</td>
+<td><strong>Postgres (PGKVStorage)</strong> 或 <strong>Redis</strong></td>
+</tr>
+<tr>
+<td><strong>Vector</strong></td>
+<td><code>NanoVectorDBStorage</code></td>
+<td><strong>Postgres (pgvector)</strong> 或 <strong>Milvus &#x2F; Qdrant</strong></td>
+</tr>
+<tr>
+<td><strong>Graph</strong></td>
+<td><code>NetworkXStorage</code> (内存)</td>
+<td><strong>Neo4j</strong> (性能最优) 或 <strong>Postgres (AGE)</strong></td>
+</tr>
+<tr>
+<td><strong>Doc Status</strong></td>
+<td><code>JsonDocStatusStorage</code></td>
+<td><strong>Postgres (PGDocStatusStorage)</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四种检索方式"><a href="#四种检索方式" class="headerlink" title="四种检索方式"></a>四种检索方式</h2><p>在 LightRAG 中，检索方式（Retrieval Mode）决定了系统如何从上述四种存储中提取信息。LightRAG 主要提供四种核心检索模式，以应对不同粒度的问题：</p>
+<hr>
+<h3 id="1-朴素检索-Naive-Retrieval"><a href="#1-朴素检索-Naive-Retrieval" class="headerlink" title="1. 朴素检索 (Naive Retrieval)"></a>1. 朴素检索 (Naive Retrieval)</h3><p>这是最基础的检索方式，类似于传统的 RAG。</p>
+<ul>
+<li><strong>工作原理</strong>：它完全跳过了知识图谱结构，仅利用 <strong>向量存储 (Vector Storage)</strong> 查找与查询语句语义最相似的原始文本块 (Chunks)。</li>
+<li><strong>适用场景</strong>：适用于简单、直接的事实查询。例如：“Scrooge 的住址在哪里？”。</li>
+<li><strong>局限性</strong>：由于它只看文本片段的相似度，无法理解实体间的逻辑关联，也难以处理跨度较大的全局性问题。</li>
+</ul>
+<h3 id="2-本地检索-Local-Retrieval"><a href="#2-本地检索-Local-Retrieval" class="headerlink" title="2. 本地检索 (Local Retrieval)"></a>2. 本地检索 (Local Retrieval)</h3><p>侧重于具体的实体及其邻居节点，强调<strong>细节的深度</strong>。</p>
+<ul>
+<li><strong>工作原理</strong>：系统首先提取查询中的“低层关键词 (Low-level Keys)”，然后在<strong>图存储</strong>中定位到具体的实体节点，并调取这些实体的属性、直接关联的关系以及对应的原始文本。</li>
+<li><strong>适用场景</strong>：适用于针对特定实体、具有具体脉络的问题。例如：“Scrooge 与 Jacob Marley 之间是什么关系？”。</li>
+<li><strong>优势</strong>：利用了图的局部结构，比朴素检索更具逻辑性和准确性。</li>
+</ul>
+<h3 id="3-全局检索-Global-Retrieval"><a href="#3-全局检索-Global-Retrieval" class="headerlink" title="3. 全局检索 (Global Retrieval)"></a>3. 全局检索 (Global Retrieval)</h3><p>侧重于宏观概念和全篇总结，强调<strong>视野的广度</strong>。</p>
+<ul>
+<li><strong>工作原理</strong>：系统提取查询中的“高层关键词 (High-level Keys)”，检索图中代表抽象主题、类别或更大范围的关联节点。它不是看具体的某个人，而是看整个知识网中相关的主题簇。</li>
+<li><strong>适用场景</strong>：适用于总结性、推理性或涉及全篇主题的问题。例如：“这部小说的核心思想是什么？”或“环境污染对农业有哪些宏观影响？”。</li>
+</ul>
+<h3 id="4-混合检索-Hybrid-Retrieval"><a href="#4-混合检索-Hybrid-Retrieval" class="headerlink" title="4. 混合检索 (Hybrid Retrieval)"></a>4. 混合检索 (Hybrid Retrieval)</h3><p>这是 LightRAG 最推荐的默认模式，旨在取长补短。</p>
+<ul>
+<li><strong>工作原理</strong>：它同时运行 <strong>本地检索</strong> 和 <strong>全局检索</strong>。系统会并行提取低层和高层关键词，将召回的具体实体、逻辑链条和宏观背景统一交给大模型进行融合处理。</li>
+<li><strong>适用场景</strong>：几乎所有复杂查询。它能确保答案既有具体的细节支撑（来自 Local），又不失整体的全局视角（来自 Global）。</li>
+</ul>
+<hr>
+<h3 id="模式对比一览表"><a href="#模式对比一览表" class="headerlink" title="模式对比一览表"></a>模式对比一览表</h3><table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>核心搜索工具</strong></th>
+<th><strong>关键词类型</strong></th>
+<th><strong>擅长问题</strong></th>
+<th><strong>复杂度</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Naive</strong></td>
+<td>向量库 (Vector)</td>
+<td>全文语义</td>
+<td>简单事实查询</td>
+<td>最低</td>
+</tr>
+<tr>
+<td><strong>Local</strong></td>
+<td>知识图谱 (点+边)</td>
+<td>具体实体 (Low-level)</td>
+<td>特定角色&#x2F;事件细节</td>
+<td>中等</td>
+</tr>
+<tr>
+<td><strong>Global</strong></td>
+<td>知识图谱 (社区&#x2F;主题)</td>
+<td>宏观概念 (High-level)</td>
+<td>总结、主题分析</td>
+<td>高</td>
+</tr>
+<tr>
+<td><strong>Hybrid</strong></td>
+<td>向量库 + 图谱</td>
+<td>混合关键词</td>
+<td><strong>所有复杂、综合性问题</strong></td>
+<td>最高</td>
+</tr>
+</tbody></table>
+<p>除了这四种，代码中还提到了一种 <strong>Mix</strong> 模式。<strong>Mix</strong> 模式通常指的是在引入 <strong>Reranker（重排序模型）</strong> 后的增强模式。它先从知识图谱和向量检索中召回大量候选内容，再利用专门的 Reranker 模型进行精准打分过滤，从而获得目前最优的检索效果。</p>
+<hr>
+<h1 id="APP开发"><a href="#APP开发" class="headerlink" title="APP开发"></a>APP开发</h1><h2 id="使用-Docker-Compose-启动-LightRAG-服务器"><a href="#使用-Docker-Compose-启动-LightRAG-服务器" class="headerlink" title="使用 Docker Compose 启动 LightRAG 服务器"></a>使用 Docker Compose 启动 LightRAG 服务器</h2><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><code class="hljs clean">###########################<br>### Server Configuration<br>###########################<br>HOST=<span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span><br>PORT=<span class="hljs-number">9621</span><br>WEBUI_TITLE=校园AI助手知识库<br>WEBUI_DESCRIPTION=基于研究生手册的智能问答系统<br><br>###########################<br>### LLM Configuration (DeepSeek - 用于文档索引)<br>###########################<br>LLM_BINDING=openai<br>LLM_MODEL=deepseek-chat<br>LLM_BINDING_HOST=https:<span class="hljs-comment">//api.deepseek.com</span><br># API Key 通过 docker-compose environment 传入<br><br>###########################<br>### Embedding Configuration (阿里云百炼 text-embedding-v4)<br>###########################<br>EMBEDDING_BINDING=openai<br>EMBEDDING_MODEL=text-embedding-v4<br>EMBEDDING_DIM=<span class="hljs-number">1024</span><br>EMBEDDING_BINDING_HOST=https:<span class="hljs-comment">//dashscope.aliyuncs.com/compatible-mode/v1</span><br># API Key 通过 docker-compose environment 传入<br><br>###########################<br>### Rerank Configuration (阿里云 gte-rerank-v2)<br>###########################<br>RERANK_BINDING=aliyun<br>RERANK_MODEL=gte-rerank-v2<br>RERANK_BINDING_HOST=https:<span class="hljs-comment">//dashscope.aliyuncs.com/api/v1/services/rerank/text-rerank/text-rerank</span><br><br>###########################<br>### Document Processing<br>###########################<br>SUMMARY_LANGUAGE=Chinese<br>CHUNK_SIZE=<span class="hljs-number">1200</span><br>CHUNK_OVERLAP_SIZE=<span class="hljs-number">100</span><br>ENABLE_LLM_CACHE=true<br>ENABLE_LLM_CACHE_FOR_EXTRACT=true<br><br>###########################<br>### Query Configuration<br>###########################<br>TOP_K=<span class="hljs-number">40</span><br>CHUNK_TOP_K=<span class="hljs-number">20</span><br>MAX_ENTITY_TOKENS=<span class="hljs-number">6000</span><br>MAX_RELATION_TOKENS=<span class="hljs-number">8000</span><br>MAX_TOTAL_TOKENS=<span class="hljs-number">30000</span><br><br>###########################<br>### PostgreSQL Storage (向量+KV存储，图用本地文件)<br>###########################<br>LIGHTRAG_KV_STORAGE=PGKVStorage<br>LIGHTRAG_DOC_STATUS_STORAGE=PGDocStatusStorage<br>LIGHTRAG_GRAPH_STORAGE=NetworkXStorage<br>LIGHTRAG_VECTOR_STORAGE=PGVectorStorage<br><br>POSTGRES_HOST=postgres<br>POSTGRES_PORT=<span class="hljs-number">5432</span><br># 注意：容器内部仍用 <span class="hljs-number">5432</span>，宿主机映射到 <span class="hljs-number">5433</span><br>POSTGRES_USER=campus<br>POSTGRES_PASSWORD=campus123<br>POSTGRES_DATABASE=campus_rag<br>POSTGRES_MAX_CONNECTIONS=<span class="hljs-number">12</span><br><br>###########################<br>### Concurrency<br>###########################<br>MAX_ASYNC=<span class="hljs-number">4</span><br>MAX_PARALLEL_INSERT=<span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">postgres:</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">campus-postgres</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">pgvector/pgvector:pg17</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">POSTGRES_USER:</span> <span class="hljs-string">campus</span><br>      <span class="hljs-attr">POSTGRES_PASSWORD:</span> <span class="hljs-string">campus123</span><br>      <span class="hljs-attr">POSTGRES_DB:</span> <span class="hljs-string">campus_rag</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;5433:5432&quot;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">postgres_data:/var/lib/postgresql/data</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span><br>    <span class="hljs-attr">healthcheck:</span><br>      <span class="hljs-attr">test:</span> [<span class="hljs-string">&quot;CMD-SHELL&quot;</span>, <span class="hljs-string">&quot;pg_isready -U campus -d campus_rag&quot;</span>]<br>      <span class="hljs-attr">interval:</span> <span class="hljs-string">10s</span><br>      <span class="hljs-attr">timeout:</span> <span class="hljs-string">5s</span><br>      <span class="hljs-attr">retries:</span> <span class="hljs-number">5</span><br><br>  <span class="hljs-attr">lightrag:</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">campus-lightrag</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">ghcr.io/hkuds/lightrag:latest</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;9621:9621&quot;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">lightrag_data:/app/data/rag_storage</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/inputs:/app/data/inputs</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./lightrag.env:/app/.env</span><br>    <span class="hljs-attr">env_file:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">lightrag.env</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">LLM_BINDING_API_KEY=$&#123;DEEP_SEEK_API_KEY&#125;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">EMBEDDING_BINDING_API_KEY=$&#123;DASH_SCOPE_API_KEY&#125;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">RERANK_BINDING_API_KEY=$&#123;DASH_SCOPE_API_KEY&#125;</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-attr">postgres:</span><br>        <span class="hljs-attr">condition:</span> <span class="hljs-string">service_healthy</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span><br>    <span class="hljs-attr">extra_hosts:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;host.docker.internal:host-gateway&quot;</span><br><br><span class="hljs-attr">volumes:</span><br>  <span class="hljs-attr">postgres_data:</span><br>  <span class="hljs-attr">lightrag_data:</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>PostgreSQL 一站式持久化</strong>：使用了 <code>PGKVStorage</code>、<code>PGDocStatusStorage</code> 和 <code>PGVectorStorage</code> 。所有的文本块、文档状态和向量嵌入都存储在 PostgreSQL 中，利用其强大的事务支持和 <code>pgvector</code> 插件提供高性能检索。</p>
+<p><strong>内存图计算</strong>：选择了 <code>NetworkXStorage</code> 。它提供极快的图遍历速度（如路径查询），同时通过 Docker 卷挂载实现数据的间接持久化。</p>
+<p><strong>并发控制</strong>：设置了 <code>MAX_ASYNC=4</code> 和 <code>MAX_PARALLEL_INSERT=2</code> ，这能有效防止大批量上传文档时，因并发过高导致 DeepSeek 或阿里云 API 触发频率限制（Rate Limit）。</p>
+<p><strong>索引层 (DeepSeek)</strong>：使用 <code>deepseek-chat</code> 进行文档索引和实体关系提取 。利用 DeepSeek 极高的性价比处理耗费 Token 的图谱构建任务。</p>
+<p><strong>向量层 (阿里云 text-embedding-v4)</strong>：使用 1024 维度的向量模型。</p>
+<p><strong>精排层 (阿里云 gte-rerank-v2)</strong>：通过 Reranker 对初步检索的 40 条结果进行二次打分，选出最相关的 20 条送给 LLM，极大地提高了回答的准确性。</p>
+<hr>
+<h2 id="FastAPI后端服务"><a href="#FastAPI后端服务" class="headerlink" title="FastAPI后端服务"></a>FastAPI后端服务</h2><p>后端采用 FastAPI 构建，通过路由模块化管理各功能。所有接口前缀为 <code>/api</code>。</p>
+<h3 id="应用入口"><a href="#应用入口" class="headerlink" title="应用入口"></a>应用入口</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> FastAPI<br><span class="hljs-keyword">from</span> fastapi.middleware.cors <span class="hljs-keyword">import</span> CORSMiddleware<br><span class="hljs-keyword">from</span> loguru <span class="hljs-keyword">import</span> logger<br><span class="hljs-keyword">from</span> app.config <span class="hljs-keyword">import</span> get_settings<br><span class="hljs-keyword">from</span> app.routers <span class="hljs-keyword">import</span> chat, ocr, documents, asr, graph, source, recommend, smart_suggest, knowledge<br><br>settings = get_settings()<br><br>app = FastAPI(<br>    title=<span class="hljs-string">&quot;校园AI助手&quot;</span>,<br>    description=<span class="hljs-string">&quot;基于研究生手册的智能问答系统&quot;</span>,<br>    version=<span class="hljs-string">&quot;1.0.0&quot;</span><br>)<br><br><span class="hljs-comment"># CORS 配置</span><br>app.add_middleware(<br>    CORSMiddleware,<br>    allow_origins=[<span class="hljs-string">&quot;*&quot;</span>],<br>    allow_credentials=<span class="hljs-literal">True</span>,<br>    allow_methods=[<span class="hljs-string">&quot;*&quot;</span>],<br>    allow_headers=[<span class="hljs-string">&quot;*&quot;</span>],<br>)<br><br><span class="hljs-comment"># 注册路由</span><br>app.include_router(chat.router, prefix=<span class="hljs-string">&quot;/api/chat&quot;</span>, tags=[<span class="hljs-string">&quot;对话&quot;</span>])<br>app.include_router(ocr.router, prefix=<span class="hljs-string">&quot;/api/ocr&quot;</span>, tags=[<span class="hljs-string">&quot;OCR识别&quot;</span>])<br>app.include_router(asr.router, prefix=<span class="hljs-string">&quot;/api/asr&quot;</span>, tags=[<span class="hljs-string">&quot;语音识别&quot;</span>])<br>app.include_router(documents.router, prefix=<span class="hljs-string">&quot;/api/documents&quot;</span>, tags=[<span class="hljs-string">&quot;文档管理&quot;</span>])<br>app.include_router(graph.router, prefix=<span class="hljs-string">&quot;/api/graph&quot;</span>, tags=[<span class="hljs-string">&quot;知识图谱&quot;</span>])<br>app.include_router(source.router, prefix=<span class="hljs-string">&quot;/api/source&quot;</span>, tags=[<span class="hljs-string">&quot;答案溯源&quot;</span>])<br>app.include_router(recommend.router, prefix=<span class="hljs-string">&quot;/api/recommend&quot;</span>, tags=[<span class="hljs-string">&quot;个性化推荐&quot;</span>])<br>app.include_router(smart_suggest.router, prefix=<span class="hljs-string">&quot;/api/suggest&quot;</span>, tags=[<span class="hljs-string">&quot;智能推荐&quot;</span>])<br>app.include_router(knowledge.router, prefix=<span class="hljs-string">&quot;/api/knowledge&quot;</span>, tags=[<span class="hljs-string">&quot;知识库&quot;</span>])<br><br><span class="hljs-meta">@app.get(<span class="hljs-params"><span class="hljs-string">&quot;/health&quot;</span></span>)</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">health_check</span>():<br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;ok&quot;</span>, <span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-string">&quot;服务运行正常&quot;</span>&#125;<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-keyword">import</span> uvicorn<br>    logger.info(<span class="hljs-string">f&quot;启动服务: <span class="hljs-subst">&#123;settings.host&#125;</span>:<span class="hljs-subst">&#123;settings.port&#125;</span>&quot;</span>)<br>    uvicorn.run(<span class="hljs-string">&quot;app.main:app&quot;</span>, host=settings.host, port=settings.port, reload=settings.debug)<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>FastAPI应用初始化</strong>：创建应用实例并设置元数据</li>
+<li><strong>CORS配置</strong>：允许跨域请求</li>
+<li><strong>路由注册</strong>：集成所有功能模块的路由</li>
+<li><strong>健康检查</strong>：提供 <code>/health</code> 端点监控服务状态</li>
+<li><strong>服务启动</strong>：使用 uvicorn 启动 ASGI 服务器</li>
+</ol>
+<h3 id="配置管理"><a href="#配置管理" class="headerlink" title="配置管理"></a>配置管理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pydantic_settings <span class="hljs-keyword">import</span> BaseSettings<br><span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> lru_cache<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Settings</span>(<span class="hljs-title class_ inherited__">BaseSettings</span>):<br>    <span class="hljs-comment"># FastAPI</span><br>    host: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;0.0.0.0&quot;</span><br>    port: <span class="hljs-built_in">int</span> = <span class="hljs-number">8000</span><br>    debug: <span class="hljs-built_in">bool</span> = <span class="hljs-literal">True</span><br><br>    <span class="hljs-comment"># 阿里云百炼</span><br>    dashscope_api_key: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;&quot;</span><br>    <br>    <span class="hljs-comment"># DeepSeek</span><br>    deepseek_api_key: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;&quot;</span><br>    <br>    <span class="hljs-comment"># 模型配置</span><br>    llm_model: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;qwen3-max&quot;</span><br>    embedding_model: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;text-embedding-v4&quot;</span><br>    ocr_model: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;qwen-vl-ocr-2025-11-20&quot;</span><br><br>    <span class="hljs-comment"># LightRAG</span><br>    lightrag_base_url: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;http://localhost:9621&quot;</span><br>    lightrag_api_key: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;&quot;</span><br><br>    <span class="hljs-comment"># 检索模式</span><br>    retrieval_mode: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;hybrid&quot;</span><br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Config</span>:<br>        env_file = <span class="hljs-string">&quot;.env&quot;</span><br>        env_file_encoding = <span class="hljs-string">&quot;utf-8&quot;</span><br>        extra = <span class="hljs-string">&quot;ignore&quot;</span>  <span class="hljs-comment"># 忽略额外字段</span><br><br><span class="hljs-meta">@lru_cache()</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_settings</span>() -&gt; Settings:<br>    <span class="hljs-keyword">return</span> Settings()<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>配置项定义</strong>：使用 Pydantic 的 BaseSettings 定义所有配置参数</li>
+<li><strong>环境变量支持</strong>：自动从 <code>.env</code> 文件读取配置</li>
+<li><strong>配置缓存</strong>：使用 <code>lru_cache</code> 确保配置只加载一次</li>
+</ol>
+<h3 id="接口设计"><a href="#接口设计" class="headerlink" title="接口设计"></a>接口设计</h3><h4 id="问答"><a href="#问答" class="headerlink" title="问答"></a>问答</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> APIRouter, HTTPException<br><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel<br><span class="hljs-keyword">from</span> sse_starlette.sse <span class="hljs-keyword">import</span> EventSourceResponse<br><span class="hljs-keyword">import</span> httpx<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI<br><span class="hljs-keyword">from</span> loguru <span class="hljs-keyword">import</span> logger<br><br><span class="hljs-keyword">from</span> app.config <span class="hljs-keyword">import</span> get_settings<br><br>router = APIRouter()<br>settings = get_settings()<br><br><span class="hljs-comment"># 阿里云百炼 OpenAI 兼容客户端</span><br>client = OpenAI(<br>    api_key=os.getenv(<span class="hljs-string">&quot;DASH_SCOPE_API_KEY&quot;</span>),<br>    base_url=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br>)<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ChatMessage</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;对话消息&quot;&quot;&quot;</span><br>    role: <span class="hljs-built_in">str</span>  <span class="hljs-comment"># &quot;user&quot; 或 &quot;assistant&quot;</span><br>    content: <span class="hljs-built_in">str</span><br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ChatRequest</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<br>    query: <span class="hljs-built_in">str</span><br>    mode: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;hybrid&quot;</span><br>    stream: <span class="hljs-built_in">bool</span> = <span class="hljs-literal">True</span><br>    conversation_history: <span class="hljs-built_in">list</span>[ChatMessage] = []  <span class="hljs-comment"># 新增：对话历史</span><br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ChatResponse</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<br>    answer: <span class="hljs-built_in">str</span><br>    context: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;&quot;</span><br><br><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_rag_context</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span>, mode: <span class="hljs-built_in">str</span>, conversation_history: <span class="hljs-built_in">list</span>[ChatMessage] = <span class="hljs-literal">None</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;从 LightRAG 获取检索上下文&quot;&quot;&quot;</span><br>    url = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;settings.lightrag_base_url&#125;</span>/query&quot;</span><br>    headers = &#123;<span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>&#125;<br>    <span class="hljs-keyword">if</span> settings.lightrag_api_key:<br>        headers[<span class="hljs-string">&quot;X-API-Key&quot;</span>] = settings.lightrag_api_key<br><br>    payload = &#123;<br>        <span class="hljs-string">&quot;query&quot;</span>: query,<br>        <span class="hljs-string">&quot;mode&quot;</span>: mode,<br>        <span class="hljs-string">&quot;only_need_context&quot;</span>: <span class="hljs-literal">True</span><br>    &#125;<br>    <br>    <span class="hljs-comment"># 如果有对话历史，传给 LightRAG 帮助理解上下文</span><br>    <span class="hljs-keyword">if</span> conversation_history:<br>        payload[<span class="hljs-string">&quot;conversation_history&quot;</span>] = [<br>            &#123;<span class="hljs-string">&quot;role&quot;</span>: msg.role, <span class="hljs-string">&quot;content&quot;</span>: msg.content&#125; <br>            <span class="hljs-keyword">for</span> msg <span class="hljs-keyword">in</span> conversation_history[-<span class="hljs-number">6</span>:]  <span class="hljs-comment"># 只传最近 6 条</span><br>        ]<br><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> httpx.AsyncClient(timeout=<span class="hljs-number">60.0</span>) <span class="hljs-keyword">as</span> http_client:<br>            response = <span class="hljs-keyword">await</span> http_client.post(url, json=payload, headers=headers)<br>            <span class="hljs-keyword">if</span> response.status_code == <span class="hljs-number">200</span>:<br>                data = response.json()<br>                <span class="hljs-keyword">return</span> data.get(<span class="hljs-string">&quot;response&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)<br>            <span class="hljs-keyword">else</span>:<br>                logger.error(<span class="hljs-string">f&quot;LightRAG 检索失败: <span class="hljs-subst">&#123;response.status_code&#125;</span>&quot;</span>)<br>                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        logger.error(<span class="hljs-string">f&quot;LightRAG 检索错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span><br><br><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">stream_from_lightrag</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span>, mode: <span class="hljs-built_in">str</span>, conversation_history: <span class="hljs-built_in">list</span>[ChatMessage] = <span class="hljs-literal">None</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;直接使用 LightRAG 的流式 API&quot;&quot;&quot;</span><br>    url = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;settings.lightrag_base_url&#125;</span>/query/stream&quot;</span><br>    headers = &#123;<span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>&#125;<br>    <span class="hljs-keyword">if</span> settings.lightrag_api_key:<br>        headers[<span class="hljs-string">&quot;X-API-Key&quot;</span>] = settings.lightrag_api_key<br><br>    payload = &#123;<br>        <span class="hljs-string">&quot;query&quot;</span>: query,<br>        <span class="hljs-string">&quot;mode&quot;</span>: mode,<br>        <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">True</span><br>    &#125;<br>    <br>    <span class="hljs-keyword">if</span> conversation_history:<br>        payload[<span class="hljs-string">&quot;conversation_history&quot;</span>] = [<br>            &#123;<span class="hljs-string">&quot;role&quot;</span>: msg.role, <span class="hljs-string">&quot;content&quot;</span>: msg.content&#125; <br>            <span class="hljs-keyword">for</span> msg <span class="hljs-keyword">in</span> conversation_history[-<span class="hljs-number">6</span>:]<br>        ]<br><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> httpx.AsyncClient(timeout=<span class="hljs-number">120.0</span>) <span class="hljs-keyword">as</span> http_client:<br>            <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> http_client.stream(<span class="hljs-string">&quot;POST&quot;</span>, url, json=payload, headers=headers) <span class="hljs-keyword">as</span> response:<br>                <span class="hljs-keyword">if</span> response.status_code != <span class="hljs-number">200</span>:<br>                    <span class="hljs-keyword">yield</span> &#123;<span class="hljs-string">&quot;data&quot;</span>: json.dumps(&#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;LightRAG 服务不可用&quot;</span>&#125;, ensure_ascii=<span class="hljs-literal">False</span>)&#125;<br>                    <span class="hljs-keyword">return</span><br>                <br>                <span class="hljs-keyword">async</span> <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> response.aiter_lines():<br>                    <span class="hljs-keyword">if</span> line.strip():<br>                        <span class="hljs-keyword">try</span>:<br>                            data = json.loads(line)<br>                            <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;response&quot;</span> <span class="hljs-keyword">in</span> data:<br>                                <span class="hljs-keyword">yield</span> &#123;<span class="hljs-string">&quot;data&quot;</span>: json.dumps(&#123;<span class="hljs-string">&quot;content&quot;</span>: data[<span class="hljs-string">&quot;response&quot;</span>]&#125;, ensure_ascii=<span class="hljs-literal">False</span>)&#125;<br>                            <span class="hljs-keyword">elif</span> <span class="hljs-string">&quot;error&quot;</span> <span class="hljs-keyword">in</span> data:<br>                                <span class="hljs-keyword">yield</span> &#123;<span class="hljs-string">&quot;data&quot;</span>: json.dumps(&#123;<span class="hljs-string">&quot;error&quot;</span>: data[<span class="hljs-string">&quot;error&quot;</span>]&#125;, ensure_ascii=<span class="hljs-literal">False</span>)&#125;<br>                        <span class="hljs-keyword">except</span> json.JSONDecodeError:<br>                            <span class="hljs-keyword">continue</span><br>                <br>                <span class="hljs-keyword">yield</span> &#123;<span class="hljs-string">&quot;data&quot;</span>: <span class="hljs-string">&quot;[DONE]&quot;</span>&#125;<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        logger.error(<span class="hljs-string">f&quot;LightRAG 流式请求错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">yield</span> &#123;<span class="hljs-string">&quot;data&quot;</span>: json.dumps(&#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-built_in">str</span>(e)&#125;, ensure_ascii=<span class="hljs-literal">False</span>)&#125;<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_messages</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span>, context: <span class="hljs-built_in">str</span>, conversation_history: <span class="hljs-built_in">list</span>[ChatMessage] = <span class="hljs-literal">None</span></span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">dict</span>]:<br>    <span class="hljs-string">&quot;&quot;&quot;构建发送给 LLM 的消息列表&quot;&quot;&quot;</span><br>    system_prompt = <span class="hljs-string">&quot;&quot;&quot;你是江苏师范大学的智能校园助手，专门解答研究生相关的问题。</span><br><span class="hljs-string"></span><br><span class="hljs-string">要求：</span><br><span class="hljs-string">1. 回答要准确、专业，基于参考资料内容</span><br><span class="hljs-string">2. 如果参考资料中没有相关信息，请如实告知</span><br><span class="hljs-string">3. 回答要简洁明了，条理清晰</span><br><span class="hljs-string">4. 涉及具体条款时，请引用原文</span><br><span class="hljs-string">5. 如果用户的问题不够明确，可以主动追问澄清</span><br><span class="hljs-string"></span><br><span class="hljs-string">你可以理解用户的上下文，比如用户说&quot;那个怎么申请&quot;时，要结合之前的对话理解&quot;那个&quot;指的是什么。&quot;&quot;&quot;</span><br><br>    messages = [&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: system_prompt&#125;]<br>    <br>    <span class="hljs-comment"># 添加对话历史</span><br>    <span class="hljs-keyword">if</span> conversation_history:<br>        <span class="hljs-keyword">for</span> msg <span class="hljs-keyword">in</span> conversation_history[-<span class="hljs-number">6</span>:]:  <span class="hljs-comment"># 保留最近 6 条历史</span><br>            messages.append(&#123;<span class="hljs-string">&quot;role&quot;</span>: msg.role, <span class="hljs-string">&quot;content&quot;</span>: msg.content&#125;)<br>    <br>    <span class="hljs-comment"># 添加当前问题（带上下文）</span><br>    user_message = <span class="hljs-string">f&quot;&quot;&quot;参考资料：</span><br><span class="hljs-string"><span class="hljs-subst">&#123;context&#125;</span></span><br><span class="hljs-string"></span><br><span class="hljs-string">用户问题：<span class="hljs-subst">&#123;query&#125;</span></span><br><span class="hljs-string"></span><br><span class="hljs-string">请根据参考资料和对话历史回答用户问题。&quot;&quot;&quot;</span><br>    <br>    messages.append(&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: user_message&#125;)<br>    <br>    <span class="hljs-keyword">return</span> messages<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_stream</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span>, context: <span class="hljs-built_in">str</span>, conversation_history: <span class="hljs-built_in">list</span>[ChatMessage] = <span class="hljs-literal">None</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;使用 OpenAI SDK 流式生成&quot;&quot;&quot;</span><br>    messages = build_messages(query, context, conversation_history)<br><br>    <span class="hljs-keyword">try</span>:<br>        completion = client.chat.completions.create(<br>            model=settings.llm_model,<br>            messages=messages,<br>            stream=<span class="hljs-literal">True</span>,<br>            stream_options=&#123;<span class="hljs-string">&quot;include_usage&quot;</span>: <span class="hljs-literal">True</span>&#125;<br>        )<br><br>        <span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> completion:<br>            <span class="hljs-keyword">if</span> chunk.choices <span class="hljs-keyword">and</span> <span class="hljs-built_in">len</span>(chunk.choices) &gt; <span class="hljs-number">0</span>:<br>                delta = chunk.choices[<span class="hljs-number">0</span>].delta<br>                <span class="hljs-keyword">if</span> delta.content:<br>                    <span class="hljs-keyword">yield</span> &#123;<span class="hljs-string">&quot;data&quot;</span>: json.dumps(&#123;<span class="hljs-string">&quot;content&quot;</span>: delta.content&#125;, ensure_ascii=<span class="hljs-literal">False</span>)&#125;<br>        <br>        <span class="hljs-keyword">yield</span> &#123;<span class="hljs-string">&quot;data&quot;</span>: <span class="hljs-string">&quot;[DONE]&quot;</span>&#125;<br><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        logger.error(<span class="hljs-string">f&quot;流式生成错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">yield</span> &#123;<span class="hljs-string">&quot;data&quot;</span>: json.dumps(&#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-built_in">str</span>(e)&#125;, ensure_ascii=<span class="hljs-literal">False</span>)&#125;<br><br><br><span class="hljs-meta">@router.post(<span class="hljs-params"><span class="hljs-string">&quot;/query&quot;</span></span>)</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">chat_query</span>(<span class="hljs-params">request: ChatRequest</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;对话查询接口（支持多轮对话）&quot;&quot;&quot;</span><br>    <br>    <span class="hljs-comment"># 如果请求流式响应，直接使用 LightRAG 的流式 API</span><br>    <span class="hljs-keyword">if</span> request.stream:<br>        <span class="hljs-keyword">return</span> EventSourceResponse(<br>            stream_from_lightrag(request.query, request.mode, request.conversation_history)<br>        )<br>    <br>    <span class="hljs-comment"># 非流式：从 LightRAG 获取检索上下文</span><br>    context = <span class="hljs-keyword">await</span> get_rag_context(request.query, request.mode, request.conversation_history)<br>    <br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> context:<br>        <span class="hljs-keyword">return</span> ChatResponse(answer=<span class="hljs-string">&quot;抱歉，未能检索到相关信息，请尝试换个问法。&quot;</span>, context=<span class="hljs-string">&quot;&quot;</span>)<br><br>    <span class="hljs-comment"># 非流式响应</span><br>    <span class="hljs-keyword">try</span>:<br>        messages = build_messages(request.query, context, request.conversation_history)<br>        completion = client.chat.completions.create(<br>            model=settings.llm_model,<br>            messages=messages<br>        )<br>        answer = completion.choices[<span class="hljs-number">0</span>].message.content<br>        <span class="hljs-keyword">return</span> ChatResponse(answer=answer, context=context)<br><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        logger.error(<span class="hljs-string">f&quot;生成回答错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">raise</span> HTTPException(status_code=<span class="hljs-number">500</span>, detail=<span class="hljs-built_in">str</span>(e))<br></code></pre></td></tr></table></figure>
+
+<p>核心问答接口，支持多轮对话和流式响应。</p>
+<p><strong>请求参数</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;query&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;研究生如何申请延期毕业？&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;mode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;hybrid&quot;</span><span class="hljs-punctuation">,</span>           <span class="hljs-comment">// 检索模式：local/global/hybrid/naive/mix</span><br>  <span class="hljs-attr">&quot;stream&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span>            <span class="hljs-comment">// 是否流式（小程序不支持）</span><br>  <span class="hljs-attr">&quot;conversation_history&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span>  <span class="hljs-comment">// 对话历史</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>实现流程</strong>：</p>
+<ol>
+<li>接收用户问题和对话历史</li>
+<li>调用 LightRAG <code>/query</code> 或 <code>/query/stream</code> API 获取检索上下文</li>
+<li>将上下文 + 问题 + 历史组装成 Prompt</li>
+<li>调用阿里云百炼 qwen3-max 生成回答</li>
+<li>返回结果（流式或非流式）</li>
+</ol>
+<p><strong>关键代码逻辑</strong>：</p>
+<ul>
+<li><code>get_rag_context()</code> - 从 LightRAG 获取检索上下文</li>
+<li><code>build_messages()</code> - 构建发送给 LLM 的消息列表</li>
+<li><code>stream_from_lightrag()</code> - 直接使用 LightRAG 流式 API</li>
+</ul>
+<hr>
+<h4 id="知识图谱"><a href="#知识图谱" class="headerlink" title="知识图谱"></a>知识图谱</h4><p>提供图谱探索功能，封装 LightRAG 的图查询接口。</p>
+<p><strong>GET <code>/api/graph/popular</code> - 获取热门实体</strong></p>
+<p>按连接度排序返回热门知识点。</p>
+<p><strong>调用 LightRAG</strong>：<code>GET /graph/label/popular?limit=20</code></p>
+<p><strong>GET <code>/api/graph/search</code> - 搜索实体</strong></p>
+<p>模糊搜索实体名称。</p>
+<p><strong>调用 LightRAG</strong>：<code>GET /graph/label/search?q=xxx&amp;limit=10</code></p>
+<p><strong>GET <code>/api/graph/subgraph</code> - 获取子图</strong></p>
+<p>以指定实体为中心，获取 N 层关联的子图。</p>
+<p><strong>请求参数</strong>：</p>
+<ul>
+<li><code>label</code> - 起始实体名称</li>
+<li><code>max_depth</code> - 最大深度（1-3）</li>
+<li><code>max_nodes</code> - 最大节点数（5-30）</li>
+</ul>
+<p><strong>调用 LightRAG</strong>：<code>GET /graphs?label=xxx&amp;max_depth=2&amp;max_nodes=15</code></p>
+<p><strong>返回数据结构</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;nodes&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;国家奖学金&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;国家奖学金&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;entity_type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;奖学金&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;edges&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;source&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;国家奖学金&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;target&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;研究生&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;keywords&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;评选&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;is_truncated&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>GET <code>/api/graph/entity/&#123;entity_name&#125;</code> - 获取实体详情</strong></p>
+<p>获取单个实体的详细信息。</p>
+<hr>
+<h4 id="知识库"><a href="#知识库" class="headerlink" title="知识库"></a>知识库</h4><p>提供知识库统计和实体关系路径查询。</p>
+<p><strong>GET <code>/api/knowledge/stats</code> - 知识库统计</strong></p>
+<p>返回实体数、关系数、文本片段数、文档数。</p>
+<p><strong>实现</strong>：</p>
+<ul>
+<li>调用 <code>/graph/label/list</code> 获取实体列表计数</li>
+<li>调用 <code>/documents</code> 获取文档和 chunk 统计</li>
+<li>通过子图查询估算关系数</li>
+</ul>
+<p><strong>GET <code>/api/knowledge/search</code> - 实体搜索</strong></p>
+<p><strong>调用 LightRAG</strong>：<code>GET /graph/label/search?q=xxx&amp;limit=20</code></p>
+<p><strong>GET <code>/api/knowledge/popular</code> - 热门实体</strong></p>
+<p><strong>调用 LightRAG</strong>：<code>GET /graph/label/popular?limit=30</code></p>
+<p><strong>GET <code>/api/knowledge/path</code> - 关系路径查询</strong></p>
+<p>查询两个实体之间的关联路径，核心功能之一。</p>
+<p><strong>请求参数</strong>：</p>
+<ul>
+<li><code>source</code> - 起始实体</li>
+<li><code>target</code> - 目标实体</li>
+<li><code>max_depth</code> - 最大搜索深度（1-6）</li>
+</ul>
+<p><strong>实现流程</strong>：</p>
+<ol>
+<li>以 source 为中心获取大范围子图</li>
+<li>检查 target 是否在子图中（支持模糊匹配）</li>
+<li>使用 BFS 算法找最短路径</li>
+<li>返回路径节点和边的详细信息</li>
+</ol>
+<hr>
+<h4 id="多模态交互"><a href="#多模态交互" class="headerlink" title="多模态交互"></a>多模态交互</h4><p><strong>OCR (图片识别)</strong>：将图片转换为 Base64 编码并调用多模态模型识别文字，非常适合学生拍摄手册页面进行提问。</p>
+<p><strong>ASR (语音识别)</strong>：支持多种音频格式（mp3, wav, m4a等），使用 <code>qwen3-asr-flash</code> 模型实现高精度的语音转文字。</p>
+<hr>
+<h4 id="答案溯源"><a href="#答案溯源" class="headerlink" title="答案溯源"></a>答案溯源</h4><p>获取问答的参考来源信息，实现答案可追溯。</p>
+<p><strong>POST <code>/api/source/trace</code> - 溯源查询</strong></p>
+<p><strong>调用 LightRAG</strong>：<code>POST /query/data</code>（返回原始检索数据）</p>
+<p><strong>返回</strong>：</p>
+<ul>
+<li><code>chunks</code> - 参考文本片段</li>
+<li><code>entities</code> - 相关实体</li>
+<li><code>relations</code> - 相关关系</li>
+</ul>
+<hr>
+<h4 id="智能推荐"><a href="#智能推荐" class="headerlink" title="智能推荐"></a>智能推荐</h4><p>根据用户身份（学位类型、年级）推荐相关内容。</p>
+<p><strong>POST <code>/api/recommend/list</code> - 获取个性化推荐</strong></p>
+<p><strong>请求参数</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;degree&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;硕士&quot;</span><span class="hljs-punctuation">,</span>  <span class="hljs-comment">// 硕士/博士</span><br>  <span class="hljs-attr">&quot;grade&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>         <span class="hljs-comment">// 年级</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>实现</strong>：纯后端规则配置，根据年级和学位类型匹配预设的推荐项。</p>
+<hr>
+<h4 id="智能问题"><a href="#智能问题" class="headerlink" title="智能问题"></a>智能问题</h4><p>基于知识图谱实体关系，推荐相关问题。</p>
+<p><strong>POST <code>/api/suggest/questions</code> - 推荐相关问题</strong></p>
+<p><strong>实现流程</strong>：</p>
+<ol>
+<li>调用 LightRAG <code>/query/data</code> 获取相关实体</li>
+<li>从用户问题中提取关键词</li>
+<li>根据关键词和实体匹配预设问题库</li>
+<li>返回 4 条推荐问题</li>
+</ol>
+<hr>
+<h2 id="移动端开发"><a href="#移动端开发" class="headerlink" title="移动端开发"></a>移动端开发</h2><p>前端使用 UniAPP + Vue 组件化开发，通过 <code>uni.request</code> 封装统一的 API 调用层。</p>
+<h3 id="API-配置"><a href="#API-配置" class="headerlink" title="API 配置"></a>API 配置</h3><p><strong>文件</strong>：<code>frontend/config.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">BASE_URL</span> = <span class="hljs-string">&#x27;http://服务器IP:8000&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">API</span> = &#123;<br>  <span class="hljs-attr">chat</span>: <span class="hljs-string">`<span class="hljs-subst">$&#123;BASE_URL&#125;</span>/api/chat/query`</span>,<br>  <span class="hljs-attr">ocr</span>: <span class="hljs-string">`<span class="hljs-subst">$&#123;BASE_URL&#125;</span>/api/ocr/recognize`</span>,<br>  <span class="hljs-attr">asr</span>: <span class="hljs-string">`<span class="hljs-subst">$&#123;BASE_URL&#125;</span>/api/asr/recognize`</span>,<br>  <span class="hljs-comment">// ... 其他接口</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="页面结构"><a href="#页面结构" class="headerlink" title="页面结构"></a>页面结构</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">pages/<br>├── index/index.vue      <span class="hljs-comment"># 问答页面（首页）</span><br>├── graph/graph.vue      <span class="hljs-comment"># 知识图谱可视化</span><br>├── profile/profile.vue  <span class="hljs-comment"># 个性化推荐</span><br>├── knowledge/knowledge.vue  <span class="hljs-comment"># 知识库统计 + 路径查询</span><br>└── <span class="hljs-built_in">source</span>/source.vue    <span class="hljs-comment"># 答案溯源（非 TabBar 页面）</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="问答页面-index-vue"><a href="#问答页面-index-vue" class="headerlink" title="问答页面 index.vue"></a>问答页面 <code>index.vue</code></h3><p><strong>核心功能</strong>：</p>
+<ul>
+<li>多轮对话（维护 <code>conversation_history</code>）</li>
+<li>拍照 OCR 识别输入</li>
+<li>语音识别输入</li>
+<li>点击 AI 回答跳转溯源页面</li>
+<li>智能推荐问题展示</li>
+</ul>
+<p><strong>关键实现</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 发送消息</span><br><span class="hljs-keyword">async</span> <span class="hljs-title function_">sendMessage</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> history = <span class="hljs-variable language_">this</span>.<span class="hljs-property">messages</span>.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">msg</span> =&gt;</span> (&#123;<br>    <span class="hljs-attr">role</span>: msg.<span class="hljs-property">role</span>,<br>    <span class="hljs-attr">content</span>: msg.<span class="hljs-property">content</span><br>  &#125;))<br>  <br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> uni.<span class="hljs-title function_">request</span>(&#123;<br>    <span class="hljs-attr">url</span>: <span class="hljs-variable constant_">API</span>.<span class="hljs-property">chat</span>,<br>    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,<br>    <span class="hljs-attr">data</span>: &#123; <br>      <span class="hljs-attr">query</span>: text, <br>      <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;hybrid&#x27;</span>, <br>      <span class="hljs-attr">stream</span>: <span class="hljs-literal">false</span>,<br>      <span class="hljs-attr">conversation_history</span>: history<br>    &#125;<br>  &#125;)<br>&#125;<br><br><span class="hljs-comment">// 拍照识别</span><br><span class="hljs-title function_">takePhoto</span>(<span class="hljs-params"></span>) &#123;<br>  uni.<span class="hljs-title function_">chooseImage</span>(&#123;...&#125;)<br>  <span class="hljs-comment">// 上传到 /api/ocr/recognize</span><br>&#125;<br><br><span class="hljs-comment">// 语音识别</span><br><span class="hljs-title function_">startRecord</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">recorderManager</span>.<span class="hljs-title function_">start</span>(&#123;<span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;mp3&#x27;</span>, <span class="hljs-attr">sampleRate</span>: <span class="hljs-number">16000</span>&#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="知识图谱页面-graph-vue"><a href="#知识图谱页面-graph-vue" class="headerlink" title="知识图谱页面 graph.vue"></a>知识图谱页面 <code>graph.vue</code></h3><p><strong>核心功能</strong>：</p>
+<ul>
+<li>热门知识点展示</li>
+<li>实体搜索</li>
+<li>以实体为中心展开子图</li>
+<li>点击节点切换中心</li>
+<li>长按查看实体详情</li>
+</ul>
+<p><strong>关键实现</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 选择实体，加载子图</span><br><span class="hljs-keyword">async</span> <span class="hljs-title function_">selectEntity</span>(<span class="hljs-params">entity</span>) &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> uni.<span class="hljs-title function_">request</span>(&#123;<br>    <span class="hljs-attr">url</span>: <span class="hljs-string">`<span class="hljs-subst">$&#123;API.graphSubgraph&#125;</span>?label=<span class="hljs-subst">$&#123;entity&#125;</span>&amp;max_depth=2&amp;max_nodes=15`</span><br>  &#125;)<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">graphData</span> = res.<span class="hljs-property">data</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="知识库页面-knowledge-vue"><a href="#知识库页面-knowledge-vue" class="headerlink" title="知识库页面 knowledge.vue"></a>知识库页面 <code>knowledge.vue</code></h3><p><strong>核心功能</strong>：</p>
+<ul>
+<li>知识库统计展示</li>
+<li>实体搜索（防抖 300ms）</li>
+<li>热门实体展示</li>
+<li>两实体间路径查询</li>
+</ul>
+<p><strong>关键实现</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 搜索防抖</span><br><span class="hljs-title function_">onSearchInput</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">searchTimer</span>) <span class="hljs-built_in">clearTimeout</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">searchTimer</span>)<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">searchTimer</span> = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">searchEntities</span>()<br>  &#125;, <span class="hljs-number">300</span>)<br>&#125;<br><br><span class="hljs-comment">// 路径查询</span><br><span class="hljs-keyword">async</span> <span class="hljs-title function_">searchPath</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> uni.<span class="hljs-title function_">request</span>(&#123;<br>    <span class="hljs-attr">url</span>: <span class="hljs-string">`<span class="hljs-subst">$&#123;API.knowledgePath&#125;</span>?source=<span class="hljs-subst">$&#123;source&#125;</span>&amp;target=<span class="hljs-subst">$&#123;target&#125;</span>`</span><br>  &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="推荐页面-profile-vue"><a href="#推荐页面-profile-vue" class="headerlink" title="推荐页面 profile.vue"></a>推荐页面 <code>profile.vue</code></h3><p><strong>核心功能</strong>：</p>
+<ul>
+<li>用户身份设置（学位、年级）</li>
+<li>个性化推荐内容</li>
+<li>点击推荐项跳转问答页自动提问</li>
+</ul>
+<p><strong>关键实现</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 跳转问答并自动提问</span><br><span class="hljs-title function_">goQuery</span>(<span class="hljs-params">item</span>) &#123;<br>  uni.<span class="hljs-title function_">switchTab</span>(&#123;<br>    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/pages/index/index&#x27;</span>,<br>    <span class="hljs-attr">success</span>: <span class="hljs-function">() =&gt;</span> &#123;<br>      uni.$emit(<span class="hljs-string">&#x27;autoQuery&#x27;</span>, item.<span class="hljs-property">query</span>)<br>    &#125;<br>  &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="溯源页面-source-vue"><a href="#溯源页面-source-vue" class="headerlink" title="溯源页面 source.vue"></a>溯源页面 <code>source.vue</code></h3><p><strong>核心功能</strong>：</p>
+<ul>
+<li>展示原问题和 AI 回答</li>
+<li>展示参考文本片段</li>
+<li>展示相关实体和关系</li>
+</ul>
+<hr>
+<h1 id="LightRAG-API-调用清单"><a href="#LightRAG-API-调用清单" class="headerlink" title="LightRAG API 调用清单"></a>LightRAG API 调用清单</h1><table>
+<thead>
+<tr>
+<th>API</th>
+<th>方法</th>
+<th>用途</th>
+<th>调用位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/query</code></td>
+<td>POST</td>
+<td>RAG 检索 + 生成</td>
+<td>chat.py</td>
+</tr>
+<tr>
+<td><code>/query/stream</code></td>
+<td>POST</td>
+<td>流式问答</td>
+<td>chat.py</td>
+</tr>
+<tr>
+<td><code>/query/data</code></td>
+<td>POST</td>
+<td>获取原始检索数据</td>
+<td>source.py, smart_suggest.py</td>
+</tr>
+<tr>
+<td><code>/graphs</code></td>
+<td>GET</td>
+<td>获取子图</td>
+<td>graph.py, knowledge.py</td>
+</tr>
+<tr>
+<td><code>/graph/label/list</code></td>
+<td>GET</td>
+<td>获取所有实体</td>
+<td>knowledge.py</td>
+</tr>
+<tr>
+<td><code>/graph/label/search</code></td>
+<td>GET</td>
+<td>搜索实体</td>
+<td>graph.py, knowledge.py</td>
+</tr>
+<tr>
+<td><code>/graph/label/popular</code></td>
+<td>GET</td>
+<td>热门实体</td>
+<td>graph.py, knowledge.py</td>
+</tr>
+<tr>
+<td><code>/documents</code></td>
+<td>GET</td>
+<td>文档状态</td>
+<td>knowledge.py</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" class="category-chain-item">测开项目</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/FastAPI/" class="print-no-link">#FastAPI</a>
+      
+        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" class="print-no-link">#大模型</a>
+      
+        <a href="/tags/uniapp/" class="print-no-link">#uniapp</a>
+      
+        <a href="/tags/RAG/" class="print-no-link">#RAG</a>
+      
+        <a href="/tags/app%E5%BC%80%E5%8F%91/" class="print-no-link">#app开发</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>rag-app开发</div>
+      <div>https://lilpear2002.github.io/2026/01/02/rag-app开发/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/14/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91/" title="自动化测试框架开发">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">自动化测试框架开发</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/29/FastAPI%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="FastAPI基础学习">
+                        <span class="hidden-mobile">FastAPI基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

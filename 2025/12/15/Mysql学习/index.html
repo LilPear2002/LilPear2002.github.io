@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lilpear2002.github.io/img/mysql.png">
 <meta property="article:published_time" content="2025-12-15T13:53:48.000Z">
-<meta property="article:modified_time" content="2025-12-17T15:39:18.048Z">
+<meta property="article:modified_time" content="2026-01-05T03:38:31.013Z">
 <meta property="article:author" content="测开求职者">
 <meta property="article:tag" content="SQL语句">
 <meta property="article:tag" content="mysql">
@@ -301,7 +301,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.5k 字
+          12k 字
         
       </span>
     
@@ -312,7 +312,7 @@
         
         
         
-          63 分钟
+          101 分钟
         
       </span>
     
@@ -681,7 +681,7 @@
 <h4 id="2-不可重复读-Non-repeatable-Read"><a href="#2-不可重复读-Non-repeatable-Read" class="headerlink" title="2. 不可重复读 (Non-repeatable Read)"></a>2. 不可重复读 (Non-repeatable Read)</h4><ul>
 <li><strong>场景</strong>：<ul>
 <li>事务 A 第一次查，余额 1000。</li>
-<li>此时，事务 B 冲进来，把余额改成 200 (并且提交了)。</li>
+<li>此时，事务 B 冲进来，把余额改成 200 并且提交了。</li>
 <li>事务 A 还没结束，又查了一次，余额变成 200 了。</li>
 </ul>
 </li>
@@ -743,13 +743,6 @@
 <td>也就是排队做，完全没并发</td>
 </tr>
 </tbody></table>
-<blockquote>
-<p>💡 面试官坑点：</p>
-<p>问：MySQL 默认的隔离级别是什么？</p>
-<p>答：Repeatable Read (RR)。</p>
-<p>问：那 Oracle 呢？</p>
-<p>答：Oracle 默认是 Read Committed (RC)。</p>
-</blockquote>
 <hr>
 <h1 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h1><h3 id="一、-什么是存储引擎？"><a href="#一、-什么是存储引擎？" class="headerlink" title="一、 什么是存储引擎？"></a>一、 什么是存储引擎？</h3><p>想象开了一家<strong>银行（MySQL Server）</strong>。</p>
 <ul>
@@ -845,8 +838,8 @@
 <li><strong>前提</strong>：表必须是 <strong>InnoDB</strong>。如果你在一个 MyISAM 表上执行 <code>ROLLBACK</code>，MySQL 不会报错，但数据<strong>根本撤销不回来</strong>（因为不支持事务）。这会让你的自动化脚本变得不可靠。</li>
 </ul>
 <hr>
-<h3 id="五、-动手看看"><a href="#五、-动手看看" class="headerlink" title="五、 动手看看"></a>五、 动手看看</h3><p><strong>1. 查看当前支持的引擎：</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SHOW</span> ENGINES;<br><span class="hljs-comment">-- 你会看到 InnoDB 是 DEFAULT，支持 Transactions。</span><br></code></pre></td></tr></table></figure>
+<p><strong>1. 查看当前支持的引擎：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SHOW</span> ENGINES;<br><span class="hljs-comment">-- 看到 InnoDB 是 DEFAULT，支持 Transactions。</span><br></code></pre></td></tr></table></figure>
 
 <p><strong>2. 查看某张表用的是什么引擎：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SHOW</span> <span class="hljs-keyword">CREATE TABLE</span> table_name;<br><span class="hljs-comment">-- 结果里会有一句 ENGINE=InnoDB</span><br></code></pre></td></tr></table></figure>
@@ -854,7 +847,6 @@
 <p><strong>3. 修改引擎（危险操作，生产环境慎用）：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER TABLE</span> table_name ENGINE <span class="hljs-operator">=</span> InnoDB;<br></code></pre></td></tr></table></figure>
 
-<hr>
 <p>除非有极其特殊的理由（比如只读不写、为了省空间），否则无脑选 InnoDB。看到 MyISAM 的表要警惕“并发性能差”和“事务回滚失效”的问题。</p>
 <hr>
 <h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><h2 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h2><h3 id="一、-什么是索引？"><a href="#一、-什么是索引？" class="headerlink" title="一、 什么是索引？"></a>一、 什么是索引？</h3><p><strong>索引就是一本“字典的目录”。</strong></p>
@@ -904,7 +896,7 @@
 </li>
 </ul>
 <hr>
-<h3 id="三、-InnoDB-的两大索引分类（面试核心）"><a href="#三、-InnoDB-的两大索引分类（面试核心）" class="headerlink" title="三、 InnoDB 的两大索引分类（面试核心）"></a>三、 InnoDB 的两大索引分类（面试核心）</h3><p>在 InnoDB 引擎中，根据<strong>叶子节点存的内容不同</strong>，索引分为两类。搞懂这个，就理解了为什么有些 SQL 慢，有些快。</p>
+<h3 id="三、-InnoDB-的两大索引分类"><a href="#三、-InnoDB-的两大索引分类" class="headerlink" title="三、 InnoDB 的两大索引分类"></a>三、 InnoDB 的两大索引分类</h3><p>在 InnoDB 引擎中，根据<strong>叶子节点存的内容不同</strong>，索引分为两类。搞懂这个，就理解了为什么有些 SQL 慢，有些快。</p>
 <h4 id="1-聚簇索引-Clustered-Index-——-“主索引”"><a href="#1-聚簇索引-Clustered-Index-——-“主索引”" class="headerlink" title="1. 聚簇索引 (Clustered Index) —— “主索引”"></a>1. 聚簇索引 (Clustered Index) —— “主索引”</h4><ul>
 <li><strong>地位</strong>：它是<strong>唯一的</strong>，也是<strong>最高贵</strong>的。</li>
 <li><strong>Key</strong>：主键 ID (Primary Key)。</li>
@@ -1092,17 +1084,446 @@
 </li>
 </ol>
 <hr>
-<h3 id="🧠-测开实战模拟题（请接招）"><a href="#🧠-测开实战模拟题（请接招）" class="headerlink" title="🧠 测开实战模拟题（请接招）"></a>🧠 测开实战模拟题（请接招）</h3><p>李同学，这是面试中最能体现你是否真的懂“最左前缀”的题目。</p>
-<p>题目：</p>
-<p>有一张表 t，建立了组合索引 INDEX idx_abc (a, b, c)。</p>
-<p>请分析以下 SQL 语句，索引分别用到了哪些字段？</p>
+<h2 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h2><p><strong>EXPLAIN</strong> —— MySQL 的“照妖镜”。</p>
+<p>语法非常简单，就在 SQL 前面加个单词：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">&gt;</span> <span class="hljs-number">20</span>;<br></code></pre></td></tr></table></figure>
+
+<p>执行后，会得到一张表。在这张表里，<strong>最重要的只有 4 列</strong>（按重要程度排序）：</p>
 <ol>
-<li><code>WHERE a = 1 AND b = 2</code></li>
-<li><code>WHERE a = 1 AND c = 3</code></li>
-<li><code>WHERE b = 2 AND c = 3</code></li>
-<li><code>WHERE a = 1 AND b &gt; 2 AND c = 3</code></li>
+<li><strong><code>type</code></strong> (查询级别，定生死的)</li>
+<li><strong><code>key</code></strong> (实际用到的索引)</li>
+<li><strong><code>Extra</code></strong> (额外信息，看有没有坑)</li>
+<li><strong><code>rows</code></strong> (预计扫描多少行)</li>
 </ol>
-<p>请把你的分析发给我（格式：1. 用到了 a, b…）。答完这个，你对索引的理解就达到中级水平了！</p>
+<hr>
+<p>type是衡量 SQL 性能的最重要指标。它代表了 MySQL 是怎么找数据的。从最好到最差的排序如下：</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">system` &gt; `const` &gt; `eq_ref` &gt; `ref` &gt; `range` &gt; `index` &gt; `ALL<br></code></pre></td></tr></table></figure>
+
+<p><strong>1. <code>const</code> (System 级别)</strong></p>
+<ul>
+<li><strong>含义</strong>：<strong>通过主键或唯一索引</strong>查找，最多只有 1 行匹配。</li>
+<li><strong>场景</strong>：<code>WHERE id = 1</code> (主键)。</li>
+<li><strong>速度</strong>：瞬间完成（O(1)）。</li>
+</ul>
+<p><strong>2. <code>eq_ref</code> (Join 时的神器)</strong></p>
+<ul>
+<li><strong>含义</strong>：在多表连接（Join）时，<strong>被驱动表</strong>（右边的表）是通过主键或唯一索引进行匹配的。</li>
+<li><strong>场景</strong>：<code>A JOIN B ON A.id = B.id</code>。</li>
+<li><strong>速度</strong>：非常快。</li>
+</ul>
+<p><strong>3. <code>ref</code> (普通索引，合格标准)</strong></p>
+<ul>
+<li><strong>含义</strong>：使用了普通索引（非唯一）。可能会找到多条数据。</li>
+<li><strong>场景</strong>：<code>WHERE name = &#39;Li&#39;</code> (name 是普通索引)。</li>
+<li><strong>评价</strong>：<strong>这是工作中大部分 SQL 优化的目标级别</strong>。</li>
+</ul>
+<p><strong>4. <code>range</code> (范围查询)</strong></p>
+<ul>
+<li><strong>含义</strong>：使用了索引进行范围查找。</li>
+<li><strong>场景</strong>：<code>WHERE age &gt; 20</code> 或 <code>WHERE date BETWEEN &#39;2024-01-01&#39; AND &#39;...&#39;</code> 或 <code>IN (1, 2, 3)</code>。</li>
+<li><strong>评价</strong>：可以接受。测开测试“时间筛选”功能时经常看到这个。</li>
+</ul>
+<p><strong>5. <code>index</code> (全索引扫描 )</strong></p>
+<ul>
+<li><strong>含义</strong>：虽然用了索引，但是它<strong>扫描了整棵索引树</strong>。</li>
+<li><strong>场景</strong>：<code>SELECT name FROM users</code> (没有 WHERE 条件，但只需要查 name，于是它把 name 索引树从头读到尾)。</li>
+<li><strong>评价</strong>：<strong>比较慢</strong>。通常是因为虽然不需要回表，但数据量大时依然耗时。</li>
+</ul>
+<p><strong>6. <code>ALL</code> (全表扫描 )</strong></p>
+<ul>
+<li><strong>含义</strong>：没用任何索引，从硬盘第一行读到最后一行。</li>
+<li><strong>场景</strong>：<code>WHERE gender = &#39;男&#39;</code> (没索引) 或 索引失效（比如 <code>LIKE &#39;%Li&#39;</code>）。</li>
+<li><strong>评价</strong>：<strong>不及格</strong>。如果在生产环境的大表出现这个，必须打回给开发优化。</li>
+</ul>
+<hr>
+<p>key</p>
+<ul>
+<li><strong><code>possible_keys</code></strong>：MySQL 觉得<strong>可能</strong>会用到的索引（备胎列表）。</li>
+<li><strong><code>key</code></strong>：MySQL <strong>实际</strong>使用的索引（正选）。<ul>
+<li><strong>注意</strong>：如果 <code>key</code> 是 <code>NULL</code>，说明没走索引，快去检查 <code>WHERE</code> 条件！</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>Extra藏着很多“隐形杀手”或“加分项”。</p>
+<ul>
+<li><p><strong><code>Using index</code></strong>：</p>
+<ul>
+<li>恭喜！触发了<strong>覆盖索引</strong>（Covering Index）。</li>
+<li>查询不需要回表，直接在索引树上拿到了数据，性能起飞。</li>
+</ul>
+</li>
+<li><p><strong><code>Using filesort</code></strong>：</p>
+<ul>
+<li><strong>含义</strong>：<strong>文件排序</strong>。</li>
+<li><strong>解释</strong>： SQL 里有 <code>ORDER BY</code>，但索引无法满足排序要求（比如查了 <code>WHERE a=1</code> 却要求 <code>ORDER BY c</code>，而索引是 <code>(a,b)</code>）。MySQL 被迫把数据加载到内存甚至硬盘里进行重新排序。CPU 爆炸。</li>
+<li><strong>对策</strong>：调整索引顺序，让它符合最左前缀。</li>
+</ul>
+</li>
+<li><p><strong><code>Using temporary</code></strong>：</p>
+<ul>
+<li><strong>含义</strong>：<strong>使用了临时表</strong>。</li>
+<li><strong>解释</strong>：常见于 <code>GROUP BY</code> 或 <code>DISTINCT</code>。MySQL 处理不过来，只好建了一张临时表来倒腾数据。</li>
+<li><strong>对策</strong>：非常伤性能，必须优化索引或 SQL 逻辑。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="SQL优化"><a href="#SQL优化" class="headerlink" title="SQL优化"></a>SQL优化</h1><p><strong>1. 拒绝 <code>SELECT *</code></strong></p>
+<ul>
+<li><strong>坏习惯</strong>：<code>SELECT * FROM users WHERE id = 1</code></li>
+<li><strong>为什么慢</strong>：<ol>
+<li><strong>IO 开销大</strong>：取出了很多不需要的字段（比如大段的 <code>description</code> 文本）。</li>
+<li><strong>无法使用覆盖索引</strong>：本来可能查个 <code>id</code> 就能返回的（走索引），结果因为要 <code>*</code>，必须<strong>回表</strong>去读整行数据。</li>
+</ol>
+</li>
+<li><strong>优化</strong>：需要什么取什么。<code>SELECT name, age FROM users ...</code></li>
+</ul>
+<p><strong>2. 别在索引列上做运算</strong></p>
+<p>这是在“最左前缀”里提过的。</p>
+<ul>
+<li><strong>坏习惯</strong>：<code>SELECT * FROM orders WHERE YEAR(create_time) = 2024</code></li>
+<li><strong>后果</strong>：索引失效，全表扫描。因为 B+ 树里存的是具体的日期，不是“年份”。</li>
+<li><strong>优化</strong>：把计算放到右边。<code>WHERE create_time BETWEEN &#39;2024-01-01&#39; AND &#39;2024-12-31&#39;</code></li>
+</ul>
+<p><strong>3. 警惕隐式类型转换</strong></p>
+<ul>
+<li><strong>场景</strong>：字段 <code>phone</code> 是 <code>VARCHAR</code> 类型。</li>
+<li><strong>坏习惯</strong>：<code>WHERE phone = 13800001234</code> (没加单引号)</li>
+<li><strong>后果</strong>：MySQL 会把所有行的 phone 转成数字再比对。索引失效。</li>
+<li><strong>优化</strong>：<code>WHERE phone = &#39;13800001234&#39;</code></li>
+</ul>
+<p><strong>4. 慎用 <code>OR</code>，尽量用 <code>UNION</code></strong></p>
+<ul>
+<li><p><strong>坏习惯</strong>：<code>SELECT * FROM users WHERE id = 1 OR age = 20</code></p>
+</li>
+<li><p><strong>后果</strong>：如果 <code>id</code> 有索引，<code>age</code> 也有索引，用 <code>OR</code> 可能会导致两个索引都失效（取决于优化器心情），或者效率变低。</p>
+</li>
+<li><p><strong>优化</strong>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br><span class="hljs-keyword">UNION</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;<br></code></pre></td></tr></table></figure>
+
+<p><em>解释：UNION 会把两个独立的、飞快的索引查询结果拼在一起。</em></p>
+</li>
+</ul>
+<p><strong>5. 模糊查询别把 <code>%</code> 放前面</strong></p>
+<ul>
+<li><strong>坏习惯</strong>：<code>WHERE name LIKE &#39;%李&#39;</code></li>
+<li><strong>后果</strong>：全表扫描。</li>
+<li><strong>优化</strong>：尽量把 <code>%</code> 放后面 <code>LIKE &#39;李%&#39;</code>。如果非要查“包含李”，考虑使用 <strong>全文索引 (Fulltext)</strong> 或者 <strong>ElasticSearch</strong>（这是架构层面的优化了）。</li>
+</ul>
+<p><strong>6.逻辑策略优化（小表驱动大表）</strong></p>
+<p>这是处理 <strong>JOIN</strong> 查询的核心原则。</p>
+<p><strong>原则</strong>：用数据量小的表，去“驱动”（匹配）数据量大的表。</p>
+<p><strong>比喻</strong>：</p>
+<ul>
+<li><strong>小表 (A)</strong>：100 行。</li>
+<li><strong>大表 (B)</strong>：100 万行。</li>
+<li><strong>A LEFT JOIN B</strong>：拿着 A 的 100 个 ID，去 B 的索引里找 100 次。很快。</li>
+<li><strong>B LEFT JOIN A</strong>：拿着 B 的 100 万个 ID，去 A 里找 100 万次。虽然 A 很小，但也经不起这么折腾。</li>
+</ul>
+<p>优化建议：在写 JOIN 时，尽量让过滤条件多的表（筛选后剩下数据少的表）放在左边。</p>
+<hr>
+<p>场景：做一个后台管理系统，翻页功能。当翻到第 100 万页时：</p>
+<p>LIMIT 1000000, 10 (跳过前 100 万条，取 10 条)。</p>
+<p>现象：发现这条 SQL 执行时间可能要几秒甚至十几秒。</p>
+<p>为什么慢？</p>
+<p>MySQL 的机制是：先硬生生读取 1,000,010 条记录，抛弃前 1,000,000 条，只留最后 10 条。这简直是浪费生命！</p>
+<p>优化方案 1：子查询优化（利用覆盖索引）</p>
+<p>先在索引树上快速找到第 1000000 个 ID（因为只读 ID，不回表，很快），然后再根据这些 ID 去取数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- ❌ 慢 SQL</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> orders LIMIT <span class="hljs-number">1000000</span>, <span class="hljs-number">10</span>;<br><br><span class="hljs-comment">-- ✅ 优化后</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> orders <br><span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">&gt;=</span> (<br>    <span class="hljs-keyword">SELECT</span> id <span class="hljs-keyword">FROM</span> orders LIMIT <span class="hljs-number">1000000</span>, <span class="hljs-number">1</span><br>) <br>LIMIT <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+
+<p><em>原理：子查询只读索引，极快地定位到了“起跑线”的 ID，外层查询直接从这个 ID 开始拿 10 条，避免了大量的回表 IO。</em></p>
+<p>优化方案 2：记住上一页 ID (Seek Method)</p>
+<p>如果是类似“瀑布流”（不断下滑加载），前端可以传给你上一页最后一条数据的 ID。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 不需要 LIMIT offset, size</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> orders <br><span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">&gt;</span> <span class="hljs-number">999999</span> <span class="hljs-comment">-- 前端传过来的上一页最后一条ID</span><br>LIMIT <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+
+<p><em>这完全转化为了范围查询，效率是 O(1) 级别的。</em></p>
+<hr>
+<h1 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h1><p><strong>视图就是一张虚拟表，它不存数据，它只存 SQL 逻辑。</strong></p>
+<p>可以把它想象成 <strong>Windows 桌面上的“快捷方式”</strong>。</p>
+<ul>
+<li><strong>表 (Table)</strong>：相当于硬盘里的源文件（比如 <code>D:\Game\LoL.exe</code>），它是实实在在占空间的，里面存着数据。</li>
+<li><strong>视图 (View)</strong>：相当于桌面上的图标。<ul>
+<li>当你双击图标（查询视图）时，系统其实是根据路径去运行了源文件（执行了视图背后封装的那条 SQL）。</li>
+<li>如果把源文件删了，图标也就废了。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>视图主要有三个用途：</p>
+<p><strong>1. 简化代码（封装复杂逻辑）</strong></p>
+<p>如果测试脚本里，每次都要验证“包含用户信息的订单详情”，得每次都写：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> u.name, o.order_no, o.amount <br><span class="hljs-keyword">FROM</span> users u <br><span class="hljs-keyword">JOIN</span> orders o <span class="hljs-keyword">ON</span> u.id <span class="hljs-operator">=</span> o.user_id;<br></code></pre></td></tr></table></figure>
+
+<p>这太麻烦了。可以建个视图：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">VIEW</span> v_user_orders <span class="hljs-keyword">AS</span><br><span class="hljs-keyword">SELECT</span> u.name, o.order_no, o.amount <br><span class="hljs-keyword">FROM</span> users u <br><span class="hljs-keyword">JOIN</span> orders o <span class="hljs-keyword">ON</span> u.id <span class="hljs-operator">=</span> o.user_id;<br></code></pre></td></tr></table></figure>
+
+<p>以后在 Python 脚本里只需要写：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> v_user_orders; <span class="hljs-comment">-- 像查单表一样简单</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>2. 安全性（数据脱敏）</strong></p>
+<p>假设开发开了一个账号让你去查数据，但是 users 表里有 密码（password） 和 手机号（phone） 这种敏感信息，不能看。</p>
+<p>创建一个视图：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">VIEW</span> v_safe_users <span class="hljs-keyword">AS</span><br><span class="hljs-keyword">SELECT</span> id, username, <span class="hljs-string">&#x27;******&#x27;</span> <span class="hljs-keyword">as</span> password <span class="hljs-comment">-- 把密码隐藏起来</span><br><span class="hljs-keyword">FROM</span> users;<br></code></pre></td></tr></table></figure>
+
+<p>然后只给查询 <code>v_safe_users</code> 的权限。这样就永远看不到敏感字段了。</p>
+<p><strong>3. 格式化数据</strong></p>
+<p>有时候数据库里的字段叫 <code>is_del</code> (0&#x2F;1)，但测试断言时希望看到 <code>已删除/正常</code>。可以在视图里用 <code>CASE WHEN</code> 转换好，测试代码直接读中文即可。</p>
+<hr>
+<p><strong>创建视图</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">VIEW</span> 视图名 <span class="hljs-keyword">AS</span><br><span class="hljs-keyword">SELECT</span> ... (任何复杂的查询语句);<br></code></pre></td></tr></table></figure>
+
+<p><strong>修改视图</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">OR</span> REPLACE <span class="hljs-keyword">VIEW</span> 视图名 <span class="hljs-keyword">AS</span><br><span class="hljs-keyword">SELECT</span> ... (新的查询语句);<br></code></pre></td></tr></table></figure>
+
+<p><strong>删除视图</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">VIEW</span> 视图名;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>Q1: <strong>视图能提高查询性能吗</strong>？</p>
+<p><strong>答案：不能！</strong> </p>
+<ul>
+<li><strong>误区</strong>：很多人以为视图把结果存起来了，查的时候不用再 JOIN 了。</li>
+<li><strong>真相</strong>：MySQL 的视图（默认情况）不存储数据。当 <code>SELECT * FROM view</code> 时，MySQL 只是把你的查询和视图里的定义<strong>合并</strong>，重新执行一遍底层的 JOIN。</li>
+<li><strong>结论</strong>：如果底层的 SQL 慢，视图也一样慢。它只是**“语法糖”**，不是加速器。</li>
+</ul>
+<p><strong>Q2: 既然视图不存数据，那有没有“存数据”的视图？</strong></p>
+<p><strong>答案：有，那叫“物化视图”（Materialized View）。</strong></p>
+<ul>
+<li><strong>区别</strong>：普通视图是“实时算”；物化视图是“算好结果存在硬盘里”（类似缓存）。</li>
+<li><strong>注意</strong>：MySQL <strong>原生不支持</strong> 物化视图（Oracle 和 PostgreSQL 支持）。在 MySQL 里要实现类似功能，通常需要自己建一张中间表，然后写定时任务（Crontab）去更新它。</li>
+</ul>
+<p><strong>Q3: 我能对视图进行 INSERT&#x2F;UPDATE 操作吗？</strong></p>
+<p><strong>答案：建议不要这样做。</strong></p>
+<ul>
+<li>如果视图是简单的 <code>SELECT * FROM 单表</code>，是可以更新的，底层表也会变。</li>
+<li>如果视图里包含了 <code>JOIN</code>、<code>GROUP BY</code>、<code>DISTINCT</code> 或者聚合函数（<code>SUM</code>），那么它是<strong>不可更新</strong>的。</li>
+<li><strong>经验</strong>：把手中的视图当成**“只读”**的就好，千万别试图去改它。</li>
+</ul>
+<hr>
+<h1 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h1><p>把存储过程理解为 <strong>“SQL 语言写的函数”</strong>。在存储过程里，不仅可以写 <code>SELECT</code>&#x2F;<code>INSERT</code>，还可以写：</p>
+<ul>
+<li><strong>变量定义</strong> (<code>DECLARE</code>)</li>
+<li><strong>条件判断</strong> (<code>IF...ELSE</code>)</li>
+<li><strong>循环控制</strong> (<code>WHILE</code>)</li>
+<li><strong>参数传递</strong> (<code>IN</code>, <code>OUT</code>)</li>
+</ul>
+<p><strong>类比：</strong></p>
+<ul>
+<li><strong>普通 SQL</strong>：你去餐厅点菜，说：“给我来一份宫保鸡丁”。（一次交互，做一件事）</li>
+<li><strong>存储过程</strong>：你办了一张会员卡，卡里写着“套餐 A”。你只说：“来个套餐 A”。<ul>
+<li>厨房（数据库）内部会自动执行：先上凉菜，如果凉菜没了（IF）就上汤，循环上 3 个热菜（WHILE），最后送果盘。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>MySQL 的存储过程语法稍微有点繁琐，主要麻烦在 <code>DELIMITER</code>（分隔符）上。</p>
+<p>通常 SQL 以 <code>;</code> 结尾就执行了。但存储过程内部包含了很多 <code>;</code>。为了告诉 MySQL “别急，我还没写完，遇到 <code>//</code> 再执行”，我们需要临时改一下结束符。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql">DELIMITER <span class="hljs-operator">/</span><span class="hljs-operator">/</span>  <span class="hljs-comment">-- 把结束符改成 //</span><br><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">PROCEDURE</span> p_hello_world()<br><span class="hljs-keyword">BEGIN</span><br>    <span class="hljs-keyword">SELECT</span> <span class="hljs-string">&#x27;Hello, Test Dev!&#x27;</span>;<br><span class="hljs-keyword">END</span> <span class="hljs-operator">/</span><span class="hljs-operator">/</span>        <span class="hljs-comment">-- 遇到 //，执行创建</span><br><br>DELIMITER ;   <span class="hljs-comment">-- 把结束符改回分号</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>调用：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CALL</span> p_hello_world();<br></code></pre></td></tr></table></figure>
+
+<p> <strong>优点（传统软件时代喜欢用）</strong></p>
+<ol>
+<li><strong>性能高</strong>：逻辑在数据库内部执行，省去了 Python 和 MySQL 之间频繁的网络传输（IO 交互）。</li>
+<li><strong>封装性</strong>：把复杂的业务逻辑封装在数据库里，对外隐藏细节。</li>
+</ol>
+<p><strong>缺点（互联网大厂弃用的原因）</strong></p>
+<ol>
+<li><strong>难以调试</strong>：Python 代码可以打断点 Debug，存储过程报错了很难定位是哪一行逻辑错了。</li>
+<li><strong>版本控制困难</strong>：代码可以用 Git 管理，存储过程存在数据库里，谁改了很难追溯，很容易覆盖别人的代码。</li>
+<li><strong>计算压力转移</strong>：<ul>
+<li><strong>原则</strong>：数据库（DB）是系统的瓶颈，应该只负责“存数据”。</li>
+<li><strong>问题</strong>：如果把大量的逻辑运算（循环、计算）放在存储过程里，会消耗 DB 的 CPU，导致数据库变慢，影响整个系统。<strong>业务逻辑应该放在应用层（Python&#x2F;Java）做！</strong></li>
+</ul>
+</li>
+<li><strong>迁移困难</strong>：MySQL 的存储过程语法和 Oracle、SQL Server 都不一样。一旦公司要换数据库，所有代码都要重写。</li>
+</ol>
+<blockquote>
+<p>💡 阿里开发规范明确规定：</p>
+<p>“禁止使用存储过程。存储过程难以调试和扩展，更没有移植性。”</p>
+</blockquote>
+<hr>
+<h1 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h1><p>锁（Locking） 是数据库用来处理“资源争抢”的机制。</p>
+<p>MySQL 的锁大致可以分为三类，范围从大到小：<strong>全局锁 &gt; 表级锁 &gt; 行级锁</strong>。范围越小，并发性能越高，但管理成本也越高。</p>
+<hr>
+<p><strong>全局锁 (Global Lock) —— “全场静止”</strong></p>
+<ul>
+<li><strong>命令</strong>：<code>FLUSH TABLES WITH READ LOCK (FTWRL)</code></li>
+<li><strong>效果</strong>：让整个数据库实例变成**“只读状态”**。<ul>
+<li>所有数据的增删改（DML）会被阻塞。</li>
+<li>所有表结构的修改（DDL）会被阻塞。</li>
+<li><em>只有查询（Select）能正常进行。</em></li>
+</ul>
+</li>
+<li><strong>场景</strong>：<strong>全库逻辑备份</strong>。<ul>
+<li>比如你要把整个库导出成 SQL 文件（mysqldump）。如果不加锁，备份到一半有人买了一件商品，余额扣了但订单没备份进去，数据就不一致了。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：太危险了。如果在主库用，业务直接停摆；如果在从库用，会导致主从延迟。</li>
+<li><strong>优化</strong>：对于 <strong>InnoDB</strong> 引擎，使用 <code>mysqldump</code> 时加上 <code>--single-transaction</code> 参数，利用 MVCC（事务快照）可以在<strong>不锁全库</strong>的情况下进行从容备份。<ul>
+<li><em>（面试加分点：这就是为什么要用 InnoDB 替代 MyISAM 的又一个原因。）</em></li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>表级锁 (Table Lock) —— “锁住整间教室”</strong></p>
+<p><strong>1. 显式表锁</strong></p>
+<ul>
+<li><strong>命令</strong>：<code>LOCK TABLES t1 READ/WRITE;</code></li>
+<li><strong>场景</strong>：<strong>MyISAM 引擎</strong> 默认就是表锁。或者在做一些极特殊的数据迁移时手动加锁。</li>
+<li><strong>特点</strong>：<ul>
+<li><strong>读锁 (Read Lock)</strong>：大家都能读，谁都不能改（包括你自己）。</li>
+<li><strong>写锁 (Write Lock)</strong>：只有拥有锁的人能读写，其他人连读都不行，必须在大门外排队。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. 元数据锁 (MDL - Metadata Lock)</strong> </p>
+<p>不需要手动加这个锁，MySQL 会自动加。</p>
+<ul>
+<li><strong>触发时机</strong>：<ul>
+<li>当你做查询&#x2F;更新（DML）时，自动加 <strong>MDL 读锁</strong>。</li>
+<li>当你修改表结构（DDL，如 <code>ALTER TABLE</code> 加字段）时，自动加 <strong>MDL 写锁</strong>。</li>
+</ul>
+</li>
+<li><strong>互斥规则</strong>：读写互斥。这意味着：<strong>如果有长事务正在查询这张表，你就没法修改表结构</strong>。</li>
+</ul>
+<hr>
+<p><strong>行级锁 (Row Lock) —— “锁住某个座位”</strong></p>
+<p>这是 <strong>InnoDB</strong> 引擎的看家本领。只锁你操作的那一行数据，其他行随便别人动。并发度最高。</p>
+<ol>
+<li><strong>两类行锁</strong></li>
+</ol>
+<ul>
+<li><strong>共享锁 (S Lock - Share)</strong>：<strong>读锁</strong>。<ul>
+<li><em>潜台词</em>：“我正在读这行，别人也可以读，但你们谁都别想改它。”</li>
+<li><strong>手动触发</strong>：<code>SELECT ... LOCK IN SHARE MODE;</code></li>
+</ul>
+</li>
+<li><strong>排他锁 (X Lock - Exclusive)</strong>：<strong>写锁</strong>。<ul>
+<li><em>潜台词</em>：“这行被我包了，你们谁也别想读，谁也别想改。”</li>
+<li><strong>触发</strong>：<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code> 自动加。</li>
+<li><strong>手动触发</strong>：<code>SELECT ... FOR UPDATE;</code> （抢票系统常用）</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li><strong>行锁的一个</strong>“大坑”</li>
+</ol>
+<p><strong>InnoDB 的行锁是锁在“索引”上的，而不是锁在数据行上的。</strong></p>
+<ul>
+<li><strong>场景</strong>：<code>UPDATE users SET age = 30 WHERE name = &#39;Li&#39;;</code></li>
+<li><strong>如果 <code>name</code> 有索引</strong>：MySQL 快速定位到名为 ‘Li’ 的那几行索引，锁住。其他叫 ‘Wang’ 的人不受影响。✅</li>
+<li><strong>如果 <code>name</code> 没有索引</strong>：MySQL 只能全表扫描。因为它不知道哪行是 ‘Li’，为了安全，它会<strong>把所有行都锁住</strong>（效果等同于表锁）！❌</li>
+<li><strong>测开警示</strong>：做性能测试时，如果发现 UPDATE 极慢且阻塞了其他不相干的数据，赶紧检查 <code>WHERE</code> 条件的字段是不是没加索引！</li>
+</ul>
+<hr>
+<p><strong>死锁 (Deadlock)</strong> </p>
+<p>两个事务互相持有对方想要的锁，谁也不让谁，就卡死了。</p>
+<p><strong>制造死锁的剧本：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>时刻</strong></th>
+<th><strong>事务 A</strong></th>
+<th><strong>事务 B</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>BEGIN;</code>   <code>UPDATE t SET v=1 WHERE id=1;</code>   (A 锁住了 <strong>id&#x3D;1</strong>)</td>
+<td><code>BEGIN;</code>   <code>UPDATE t SET v=2 WHERE id=2;</code>   (B 锁住了 <strong>id&#x3D;2</strong>)</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>UPDATE t SET v=1 WHERE id=2;</code>   (A 想要 <strong>id&#x3D;2</strong>，被 B 锁了，A 等待…)</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td><code>UPDATE t SET v=2 WHERE id=1;</code>   (B 想要 <strong>id&#x3D;1</strong>，被 A 锁了，B 等待…)</td>
+</tr>
+</tbody></table>
+<p>结果：A 等 B，B 等 A，形成闭环。</p>
+<p>MySQL 反应：MySQL 会立刻检测到死锁，主动回滚其中一个事务（通常是改动较少的那个），让另一个事务执行下去。报错信息：Deadlock found when trying to get lock…</p>
+<hr>
+<p><strong>间隙锁 (Gap Lock)</strong> </p>
+<p>这是 InnoDB 在 RR（可重复读）级别下为了解决“幻读”引入的黑科技。</p>
+<ul>
+<li><strong>场景</strong>：表里有 id 为 <code>1, 3, 5</code> 的数据。</li>
+<li><strong>操作</strong>：<code>SELECT * FROM t WHERE id &gt; 1 AND id &lt; 5 FOR UPDATE;</code></li>
+<li><strong>效果</strong>：<ul>
+<li>MySQL 不仅锁住 <code>3</code> 这行数据（行锁）。</li>
+<li>还会锁住 <code>(1, 3)</code> 和 <code>(3, 5)</code> 这两个<strong>间隙</strong>。</li>
+</ul>
+</li>
+<li><strong>目的</strong>：防止你在查询期间，有人往 <code>2</code> 或者 <code>4</code> 这个位置插入新数据（防止幻读）。</li>
+<li><strong>副作用</strong>：并发插入性能下降。</li>
+</ul>
+<hr>
+<h1 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h1><p>InnoDB 的架构设计极其精妙，它的核心目标只有两个：</p>
+<ol>
+<li><strong>极致的快</strong>（利用内存缓存，减少磁盘 IO）。</li>
+<li><strong>极致的安全</strong>（利用日志系统，保证断电不丢数据）。</li>
+</ol>
+<p>为了实现这两个目标，InnoDB 把架构分成了<strong>内存结构 (In-Memory Structures)</strong> 和 <strong>磁盘结构 (On-Disk Structures)</strong> 两大部分。</p>
+<hr>
+<p><strong>内存结构 (In-Memory Structures)</strong> </p>
+<p>CPU 处理速度非常快，磁盘读写非常慢。InnoDB 在内存里开辟了一大块区域，作为“缓冲地带”。</p>
+<p><strong>Buffer Pool (缓冲池)</strong> </p>
+<p>这是 InnoDB 内存中最大的一块区域。</p>
+<ul>
+<li><strong>作用</strong>：缓存表数据和索引数据。</li>
+<li><strong>机制</strong>：<ul>
+<li>当你执行 <code>SELECT * FROM users WHERE id=1</code> 时，InnoDB 先去 Buffer Pool 找。</li>
+<li>如果找到了（命中），直接返回，<strong>0 次磁盘 IO</strong>（飞快）。</li>
+<li>如果没找到，才去磁盘加载数据页到 Buffer Pool，然后再返回。</li>
+</ul>
+</li>
+<li><strong>LRU 算法</strong>：因为内存有限，Buffer Pool 满了怎么办？InnoDB 使用 <strong>LRU (Least Recently Used)</strong> 算法，把最久没被访问的数据页踢出去，腾位置给新数据。</li>
+<li><strong>测开关注</strong>：<strong>“缓存预热”</strong>。刚重启的数据库因为 Buffer Pool 是空的，性能会很差。压测前通常要先跑一跑热身。</li>
+</ul>
+<p><strong>Change Buffer (写缓冲)</strong></p>
+<ul>
+<li><strong>痛点</strong>：当你 <code>INSERT</code> 一条数据时，如果对应的索引页不在 Buffer Pool 里，如果不缓冲，就需要立马去读磁盘把那个索引页拉进内存修改，这会产生随机 IO。</li>
+<li><strong>作用</strong>：如果是<strong>非唯一索引</strong>的修改，InnoDB 会先把修改操作暂时记在 Change Buffer 里，不再去读磁盘。等将来有机会（比如后台线程空闲时，或者有人真的要读这个页时），再把修改合并进真正的页面（Merge）。</li>
+<li><strong>收益</strong>：极大地提升了写入性能。</li>
+</ul>
+<p><strong>Log Buffer (日志缓冲)</strong></p>
+<ul>
+<li><strong>作用</strong>：这是给 <strong>Redo Log</strong> 准备的缓冲区。</li>
+<li><strong>机制</strong>：你的事务修改操作，先写到 Log Buffer，然后根据策略（比如每秒一次，或每次提交时）刷入磁盘。</li>
+<li><strong>参数</strong>：<code>innodb_flush_log_at_trx_commit</code>。这是面试优化的重点参数（设为 1 最安全，设为 0 或 2 最快但可能丢数据）。</li>
+</ul>
+<p><strong>Adaptive Hash Index (自适应哈希索引)</strong></p>
+<ul>
+<li>InnoDB 发现某些热点数据被频繁访问，它会在 B+ 树之上，自动建立一层哈希索引。让查询从 O(LogN) 变成 O(1)。这是完全自动的。</li>
+</ul>
+<hr>
+<p><strong>磁盘结构 (On-Disk Structures)</strong></p>
+<p>内存断电即失，所以数据最终必须落在磁盘上。</p>
+<p><strong>1. System Tablespace &#x2F; File-Per-Table Tablespaces</strong></p>
+<ul>
+<li>这就是你物理硬盘上的 <code>.ibd</code> 文件。</li>
+<li>它存放了具体的数据行、索引、Change Buffer 的持久化数据等。</li>
+</ul>
+<p><strong>2. Redo Log (重做日志) —— 保证“持久性 (D)”</strong></p>
+<p><strong>这是 InnoDB 的“黑匣子”</strong>。</p>
+<ul>
+<li><strong>场景</strong>：你刚 Update 完数据，Buffer Pool 里的数据变了（脏页），但还没来得及刷到硬盘的 <code>.ibd</code> 文件里，突然<strong>停电了</strong>！</li>
+<li><strong>救命</strong>：MySQL 重启后，会去读取 Redo Log。</li>
+<li><strong>内容</strong>：Redo Log 记录的是物理修改：“在第 X 页第 Y 偏移量，把值改成了 Z”。</li>
+<li><strong>WAL 技术 (Write-Ahead Logging)</strong>：这是关键！InnoDB 保证在修改数据之前，<strong>先写日志</strong>。因为写日志是<strong>顺序写</strong>（追加写），速度极快；而刷数据页是<strong>随机写</strong>，速度慢。</li>
+</ul>
+<p><strong>3. Undo Log (回滚日志) —— 保证“原子性 (A)”</strong></p>
+<p><strong>这是 InnoDB 的“后悔药”</strong>。</p>
+<ul>
+<li><strong>场景 1 (回滚)</strong>：你执行 <code>UPDATE</code> 改了一半，后悔了，执行 <code>ROLLBACK</code>。数据怎么变回去？靠 Undo Log。它记录了逻辑上的反向操作（你 Insert，它记 Delete；你 Update 1变成2，它记 Update 2变成1）。</li>
+<li><strong>场景 2 (MVCC)</strong>：还记得<strong>隔离级别</strong>里的“快照读”吗？当你查数据时，别人正在改。你看到的老版本数据，就是通过 Undo Log 计算出来的。</li>
+</ul>
+<hr>
 
                 
               </div>
