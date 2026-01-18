@@ -204,9 +204,9 @@
       
       <tag>性能测试</tag>
       
-      <tag>压力测试</tag>
-      
       <tag>Locust</tag>
+      
+      <tag>压力测试</tag>
       
     </tags>
     
@@ -380,9 +380,9 @@
       
       <tag>基础命令</tag>
       
-      <tag>项目部署</tag>
-      
       <tag>Docker</tag>
+      
+      <tag>项目部署</tag>
       
       <tag>Dockerfile</tag>
       
@@ -442,9 +442,9 @@
       
       <tag>基础命令</tag>
       
-      <tag>linux</tag>
-      
       <tag>项目部署</tag>
+      
+      <tag>linux</tag>
       
     </tags>
     
