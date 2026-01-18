@@ -84,9 +84,9 @@
     
     <tags>
       
-      <tag>FastAPI</tag>
-      
       <tag>python</tag>
+      
+      <tag>FastAPI</tag>
       
       <tag>异步</tag>
       
@@ -287,11 +287,11 @@
     
     <tags>
       
+      <tag>NoSQL</tag>
+      
       <tag>Neo4J</tag>
       
       <tag>图数据库</tag>
-      
-      <tag>NoSQL</tag>
       
     </tags>
     
@@ -316,9 +316,9 @@
     
     <tags>
       
-      <tag>NoSQL</tag>
-      
       <tag>MongoDB</tag>
+      
+      <tag>NoSQL</tag>
       
       <tag>文档型数据库</tag>
       
@@ -715,9 +715,9 @@
     
     <tags>
       
-      <tag>python</tag>
-      
       <tag>APP测试理论基础</tag>
+      
+      <tag>python</tag>
       
       <tag>Appium</tag>
       
