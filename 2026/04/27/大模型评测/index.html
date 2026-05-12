@@ -1,0 +1,1523 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="测开求职者">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="了解大模型评测的基础知识，了解常见benchmark和评估指标，掌握评测流程和方法，了解评测工具和平台，了解评测结果的分析和应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大模型评测">
+<meta property="og:url" content="https://lilpear2002.github.io/2026/04/27/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%AF%84%E6%B5%8B/index.html">
+<meta property="og:site_name" content="测开学习之路">
+<meta property="og:description" content="了解大模型评测的基础知识，了解常见benchmark和评估指标，掌握评测流程和方法，了解评测工具和平台，了解评测结果的分析和应用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilpear2002.github.io/img/vibe-coding.jpg">
+<meta property="article:published_time" content="2026-04-27T10:16:15.000Z">
+<meta property="article:modified_time" content="2026-05-12T10:29:07.112Z">
+<meta property="article:author" content="测开求职者">
+<meta property="article:tag" content="Agent评测">
+<meta property="article:tag" content="RAG评测">
+<meta property="article:tag" content="大模型评测">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lilpear2002.github.io/img/vibe-coding.jpg">
+  
+  
+  
+  <title>大模型评测 - 测开学习之路</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lilpear2002.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Java基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Python/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Python基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Testing/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>测试基础</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%AE%97%E6%B3%95/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>leetcode</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>数据库</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/Java%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>Java项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%B5%8B%E5%BC%80%E9%A1%B9%E7%9B%AE/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>测开项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E7%A7%91%E7%A0%94%E7%BB%8F%E5%8E%86/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>科研经历</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/LLM/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>大模型</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="大模型评测"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-27 18:16" pubdate>
+          2026年4月27日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          106 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">大模型评测</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Ragas"><a href="#Ragas" class="headerlink" title="Ragas"></a>Ragas</h1><p>Ragas 是一个专为 <strong>RAG（检索增强生成）系统</strong>设计的开源评测框架。官网：<a target="_blank" rel="noopener" href="https://docs.ragas.org.cn/en/stable/">https://docs.ragas.org.cn/en/stable/</a></p>
+<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>使用 <code>pip</code> 和以下命令安装 Ragas</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> ragas<br></code></pre></td></tr></table></figure>
+
+<p>如果想体验最新的功能，请从 main 分支安装最新版本</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">pip install git+https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/vibrantlabsai/</span>ragas.git<br></code></pre></td></tr></table></figure>
+
+<p>在evals.py中配置大模型API密钥</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI<br><span class="hljs-keyword">from</span> ragas.llms <span class="hljs-keyword">import</span> llm_factory<br><br>client = OpenAI(<br>    api_key=<span class="hljs-string">&quot;your-api-key&quot;</span>,<br>    base_url=<span class="hljs-string">&quot;https://your-api-endpoint&quot;</span><br>)<br>llm = llm_factory(<span class="hljs-string">&quot;model-name&quot;</span>, provider=<span class="hljs-string">&quot;openai&quot;</span>, client=client)<br></code></pre></td></tr></table></figure>
+
+<p>项目结构:</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs nix">rag_eval<span class="hljs-symbol">/</span><br>├── README.md              <span class="hljs-comment"># Project documentation</span><br>├── pyproject.toml         <span class="hljs-comment"># Project configuration</span><br>├── rag.py                 <span class="hljs-comment"># Your RAG application</span><br>├── evals.py               <span class="hljs-comment"># Evaluation workflow</span><br>├── __init__.py            <span class="hljs-comment"># Makes this a Python package</span><br>└── evals<span class="hljs-symbol">/</span><br>    ├── datasets<span class="hljs-symbol">/</span>          <span class="hljs-comment"># Test data files</span><br>    ├── experiments<span class="hljs-symbol">/</span>       <span class="hljs-comment"># Evaluation results</span><br>    └── logs<span class="hljs-symbol">/</span>              <span class="hljs-comment"># Execution logs</span><br></code></pre></td></tr></table></figure>
+
+<p>运行评估：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">python evals.py<br></code></pre></td></tr></table></figure>
+
+<p>评估将： - 从 <code>evals.py</code> 中的 <code>load_dataset()</code> 函数加载测试数据 - 使用测试问题进行RAG检索+生成 - 评估响应 - 大模型评分-在控制台中显示结果 - 将结果保存为 CSV 文件<br>可以自己添加更多的测试问题或者修改评估指标</p>
+<hr>
+<h2 id="评估指标"><a href="#评估指标" class="headerlink" title="评估指标"></a>评估指标</h2><p>RAGAs 需要以下信息:</p>
+<ul>
+<li><strong>question</strong>：用户输入的问题。</li>
+<li><strong>answer</strong>：从 RAG 系统生成的答案(由LLM给出)。</li>
+<li><strong>contexts</strong>：根据用户的问题从外部知识源检索的上下文即与问题相关的文档。</li>
+<li><strong>ground_truths（可选）</strong>： 人类提供的基于问题的真实(正确)答案。 这是唯一的需要人类提供的信息。</li>
+</ul>
+<p>当RAGAs拿到上述这些信息后会基于大型语言模型(LLMs)来对RAG系统进行打分，就像在任何机器学习系统中一样，LLM 和 RAG 管道中各个组件的性能对整体体验具有重大影响。Ragas 提供了几种专门用于单独评估 RAG 管道的每个组件的评估指标</p>
+<h3 id="忠实度"><a href="#忠实度" class="headerlink" title="忠实度"></a>忠实度</h3><p>忠实度(faithfulness)衡量了生成的答案(answer)与给定上下文(contexts)的事实一致性。它是根据answer和检索到的context计算得出的。并将计算结果缩放到 (0,1) 范围且越高越好。</p>
+<p><strong>如果答案(answer)中提出的所有基本事实(claims)都可以从给定的上下文(context)中推断出来，则生成的答案被认为是忠实的</strong>。为了计算这一点，首先从生成的答案中识别一组claims。然后，将这些claims中的每一项与给定的context进行交叉检查，以确定是否可以从给定的context中推断出它。即检查答案中的每一个陈述（statement）是否都能从检索到的上下文（context）中找到支撑</p>
+<p>它的计算逻辑分两步：先让 LLM 把答案拆解成若干个独立的事实陈述（比如”公司成立于2015年””总部位于北京”），然后逐一检验每个陈述是否能被上下文支持。最终得分 &#x3D; 被支持的陈述数 &#x2F; 总陈述数。这个指标不关心答案是否正确，只关心答案是否”忠于检索到的材料”——就像判断一个学生写论文时有没有乱编引用，而不是判断论文观点对不对。</p>
+
+
+<h3 id="答案相关性"><a href="#答案相关性" class="headerlink" title="答案相关性"></a>答案相关性</h3><p>重点评估生成的答案(answer)与用户问题(question)之间相关程度。不完整或包含冗余信息的答案将获得较低分数。该指标是通过计算question和answer获得的，它的取值范围在 0 到 1 之间，其中分数越高表示相关性越好。</p>
+<p>它的实现方式很巧妙：不是直接比较问题和答案的相似度，而是<strong>反向生成</strong>——给定答案，让 LLM 生成若干个”这个答案可能在回答什么问题”的候选问题，然后计算这些候选问题与原始问题的语义相似度（用 Embedding 余弦相似度）。如果候选问题和原始问题高度一致，说明答案确实在回答用户的问题；如果偏差很大，说明答案跑题了。这种反向验证的思路比直接做问答语义匹配要鲁棒得多。</p>
+<h3 id="上下文精确率"><a href="#上下文精确率" class="headerlink" title="上下文精确率"></a>上下文精确率</h3><p>它评估所有在上下文(contexts)中呈现的与基本事实(ground-truth)相关的条目是否排名较高。衡量的是：检索回来的文档中，有多少是真正有用的？如果检索返回了 5 个文档片段，其中只有 1 个真正包含回答问题所需的信息，其他 4 个都是噪声，那 Context Precision 就很低。更进一步，RAGAS 不仅关心”有多少是相关的”，还关心<strong>相关文档的排名位置</strong>——相关文档排在前面比排在后面得分更高，因为 LLM 通常对排在前面的上下文关注度更高。</p>
+<h3 id="上下文召回率"><a href="#上下文召回率" class="headerlink" title="上下文召回率"></a>上下文召回率</h3><p>上下文召回率(Context recall)衡量检索到的上下文(Context)与人类提供的真实答案(ground truth)的一致程度。衡量的是：回答问题所需的信息有没有被检索到？它把标准答案（ground truth）拆解成若干个关键信息点，然后检查这些信息点在检索到的上下文中能找到多少。Context Recall 低意味着检索模块”漏掉”了关键文档，即使生成模块再强也巧妇难为无米之炊。</p>
+<h3 id="上下文相关性"><a href="#上下文相关性" class="headerlink" title="上下文相关性"></a>上下文相关性</h3><p>Context Relevance评估“检索的内容是否答非所问”，衡量检索结果与用户问题的相关性，通过LLM评判每个检索块与问题的语义相关性</p>
+<h3 id="其他评估指标"><a href="#其他评估指标" class="headerlink" title="其他评估指标"></a>其他评估指标</h3><p>RAGAS中还拓展了其他的评估指标 可以到官方详细看看</p>
+<h2 id="评估流程"><a href="#评估流程" class="headerlink" title="评估流程"></a>评估流程</h2><p>RAGAS 的核心技术手段是 <strong>LLM-as-Judge</strong>——用一个 LLM来充当评估者，对 RAG 系统的输出进行自动化打分</p>
+<p><strong>第一步：准备评估数据集</strong>。每条评估样本需要包含四个要素：用户问题（question）、检索到的上下文列表（contexts）、RAG 系统生成的答案（answer）、以及可选的标准参考答案（ground truth）。其中前三个是 RAG 系统实际运行的产出，ground truth 是预先标注的”正确答案”。Context Recall等指标 必须有 ground truth 才能计算，因为它需要知道”完整正确的答案包含哪些信息点”。</p>
+<p><strong>第二步：逐指标计算</strong>。对数据集中的每条样本，RAGAS 会分别计算四个指标的得分。以 Faithfulness 为例，RAGAS 先用 LLM 将答案分解为独立陈述，再用 LLM 逐一判断每个陈述是否有上下文支持，最终汇总为 0-1 之间的分数。不同指标的内部计算逻辑不同，但都依赖 LLM 来做语义层面的判断，而非简单的字符串匹配。</p>
+<p><strong>第三步：聚合与分析</strong>。所有样本的得分聚合后，会得到每个指标的整体分布和均值。关键不只是看”总分高不高”，而是看<strong>指标之间的对比关系</strong>：如果 Context Recall 很高但 Faithfulness 很低，说明检索到了正确信息但 LLM 没有忠实使用，问题出在生成端；如果 Faithfulness 很高但 Context Recall 很低，说明 LLM 很忠实但检索没找对，问题出在检索端。这种交叉诊断能力正是 RAGAS 分指标设计的价值所在。</p>
+<p><strong>第四步：迭代优化</strong>。根据诊断结果针对性调整，然后重新跑评估，形成闭环。比如发现 Context Precision 低（检索噪声多），就去优化分块策略或加一层 Reranker；发现 Faithfulness 低（LLM 幻觉多），就在 Prompt 中强化”仅基于给定上下文作答”的指令。</p>
+<h2 id="评测集"><a href="#评测集" class="headerlink" title="评测集"></a>评测集</h2><p><strong>方式一：人工标注</strong>。最传统也最可靠的方式。领域专家根据知识库内容，手工编写问题、提供标准答案，有时还会标注哪些文档片段是回答该问题的关键上下文。优点是数据质量高、贴合真实业务场景；缺点也很明显——成本高、速度慢、难以规模化。一个中等复杂度的 RAG 项目，要积累几百条高质量的标注数据往往需要几周时间。实际操作中有个经验：<strong>先让 RAG 系统跑一批真实用户问题，然后让标注人员在系统的输出基础上修正，而不是从零开始写标准答案</strong>。这样既减少了标注工作量，又能让评估数据更贴近系统的实际表现分布。</p>
+<p><strong>方式二：RAGAS 自带的合成数据生成</strong>。这是 RAGAS 框架的一个亮点功能。它可以基于你的知识库文档，用 LLM 自动生成 question-context-answer-ground_truth 的完整评估样本。生成过程大致是：先从文档中抽取关键信息片段，然后让 LLM 基于这些片段构造问题，再生成对应的标准答案。RAGAS 还支持控制生成问题的难度分布——简单的事实性问题、需要跨段落推理的复杂问题、需要多跳检索的问题等，可以按比例混合生成。</p>
+<blockquote>
+<p>合成数据的最大优势是<strong>效率高、可大规模生成</strong>，适合在项目早期快速搭建一个基线评估集。但它有一个不可忽视的局限：合成问题的分布可能和真实用户的提问习惯差距很大。用户会问很多”奇怪的”问题——措辞不规范、指代模糊、包含错别字、问到知识库边界之外的内容——这些在合成数据中很难覆盖到。</p>
+</blockquote>
+<p><strong>方式三：从生产日志中提取</strong>。如果 RAG 系统已经上线运行，用户的真实查询日志是一座金矿。从日志中筛选出有代表性的 question，配合人工标注 ground truth，就能构建出最贴近真实场景的评估数据集。还可以结合用户的隐式反馈（如点击率、追问率、负面反馈）来标记哪些 case 是系统表现不好的”困难样本”，重点纳入评估集。</p>
+<h2 id="工程实践"><a href="#工程实践" class="headerlink" title="工程实践"></a>工程实践</h2><p><strong>评估数据集的规模问题</strong>。很多人觉得评估集越大越好，实际上对于大部分 RAG 项目，200-500 条高质量的评估样本就足够支撑日常迭代了。关键是样本要覆盖足够多的<strong>问题类型</strong>——事实查询、比较推理、多文档综合、否定查询（”哪些条件不满足？”）、时效性问题等。覆盖度比数量重要。</p>
+<p><strong>评估成本的控制</strong>。RAGAS 的每次评估都需要大量 LLM 调用（每条样本、每个指标都需要至少一次 LLM 调用），评估一个 500 条样本的数据集可能要花好几美元的 API 费用。常见的优化方式是在日常开发中用小模型（如 GPT-3.5）做快速评估，只在版本发布前用 GPT-4 做精确评估。</p>
+<p><strong>和 CI&#x2F;CD 的集成</strong>。成熟的 RAG 团队会把 RAGAS 评估嵌入持续集成流程——每次修改检索策略、更新知识库或调整 Prompt 后，自动触发评估并和上一个版本对比。如果核心指标下降超过阈值就阻断发布。这是 RAG 系统走向工程化成熟的标志。</p>
+<hr>
+<h2 id="代码实战"><a href="#代码实战" class="headerlink" title="代码实战"></a>代码实战</h2><p>用langchain1.X版本构建一个简易的RAG系统:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_community.chat_models.tongyi <span class="hljs-keyword">import</span> ChatTongyi<br><span class="hljs-keyword">from</span> langchain_core.output_parsers <span class="hljs-keyword">import</span> StrOutputParser<br><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnablePassthrough<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> PromptTemplate<br><span class="hljs-keyword">from</span> langchain_community.document_loaders <span class="hljs-keyword">import</span> TextLoader<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><span class="hljs-keyword">from</span> langchain_text_splitters <span class="hljs-keyword">import</span> RecursiveCharacterTextSplitter<br><span class="hljs-keyword">from</span> langchain_community.vectorstores <span class="hljs-keyword">import</span> FAISS<br><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-comment"># 配置区 —— 换模型在这里改</span><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-comment"># 百炼 OpenAI 兼容端点</span><br>BASE_URL = <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br><br><span class="hljs-comment"># 对话模型选项: qwen-turbo / qwen-plus / qwen-max / qwen-flash</span><br>LLM_MODEL = <span class="hljs-string">&quot;qwen-plus&quot;</span><br><br><span class="hljs-comment"># 嵌入模型选项: text-embedding-v3 / text-embedding-v4</span><br>EMBEDDING_MODEL = <span class="hljs-string">&quot;text-embedding-v3&quot;</span><br><br><span class="hljs-comment"># API Key 从环境变量读取，也可直接写字符串</span><br>API_KEY = os.getenv(<span class="hljs-string">&quot;DASHSCOPE_API_KEY&quot;</span>, <span class="hljs-string">&quot;your-api-key-here&quot;</span>)<br><br><span class="hljs-comment"># 检索返回的文档块数</span><br>TOP_K = <span class="hljs-number">3</span><br><br><span class="hljs-comment"># 分块大小和重叠</span><br>CHUNK_SIZE = <span class="hljs-number">500</span><br>CHUNK_OVERLAP = <span class="hljs-number">50</span><br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SimpleRAG</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;简易 RAG 系统：百炼 LLM + 百炼 Embedding + FAISS 向量库 (LangChain 1.0+ LCEL)&quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, knowledge_path: <span class="hljs-built_in">str</span></span>):<br>        <span class="hljs-variable language_">self</span>.knowledge_path = knowledge_path<br><br>        <span class="hljs-variable language_">self</span>.llm = ChatTongyi(model=LLM_MODEL, temperature=<span class="hljs-number">0</span>)<br><br>        <span class="hljs-variable language_">self</span>.embeddings = DashScopeEmbeddings(model=EMBEDDING_MODEL)<br><br>        <span class="hljs-variable language_">self</span>.vectorstore = <span class="hljs-variable language_">self</span>._build_index()<br>        <span class="hljs-variable language_">self</span>.retriever = <span class="hljs-variable language_">self</span>.vectorstore.as_retriever(<br>            search_kwargs=&#123;<span class="hljs-string">&quot;k&quot;</span>: TOP_K&#125;<br>        )<br>        <span class="hljs-variable language_">self</span>.qa_chain = <span class="hljs-variable language_">self</span>._build_chain()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_build_index</span>(<span class="hljs-params">self</span>):<br>        loader = TextLoader(<span class="hljs-variable language_">self</span>.knowledge_path, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>)<br>        docs = loader.load()<br>        splitter = RecursiveCharacterTextSplitter(<br>            chunk_size=CHUNK_SIZE,<br>            chunk_overlap=CHUNK_OVERLAP,<br>            separators=[<span class="hljs-string">&quot;\n\n&quot;</span>, <span class="hljs-string">&quot;\n&quot;</span>, <span class="hljs-string">&quot;。&quot;</span>, <span class="hljs-string">&quot;，&quot;</span>, <span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;&quot;</span>],<br>        )<br>        chunks = splitter.split_documents(docs)<br>        <span class="hljs-keyword">return</span> FAISS.from_documents(chunks, <span class="hljs-variable language_">self</span>.embeddings)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_build_chain</span>(<span class="hljs-params">self</span>):<br>        prompt = PromptTemplate(<br>            template=(<br>                <span class="hljs-string">&quot;请仅根据以下参考资料回答问题。&quot;</span><br>                <span class="hljs-string">&quot;如果参考资料中没有相关信息，请说「根据现有资料无法回答」。\n\n&quot;</span><br>                <span class="hljs-string">&quot;参考资料：\n&#123;context&#125;\n\n&quot;</span><br>                <span class="hljs-string">&quot;问题：&#123;question&#125;\n\n&quot;</span><br>                <span class="hljs-string">&quot;答案：&quot;</span><br>            ),<br>            input_variables=[<span class="hljs-string">&quot;context&quot;</span>, <span class="hljs-string">&quot;question&quot;</span>],<br>        )<br><br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">format_docs</span>(<span class="hljs-params">docs</span>):<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;\n\n&quot;</span>.join(doc.page_content <span class="hljs-keyword">for</span> doc <span class="hljs-keyword">in</span> docs)<br><br>        chain = (<br>            &#123;<br>                <span class="hljs-string">&quot;context&quot;</span>: <span class="hljs-variable language_">self</span>.retriever | format_docs,<br>                <span class="hljs-string">&quot;question&quot;</span>: RunnablePassthrough(),<br>            &#125;<br>            | prompt<br>            | <span class="hljs-variable language_">self</span>.llm<br>            | StrOutputParser()<br>        )<br>        <span class="hljs-keyword">return</span> chain<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">ask</span>(<span class="hljs-params">self, question: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">tuple</span>[<span class="hljs-built_in">str</span>, <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]]:<br>        <span class="hljs-string">&quot;&quot;&quot;返回 (answer, contexts)&quot;&quot;&quot;</span><br>        answer = <span class="hljs-variable language_">self</span>.qa_chain.invoke(question)<br>        docs = <span class="hljs-variable language_">self</span>.retriever.invoke(question)<br>        contexts = [doc.page_content <span class="hljs-keyword">for</span> doc <span class="hljs-keyword">in</span> docs]<br>        <span class="hljs-keyword">return</span> answer, contexts<br><br><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-comment"># 独立测试入口</span><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    knowledge_path = os.path.join(os.path.dirname(__file__), <span class="hljs-string">&quot;knowledge.txt&quot;</span>)<br><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(knowledge_path):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;知识库文件不存在: <span class="hljs-subst">&#123;knowledge_path&#125;</span>&quot;</span>)<br>        exit(<span class="hljs-number">1</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;加载知识库: <span class="hljs-subst">&#123;knowledge_path&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;LLM: <span class="hljs-subst">&#123;LLM_MODEL&#125;</span>  |  Embedding: <span class="hljs-subst">&#123;EMBEDDING_MODEL&#125;</span>  |  Top-K: <span class="hljs-subst">&#123;TOP_K&#125;</span>&quot;</span>)<br>    rag = SimpleRAG(knowledge_path)<br><br>    test_questions = [<br>        <span class="hljs-string">&quot;什么是RAG？&quot;</span>,<br>        <span class="hljs-string">&quot;RAG的工作流程是怎样的？&quot;</span>,<br>        <span class="hljs-string">&quot;FAISS、Chroma、Milvus有什么区别？&quot;</span>,<br>        <span class="hljs-string">&quot;文本分块策略有哪些？&quot;</span>,<br>        <span class="hljs-string">&quot;RAG能完全消除大模型的幻觉吗？&quot;</span>,<br>    ]<br><br>    <span class="hljs-keyword">for</span> q <span class="hljs-keyword">in</span> test_questions:<br>        answer, contexts = rag.ask(q)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n<span class="hljs-subst">&#123;<span class="hljs-string">&#x27;=&#x27;</span>*<span class="hljs-number">60</span>&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Q: <span class="hljs-subst">&#123;q&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;A: <span class="hljs-subst">&#123;answer&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;检索到 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(contexts)&#125;</span> 个文档块&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>用ragas评估：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">RAGAS 评估脚本</span><br><span class="hljs-string">运行 RAG 系统 → 对每个问题收集 answer + contexts → RAGAS 打分</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> Dataset<br><span class="hljs-keyword">from</span> ragas <span class="hljs-keyword">import</span> evaluate<br><span class="hljs-keyword">from</span> ragas.metrics._faithfulness <span class="hljs-keyword">import</span> faithfulness<br><span class="hljs-keyword">from</span> ragas.metrics._answer_relevance <span class="hljs-keyword">import</span> answer_relevancy<br><span class="hljs-keyword">from</span> ragas.metrics._context_precision <span class="hljs-keyword">import</span> context_precision<br><span class="hljs-keyword">from</span> ragas.metrics._context_recall <span class="hljs-keyword">import</span> context_recall<br><span class="hljs-keyword">from</span> ragas.llms <span class="hljs-keyword">import</span> LangchainLLMWrapper<br><span class="hljs-keyword">from</span> ragas.embeddings <span class="hljs-keyword">import</span> LangchainEmbeddingsWrapper<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><br><span class="hljs-comment"># 引入我们自己的 RAG 系统</span><br><span class="hljs-keyword">from</span> rag <span class="hljs-keyword">import</span> (<br>    SimpleRAG,<br>    BASE_URL, LLM_MODEL, EMBEDDING_MODEL, API_KEY, TOP_K,<br>)<br><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-comment"># 评测配置</span><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-comment"># RAGAS Judge LLM —— 可以和生成模型不同，这里复用同一个</span><br>JUDGE_LLM_MODEL = <span class="hljs-string">&quot;qwen-plus&quot;</span><br><br><span class="hljs-comment"># 结果输出路径</span><br>OUTPUT_DIR = os.path.join(os.path.dirname(__file__), <span class="hljs-string">&quot;evals&quot;</span>, <span class="hljs-string">&quot;experiments&quot;</span>)<br><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-comment"># 评测数据集 —— 问题 + 参考答案</span><br><span class="hljs-comment"># ============================================================</span><br>EVAL_DATA = [<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;什么是RAG？它的核心思想是什么？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;RAG是检索增强生成，是一种结合信息检索与文本生成的AI架构。核心思想是在LLM生成回答之前，先从外部知识库检索相关文档片段作为上下文提供给LLM，从而减少幻觉、提高事实准确性。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;RAG的工作流程分为哪几个步骤？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;RAG工作流程分为三个步骤：第一步是索引构建，将文档分块后转为向量存入向量数据库；第二步是检索，将用户问题转为向量在知识库中搜索Top-K相关文档；第三步是生成，将检索到的文档和问题填入Prompt发送给LLM生成答案。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;FAISS、Chroma、Milvus这几种向量数据库各有什么特点？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;FAISS是Meta开源的向量相似度搜索库，在内存中运行，适合原型开发和小规模应用。Chroma是开源向量数据库，提供友好API和持久化支持。Milvus是云原生分布式向量数据库，适合生产环境大规模向量检索。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;文本分块大小对RAG有什么影响？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;块太小会导致上下文不完整，块太大可能稀释相关信息密度。一般建议配合50-100字符的重叠窗口，避免关键信息被切分在块的边界处。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;RAG能完全消除大语言模型的幻觉问题吗？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;不能完全消除。RAG通过引入外部检索机制约束LLM输出范围，但还需要配合Prompt工程、检索质量优化等手段来减少幻觉。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;什么是RAGAS？它的作用是什么？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;RAGAS是专门为RAG系统设计评估的开源框架，使用LLM-as-Judge技术手段，通过多个维度的指标来自动化评估RAG系统的表现，包括检索质量和生成质量等维度。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;嵌入模型在RAG中起什么作用？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;嵌入模型将文本映射到高维语义空间中的向量，语义相近的文本在空间中距离较近。它是RAG检索环节的关键，用于将文档和用户问题都转为向量后进行相似度搜索。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;RAG适用于哪些应用场景？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;RAG特别适合需要基于特定领域知识回答问题的场景，比如企业内部知识问答、法律文书查询、医疗文献检索等。&quot;</span><br>    &#125;,<br>]<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">load_dataset</span>(<span class="hljs-params">rag</span>) -&gt; Dataset:<br>    <span class="hljs-string">&quot;&quot;&quot;用 RAG 系统跑一遍测试问题，收集 answer 和 contexts&quot;&quot;&quot;</span><br>    records = []<br><br>    <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> EVAL_DATA:<br>        question = item[<span class="hljs-string">&quot;question&quot;</span>]<br>        ground_truth = item[<span class="hljs-string">&quot;ground_truth&quot;</span>]<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Running RAG for: <span class="hljs-subst">&#123;question[:<span class="hljs-number">50</span>]&#125;</span>...&quot;</span>)<br>        <span class="hljs-keyword">try</span>:<br>            answer, contexts = rag.ask(question)<br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;    ERROR: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>            answer, contexts = <span class="hljs-string">&quot;&quot;</span>, []<br><br>        records.append(&#123;<br>            <span class="hljs-string">&quot;question&quot;</span>: question,<br>            <span class="hljs-string">&quot;answer&quot;</span>: answer,<br>            <span class="hljs-string">&quot;contexts&quot;</span>: contexts,<br>            <span class="hljs-string">&quot;ground_truth&quot;</span>: ground_truth,<br>        &#125;)<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;    Answer: <span class="hljs-subst">&#123;answer[:<span class="hljs-number">80</span>]&#125;</span>...&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;    Contexts: <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(contexts)&#125;</span> chunks&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> Dataset.from_list(records)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run_evaluation</span>(<span class="hljs-params">dataset: Dataset, judge_llm, judge_embeddings</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;执行 RAGAS 评估&quot;&quot;&quot;</span><br>    metrics = [<br>        faithfulness,<br>        answer_relevancy,<br>        context_precision,<br>        context_recall,<br>    ]<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n开始 RAGAS 评估（这可能需要几分钟）...\n&quot;</span>)<br><br>    result = evaluate(<br>        dataset=dataset,<br>        metrics=metrics,<br>        llm=judge_llm,<br>        embeddings=judge_embeddings,<br>        column_map=&#123;<br>            <span class="hljs-string">&quot;user_input&quot;</span>: <span class="hljs-string">&quot;question&quot;</span>,<br>            <span class="hljs-string">&quot;response&quot;</span>: <span class="hljs-string">&quot;answer&quot;</span>,<br>            <span class="hljs-string">&quot;retrieved_contexts&quot;</span>: <span class="hljs-string">&quot;contexts&quot;</span>,<br>            <span class="hljs-string">&quot;reference&quot;</span>: <span class="hljs-string">&quot;ground_truth&quot;</span>,<br>        &#125;,<br>    )<br><br>    <span class="hljs-keyword">return</span> result<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">save_results</span>(<span class="hljs-params">result, df: pd.DataFrame</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;保存结果到 CSV 和 JSON&quot;&quot;&quot;</span><br>    os.makedirs(OUTPUT_DIR, exist_ok=<span class="hljs-literal">True</span>)<br>    timestamp = datetime.now().strftime(<span class="hljs-string">&quot;%Y%m%d_%H%M%S&quot;</span>)<br><br>    csv_path = os.path.join(OUTPUT_DIR, <span class="hljs-string">f&quot;eval_<span class="hljs-subst">&#123;timestamp&#125;</span>.csv&quot;</span>)<br>    df.to_csv(csv_path, index=<span class="hljs-literal">False</span>, encoding=<span class="hljs-string">&quot;utf-8-sig&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n结果已保存: <span class="hljs-subst">&#123;csv_path&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 汇总统计</span><br>    metric_cols = [c <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> df.columns <span class="hljs-keyword">if</span> c <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> (<span class="hljs-string">&quot;question&quot;</span>, <span class="hljs-string">&quot;answer&quot;</span>, <span class="hljs-string">&quot;contexts&quot;</span>, <span class="hljs-string">&quot;ground_truth&quot;</span>)]<br>    summary = &#123;&#125;<br>    <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> metric_cols:<br>        values = pd.to_numeric(df[col], errors=<span class="hljs-string">&quot;coerce&quot;</span>).dropna()<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(values) &gt; <span class="hljs-number">0</span>:<br>            summary[col] = &#123;<br>                <span class="hljs-string">&quot;mean&quot;</span>: <span class="hljs-built_in">round</span>(<span class="hljs-built_in">float</span>(values.mean()), <span class="hljs-number">4</span>),<br>                <span class="hljs-string">&quot;min&quot;</span>: <span class="hljs-built_in">round</span>(<span class="hljs-built_in">float</span>(values.<span class="hljs-built_in">min</span>()), <span class="hljs-number">4</span>),<br>                <span class="hljs-string">&quot;max&quot;</span>: <span class="hljs-built_in">round</span>(<span class="hljs-built_in">float</span>(values.<span class="hljs-built_in">max</span>()), <span class="hljs-number">4</span>),<br>            &#125;<br><br>    json_path = os.path.join(OUTPUT_DIR, <span class="hljs-string">f&quot;eval_<span class="hljs-subst">&#123;timestamp&#125;</span>_summary.json&quot;</span>)<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(json_path, <span class="hljs-string">&quot;w&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> f:<br>        json.dump(summary, f, ensure_ascii=<span class="hljs-literal">False</span>, indent=<span class="hljs-number">2</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;汇总已保存: <span class="hljs-subst">&#123;json_path&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> summary<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    <span class="hljs-comment"># ---------- 1. 初始化 Judge LLM &amp; Embedding ----------</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;初始化 RAGAS Judge...&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Judge LLM: <span class="hljs-subst">&#123;JUDGE_LLM_MODEL&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Embedding: <span class="hljs-subst">&#123;EMBEDDING_MODEL&#125;</span>&quot;</span>)<br><br>    judge_llm = LangchainLLMWrapper(ChatOpenAI(<br>        model=JUDGE_LLM_MODEL,<br>        api_key=API_KEY,<br>        base_url=BASE_URL,<br>        temperature=<span class="hljs-number">0</span>,<br>    ))<br>    judge_embeddings = LangchainEmbeddingsWrapper(DashScopeEmbeddings(model=EMBEDDING_MODEL))<br><br>    <span class="hljs-comment"># ---------- 2. 初始化 RAG 系统 ----------</span><br>    knowledge_path = os.path.join(os.path.dirname(__file__), <span class="hljs-string">&quot;knowledge.txt&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n初始化 RAG 系统...&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  LLM: <span class="hljs-subst">&#123;LLM_MODEL&#125;</span>  |  Embedding: <span class="hljs-subst">&#123;EMBEDDING_MODEL&#125;</span>  |  Top-K: <span class="hljs-subst">&#123;TOP_K&#125;</span>&quot;</span>)<br>    rag = SimpleRAG(knowledge_path)<br><br>    <span class="hljs-comment"># ---------- 3. 跑 RAG 收集数据 ----------</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n用 RAG 系统处理 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(EVAL_DATA)&#125;</span> 个测试问题...&quot;</span>)<br>    dataset = load_dataset(rag)<br><br>    <span class="hljs-comment"># ---------- 4. RAGAS 评估 ----------</span><br>    result = run_evaluation(dataset, judge_llm, judge_embeddings)<br><br>    <span class="hljs-comment"># ---------- 5. 输出 &amp; 保存 ----------</span><br>    df = result.to_pandas()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;评估结果 (逐条):&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    pd.set_option(<span class="hljs-string">&quot;display.max_columns&quot;</span>, <span class="hljs-literal">None</span>)<br>    pd.set_option(<span class="hljs-string">&quot;display.width&quot;</span>, <span class="hljs-number">200</span>)<br>    pd.set_option(<span class="hljs-string">&quot;display.max_colwidth&quot;</span>, <span class="hljs-number">40</span>)<br>    <span class="hljs-built_in">print</span>(df)<br><br>    summary = save_results(result, df)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;各指标汇总均值:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-keyword">for</span> metric, stats <span class="hljs-keyword">in</span> summary.items():<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  <span class="hljs-subst">&#123;metric&#125;</span>: mean=<span class="hljs-subst">&#123;stats[<span class="hljs-string">&#x27;mean&#x27;</span>]:<span class="hljs-number">.4</span>f&#125;</span>  (min=<span class="hljs-subst">&#123;stats[<span class="hljs-string">&#x27;min&#x27;</span>]:<span class="hljs-number">.4</span>f&#125;</span>, max=<span class="hljs-subst">&#123;stats[<span class="hljs-string">&#x27;max&#x27;</span>]:<span class="hljs-number">.4</span>f&#125;</span>)&quot;</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n指标说明:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;  faithfulness           — 答案是否忠实于检索到的上下文 (0-1, 越高越好)&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;  answer_relevancy       — 答案是否切题、直接回答了问题 (0-1, 越高越好)&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;  context_precision      — 检索结果中相关文档是否排在前面 (0-1, 越高越好)&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;  context_recall         — 答案所需信息是否都被检索到了 (0-1, 越高越好)&quot;</span>)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+
+<h2 id="自动生成评测集"><a href="#自动生成评测集" class="headerlink" title="自动生成评测集"></a>自动生成评测集</h2><p>RAGAS可以根据知识库来让LLM自动生成评测集，然后端到端评估</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">基于 RAGAS TestsetGenerator 自动生成评测集</span><br><span class="hljs-string">从 knowledge.txt 中提取内容，让 LLM 自动出题 + 写参考答案</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">from</span> ragas.testset <span class="hljs-keyword">import</span> TestsetGenerator<br><span class="hljs-keyword">from</span> langchain_community.chat_models.tongyi <span class="hljs-keyword">import</span> ChatTongyi<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><span class="hljs-keyword">from</span> langchain_community.document_loaders <span class="hljs-keyword">import</span> TextLoader<br><br><span class="hljs-keyword">from</span> rag <span class="hljs-keyword">import</span> LLM_MODEL, EMBEDDING_MODEL<br><br>TESTSET_SIZE = <span class="hljs-number">15</span><br>OUTPUT_DIR = os.path.join(os.path.dirname(__file__), <span class="hljs-string">&quot;evals&quot;</span>, <span class="hljs-string">&quot;testset&quot;</span>)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;RAGAS TestsetGenerator — 自动生成评测集&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  LLM: <span class="hljs-subst">&#123;LLM_MODEL&#125;</span>  |  Embedding: <span class="hljs-subst">&#123;EMBEDDING_MODEL&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  目标题数: <span class="hljs-subst">&#123;TESTSET_SIZE&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 1. 加载知识库文档</span><br>    knowledge_path = os.path.join(os.path.dirname(__file__), <span class="hljs-string">&quot;knowledge.txt&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n[1/3] 加载知识库: <span class="hljs-subst">&#123;knowledge_path&#125;</span>&quot;</span>)<br>    loader = TextLoader(knowledge_path, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>)<br>    docs = loader.load()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  共 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(docs)&#125;</span> 个文档&quot;</span>)<br><br>    <span class="hljs-comment"># 2. 创建生成器，指定中文语境</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n[2/3] 初始化 TestsetGenerator...&quot;</span>)<br>    generator = TestsetGenerator.from_langchain(<br>        llm=ChatTongyi(model=LLM_MODEL, temperature=<span class="hljs-number">0.7</span>),<br>        embedding_model=DashScopeEmbeddings(model=EMBEDDING_MODEL),<br>        llm_context=(<br>            <span class="hljs-string">&quot;您必须始终使用中文进行生成。所有问题、答案、角色名称、场景描述&quot;</span><br>            <span class="hljs-string">&quot;都必须用简体中文。知识库内容为中文技术文档，请基于此生成中文评测数据。&quot;</span><br>        ),<br>    )<br><br>    <span class="hljs-comment"># 3. 生成评测集</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n[3/3] 开始生成 <span class="hljs-subst">&#123;TESTSET_SIZE&#125;</span> 道测试题（这需要几分钟）...\n&quot;</span>)<br>    testset = generator.generate_with_langchain_docs(<br>        documents=docs,<br>        testset_size=TESTSET_SIZE,<br>        with_debugging_logs=<span class="hljs-literal">True</span>,<br>    )<br><br>    <span class="hljs-comment"># 4. 输出原始格式</span><br>    df_raw = testset.to_pandas()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;生成评测集（原始格式）:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    pd.set_option(<span class="hljs-string">&quot;display.max_columns&quot;</span>, <span class="hljs-literal">None</span>)<br>    pd.set_option(<span class="hljs-string">&quot;display.width&quot;</span>, <span class="hljs-number">200</span>)<br>    pd.set_option(<span class="hljs-string">&quot;display.max_colwidth&quot;</span>, <span class="hljs-number">40</span>)<br>    <span class="hljs-built_in">print</span>(df_raw[[<span class="hljs-string">&quot;user_input&quot;</span>, <span class="hljs-string">&quot;reference&quot;</span>, <span class="hljs-string">&quot;query_style&quot;</span>, <span class="hljs-string">&quot;synthesizer_name&quot;</span>]].head(<span class="hljs-number">10</span>))<br><br>    <span class="hljs-comment"># 5. 转换为 evals.py 兼容格式</span><br>    df_eval = pd.DataFrame(&#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: df_raw[<span class="hljs-string">&quot;user_input&quot;</span>],<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: df_raw[<span class="hljs-string">&quot;reference&quot;</span>],<br>        <span class="hljs-comment"># 保留 RAGAS 元信息供参考</span><br>        <span class="hljs-string">&quot;ragas_style&quot;</span>: df_raw[<span class="hljs-string">&quot;query_style&quot;</span>],<br>        <span class="hljs-string">&quot;ragas_type&quot;</span>: df_raw[<span class="hljs-string">&quot;synthesizer_name&quot;</span>],<br>    &#125;)<br><br>    <span class="hljs-comment"># 6. 保存</span><br>    os.makedirs(OUTPUT_DIR, exist_ok=<span class="hljs-literal">True</span>)<br>    timestamp = datetime.now().strftime(<span class="hljs-string">&quot;%Y%m%d_%H%M%S&quot;</span>)<br><br>    <span class="hljs-comment"># 原始格式</span><br>    raw_path = os.path.join(OUTPUT_DIR, <span class="hljs-string">f&quot;testset_raw_<span class="hljs-subst">&#123;timestamp&#125;</span>.csv&quot;</span>)<br>    df_raw.to_csv(raw_path, index=<span class="hljs-literal">False</span>, encoding=<span class="hljs-string">&quot;utf-8-sig&quot;</span>)<br><br>    <span class="hljs-comment"># evals 兼容格式</span><br>    eval_path = os.path.join(OUTPUT_DIR, <span class="hljs-string">f&quot;testset_eval_<span class="hljs-subst">&#123;timestamp&#125;</span>.csv&quot;</span>)<br>    df_eval.to_csv(eval_path, index=<span class="hljs-literal">False</span>, encoding=<span class="hljs-string">&quot;utf-8-sig&quot;</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n原始格式已保存: <span class="hljs-subst">&#123;raw_path&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  列: <span class="hljs-subst">&#123;<span class="hljs-built_in">list</span>(df_raw.columns)&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;evals 兼容格式已保存: <span class="hljs-subst">&#123;eval_path&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  列: <span class="hljs-subst">&#123;<span class="hljs-built_in">list</span>(df_eval.columns)&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;共 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(df_eval)&#125;</span> 条记录&quot;</span>)<br><br>    <span class="hljs-comment"># 7. 统计</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;synthesizer_name&quot;</span> <span class="hljs-keyword">in</span> df_raw.columns:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n题型分布:&quot;</span>)<br>        <span class="hljs-keyword">for</span> name, count <span class="hljs-keyword">in</span> df_raw[<span class="hljs-string">&quot;synthesizer_name&quot;</span>].value_counts().items():<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  <span class="hljs-subst">&#123;name&#125;</span>: <span class="hljs-subst">&#123;count&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;query_style&quot;</span> <span class="hljs-keyword">in</span> df_raw.columns:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n提问风格分布:&quot;</span>)<br>        <span class="hljs-keyword">for</span> name, count <span class="hljs-keyword">in</span> df_raw[<span class="hljs-string">&quot;query_style&quot;</span>].value_counts().items():<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  <span class="hljs-subst">&#123;name&#125;</span>: <span class="hljs-subst">&#123;count&#125;</span>&quot;</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n使用方式：将 <span class="hljs-subst">&#123;os.path.basename(eval_path)&#125;</span> 的内容&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;替换 evals.py 中的 EVAL_DATA 列表即可。&quot;</span>)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">RAGAS 评估脚本</span><br><span class="hljs-string">运行 RAG 系统 → 对每个问题收集 answer + contexts → RAGAS 打分</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> Dataset<br><span class="hljs-keyword">from</span> ragas <span class="hljs-keyword">import</span> evaluate<br><span class="hljs-keyword">from</span> ragas.metrics._faithfulness <span class="hljs-keyword">import</span> faithfulness<br><span class="hljs-keyword">from</span> ragas.metrics._answer_relevance <span class="hljs-keyword">import</span> answer_relevancy<br><span class="hljs-keyword">from</span> ragas.metrics._context_precision <span class="hljs-keyword">import</span> context_precision<br><span class="hljs-keyword">from</span> ragas.metrics._context_recall <span class="hljs-keyword">import</span> context_recall<br><span class="hljs-keyword">from</span> ragas.llms <span class="hljs-keyword">import</span> LangchainLLMWrapper<br><span class="hljs-keyword">from</span> ragas.embeddings <span class="hljs-keyword">import</span> LangchainEmbeddingsWrapper<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><br><span class="hljs-comment"># 引入我们自己的 RAG 系统</span><br><span class="hljs-keyword">from</span> rag <span class="hljs-keyword">import</span> (<br>    SimpleRAG,<br>    BASE_URL, LLM_MODEL, EMBEDDING_MODEL, API_KEY, TOP_K,<br>)<br><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-comment"># 评测配置</span><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-comment"># RAGAS Judge LLM —— 可以和生成模型不同，这里复用同一个</span><br>JUDGE_LLM_MODEL = <span class="hljs-string">&quot;qwen-plus&quot;</span><br><br><span class="hljs-comment"># 结果输出路径</span><br>OUTPUT_DIR = os.path.join(os.path.dirname(__file__), <span class="hljs-string">&quot;evals&quot;</span>, <span class="hljs-string">&quot;experiments&quot;</span>)<br><br><span class="hljs-comment"># ============================================================</span><br><span class="hljs-comment"># 评测数据集 —— 问题 + 参考答案</span><br><span class="hljs-comment"># 可通过命令行传入 CSV 文件路径来加载生成好的评测集</span><br><span class="hljs-comment">#   python evals.py evals/testset/testset_eval_xxx.csv</span><br><span class="hljs-comment"># ============================================================</span><br>EVAL_DATA = [<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;什么是RAG？它的核心思想是什么？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;RAG是检索增强生成，是一种结合信息检索与文本生成的AI架构。核心思想是在LLM生成回答之前，先从外部知识库检索相关文档片段作为上下文提供给LLM，从而减少幻觉、提高事实准确性。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;RAG的工作流程分为哪几个步骤？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;RAG工作流程分为三个步骤：第一步是索引构建，将文档分块后转为向量存入向量数据库；第二步是检索，将用户问题转为向量在知识库中搜索Top-K相关文档；第三步是生成，将检索到的文档和问题填入Prompt发送给LLM生成答案。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;FAISS、Chroma、Milvus这几种向量数据库各有什么特点？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;FAISS是Meta开源的向量相似度搜索库，在内存中运行，适合原型开发和小规模应用。Chroma是开源向量数据库，提供友好API和持久化支持。Milvus是云原生分布式向量数据库，适合生产环境大规模向量检索。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;文本分块大小对RAG有什么影响？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;块太小会导致上下文不完整，块太大可能稀释相关信息密度。一般建议配合50-100字符的重叠窗口，避免关键信息被切分在块的边界处。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;RAG能完全消除大语言模型的幻觉问题吗？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;不能完全消除。RAG通过引入外部检索机制约束LLM输出范围，但还需要配合Prompt工程、检索质量优化等手段来减少幻觉。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;什么是RAGAS？它的作用是什么？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;RAGAS是专门为RAG系统设计评估的开源框架，使用LLM-as-Judge技术手段，通过多个维度的指标来自动化评估RAG系统的表现，包括检索质量和生成质量等维度。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;嵌入模型在RAG中起什么作用？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;嵌入模型将文本映射到高维语义空间中的向量，语义相近的文本在空间中距离较近。它是RAG检索环节的关键，用于将文档和用户问题都转为向量后进行相似度搜索。&quot;</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;RAG适用于哪些应用场景？&quot;</span>,<br>        <span class="hljs-string">&quot;ground_truth&quot;</span>: <span class="hljs-string">&quot;RAG特别适合需要基于特定领域知识回答问题的场景，比如企业内部知识问答、法律文书查询、医疗文献检索等。&quot;</span><br>    &#125;,<br>]<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">load_eval_data</span>(<span class="hljs-params">csv_path: <span class="hljs-built_in">str</span> = <span class="hljs-literal">None</span></span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">dict</span>]:<br>    <span class="hljs-string">&quot;&quot;&quot;加载评测数据：优先从 CSV 文件，否则用内置 EVAL_DATA&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> csv_path <span class="hljs-keyword">and</span> os.path.exists(csv_path):<br>        df = pd.read_csv(csv_path, encoding=<span class="hljs-string">&quot;utf-8-sig&quot;</span>)<br>        required = &#123;<span class="hljs-string">&quot;question&quot;</span>, <span class="hljs-string">&quot;ground_truth&quot;</span>&#125;<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> required.issubset(<span class="hljs-built_in">set</span>(df.columns)):<br>            <span class="hljs-keyword">raise</span> ValueError(<br>                <span class="hljs-string">f&quot;CSV 缺少必要列 <span class="hljs-subst">&#123;required&#125;</span>，当前列: <span class="hljs-subst">&#123;<span class="hljs-built_in">list</span>(df.columns)&#125;</span>&quot;</span><br>            )<br>        data = df[[<span class="hljs-string">&quot;question&quot;</span>, <span class="hljs-string">&quot;ground_truth&quot;</span>]].to_dict(<span class="hljs-string">&quot;records&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;从 CSV 加载 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(data)&#125;</span> 条评测数据: <span class="hljs-subst">&#123;csv_path&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> data<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;使用内置 EVAL_DATA (<span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(EVAL_DATA)&#125;</span> 条)&quot;</span>)<br>    <span class="hljs-keyword">return</span> EVAL_DATA<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">load_dataset</span>(<span class="hljs-params">rag, eval_data</span>) -&gt; Dataset:<br>    <span class="hljs-string">&quot;&quot;&quot;用 RAG 系统跑一遍测试问题，收集 answer 和 contexts&quot;&quot;&quot;</span><br>    records = []<br><br>    <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> eval_data:<br>        question = item[<span class="hljs-string">&quot;question&quot;</span>]<br>        ground_truth = item[<span class="hljs-string">&quot;ground_truth&quot;</span>]<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Running RAG for: <span class="hljs-subst">&#123;question[:<span class="hljs-number">50</span>]&#125;</span>...&quot;</span>)<br>        <span class="hljs-keyword">try</span>:<br>            answer, contexts = rag.ask(question)<br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;    ERROR: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>            answer, contexts = <span class="hljs-string">&quot;&quot;</span>, []<br><br>        records.append(&#123;<br>            <span class="hljs-string">&quot;question&quot;</span>: question,<br>            <span class="hljs-string">&quot;answer&quot;</span>: answer,<br>            <span class="hljs-string">&quot;contexts&quot;</span>: contexts,<br>            <span class="hljs-string">&quot;ground_truth&quot;</span>: ground_truth,<br>        &#125;)<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;    Answer: <span class="hljs-subst">&#123;answer[:<span class="hljs-number">80</span>]&#125;</span>...&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;    Contexts: <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(contexts)&#125;</span> chunks&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> Dataset.from_list(records)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run_evaluation</span>(<span class="hljs-params">dataset: Dataset, judge_llm, judge_embeddings</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;执行 RAGAS 评估&quot;&quot;&quot;</span><br>    metrics = [<br>        faithfulness,<br>        answer_relevancy,<br>        context_precision,<br>        context_recall,<br>    ]<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n开始 RAGAS 评估（这可能需要几分钟）...\n&quot;</span>)<br><br>    result = evaluate(<br>        dataset=dataset,<br>        metrics=metrics,<br>        llm=judge_llm,<br>        embeddings=judge_embeddings,<br>        column_map=&#123;<br>            <span class="hljs-string">&quot;user_input&quot;</span>: <span class="hljs-string">&quot;question&quot;</span>,<br>            <span class="hljs-string">&quot;response&quot;</span>: <span class="hljs-string">&quot;answer&quot;</span>,<br>            <span class="hljs-string">&quot;retrieved_contexts&quot;</span>: <span class="hljs-string">&quot;contexts&quot;</span>,<br>            <span class="hljs-string">&quot;reference&quot;</span>: <span class="hljs-string">&quot;ground_truth&quot;</span>,<br>        &#125;,<br>    )<br><br>    <span class="hljs-keyword">return</span> result<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">save_results</span>(<span class="hljs-params">result, df: pd.DataFrame</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;保存结果到 CSV 和 JSON&quot;&quot;&quot;</span><br>    os.makedirs(OUTPUT_DIR, exist_ok=<span class="hljs-literal">True</span>)<br>    timestamp = datetime.now().strftime(<span class="hljs-string">&quot;%Y%m%d_%H%M%S&quot;</span>)<br><br>    csv_path = os.path.join(OUTPUT_DIR, <span class="hljs-string">f&quot;eval_<span class="hljs-subst">&#123;timestamp&#125;</span>.csv&quot;</span>)<br>    df.to_csv(csv_path, index=<span class="hljs-literal">False</span>, encoding=<span class="hljs-string">&quot;utf-8-sig&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n结果已保存: <span class="hljs-subst">&#123;csv_path&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 汇总统计</span><br>    metric_cols = [c <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> df.columns <span class="hljs-keyword">if</span> c <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> (<span class="hljs-string">&quot;question&quot;</span>, <span class="hljs-string">&quot;answer&quot;</span>, <span class="hljs-string">&quot;contexts&quot;</span>, <span class="hljs-string">&quot;ground_truth&quot;</span>)]<br>    summary = &#123;&#125;<br>    <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> metric_cols:<br>        values = pd.to_numeric(df[col], errors=<span class="hljs-string">&quot;coerce&quot;</span>).dropna()<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(values) &gt; <span class="hljs-number">0</span>:<br>            summary[col] = &#123;<br>                <span class="hljs-string">&quot;mean&quot;</span>: <span class="hljs-built_in">round</span>(<span class="hljs-built_in">float</span>(values.mean()), <span class="hljs-number">4</span>),<br>                <span class="hljs-string">&quot;min&quot;</span>: <span class="hljs-built_in">round</span>(<span class="hljs-built_in">float</span>(values.<span class="hljs-built_in">min</span>()), <span class="hljs-number">4</span>),<br>                <span class="hljs-string">&quot;max&quot;</span>: <span class="hljs-built_in">round</span>(<span class="hljs-built_in">float</span>(values.<span class="hljs-built_in">max</span>()), <span class="hljs-number">4</span>),<br>            &#125;<br><br>    json_path = os.path.join(OUTPUT_DIR, <span class="hljs-string">f&quot;eval_<span class="hljs-subst">&#123;timestamp&#125;</span>_summary.json&quot;</span>)<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(json_path, <span class="hljs-string">&quot;w&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> f:<br>        json.dump(summary, f, ensure_ascii=<span class="hljs-literal">False</span>, indent=<span class="hljs-number">2</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;汇总已保存: <span class="hljs-subst">&#123;json_path&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> summary<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    <span class="hljs-comment"># ---------- 0. 加载评测数据 ----------</span><br>    csv_path = sys.argv[<span class="hljs-number">1</span>] <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(sys.argv) &gt; <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span><br>    eval_data = load_eval_data(csv_path)<br><br>    <span class="hljs-comment"># ---------- 1. 初始化 Judge LLM &amp; Embedding ----------</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;初始化 RAGAS Judge...&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Judge LLM: <span class="hljs-subst">&#123;JUDGE_LLM_MODEL&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Embedding: <span class="hljs-subst">&#123;EMBEDDING_MODEL&#125;</span>&quot;</span>)<br><br>    judge_llm = LangchainLLMWrapper(ChatOpenAI(<br>        model=JUDGE_LLM_MODEL,<br>        api_key=API_KEY,<br>        base_url=BASE_URL,<br>        temperature=<span class="hljs-number">0</span>,<br>    ))<br>    judge_embeddings = LangchainEmbeddingsWrapper(DashScopeEmbeddings(model=EMBEDDING_MODEL))<br><br>    <span class="hljs-comment"># ---------- 2. 初始化 RAG 系统 ----------</span><br>    knowledge_path = os.path.join(os.path.dirname(__file__), <span class="hljs-string">&quot;knowledge.txt&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n初始化 RAG 系统...&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  LLM: <span class="hljs-subst">&#123;LLM_MODEL&#125;</span>  |  Embedding: <span class="hljs-subst">&#123;EMBEDDING_MODEL&#125;</span>  |  Top-K: <span class="hljs-subst">&#123;TOP_K&#125;</span>&quot;</span>)<br>    rag = SimpleRAG(knowledge_path)<br><br>    <span class="hljs-comment"># ---------- 3. 跑 RAG 收集数据 ----------</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n用 RAG 系统处理 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(eval_data)&#125;</span> 个测试问题...&quot;</span>)<br>    dataset = load_dataset(rag, eval_data)<br><br>    <span class="hljs-comment"># ---------- 4. RAGAS 评估 ----------</span><br>    result = run_evaluation(dataset, judge_llm, judge_embeddings)<br><br>    <span class="hljs-comment"># ---------- 5. 输出 &amp; 保存 ----------</span><br>    df = result.to_pandas()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;评估结果 (逐条):&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    pd.set_option(<span class="hljs-string">&quot;display.max_columns&quot;</span>, <span class="hljs-literal">None</span>)<br>    pd.set_option(<span class="hljs-string">&quot;display.width&quot;</span>, <span class="hljs-number">200</span>)<br>    pd.set_option(<span class="hljs-string">&quot;display.max_colwidth&quot;</span>, <span class="hljs-number">40</span>)<br>    <span class="hljs-built_in">print</span>(df)<br><br>    summary = save_results(result, df)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;各指标汇总均值:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-keyword">for</span> metric, stats <span class="hljs-keyword">in</span> summary.items():<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  <span class="hljs-subst">&#123;metric&#125;</span>: mean=<span class="hljs-subst">&#123;stats[<span class="hljs-string">&#x27;mean&#x27;</span>]:<span class="hljs-number">.4</span>f&#125;</span>  (min=<span class="hljs-subst">&#123;stats[<span class="hljs-string">&#x27;min&#x27;</span>]:<span class="hljs-number">.4</span>f&#125;</span>, max=<span class="hljs-subst">&#123;stats[<span class="hljs-string">&#x27;max&#x27;</span>]:<span class="hljs-number">.4</span>f&#125;</span>)&quot;</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n指标说明:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;  faithfulness           — 答案是否忠实于检索到的上下文 (0-1, 越高越好)&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;  answer_relevancy       — 答案是否切题、直接回答了问题 (0-1, 越高越好)&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;  context_precision      — 检索结果中相关文档是否排在前面 (0-1, 越高越好)&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;  context_recall         — 答案所需信息是否都被检索到了 (0-1, 越高越好)&quot;</span>)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+
+<p>结果对比</p>
+<p>  ┌───────────────────┬───────────┬──────────────────┐<br>  │                   │ 手写 8 题 │ RAGAS 生成 16 题 │<br>  ├───────────────────┼───────────┼──────────────────┤<br>  │ faithfulness      │ 0.96      │ 0.84             │<br>  ├───────────────────┼───────────┼──────────────────┤<br>  │ answer_relevancy  │ 0.86      │ 0.76             │<br>  ├───────────────────┼───────────┼──────────────────┤<br>  │ context_precision │ 0.94      │ 0.98             │<br>  ├───────────────────┼───────────┼──────────────────┤<br>  │ context_recall    │ 0.88      │ 1.00             │<br>  └───────────────────┴───────────┴──────────────────┘</p>
+<p>生成题得分略低是预期内的——RAGAS 故意造了刁钻问法（语法错误、拼写错误、搜索引擎式），比手写题更多样，也更贴近真实</p>
+<p>  RAGAS 生成时自动做了：</p>
+<ul>
+<li>提取文档结构：标题、摘要、主题、命名实体</li>
+<li>模拟多角色（AI解决方案架构师）出不同视角的题</li>
+<li>4 种提问风格：</li>
+</ul>
+<p>  ┌─────────────────┬──────┬────────────────────────────────────┐<br>  │      风格       │ 数量 │                示例                │<br>  ├─────────────────┼──────┼────────────────────────────────────┤<br>  │ POOR_GRAMMAR    │ 6    │ “RAG是啥玩意”                      │<br>  ├─────────────────┼──────┼────────────────────────────────────┤<br>  │ MISSPELLED      │ 4    │ “text-embeding-v4干啥”             │<br>  ├─────────────────┼──────┼────────────────────────────────────┤<br>  │ PERFECT_GRAMMAR │ 3    │ “阿里云百炼平台提供哪些嵌入模型？” │<br>  ├─────────────────┼──────┼────────────────────────────────────┤<br>  │ WEB_SEARCH_LIKE │ 3    │ “what is chroma in rag systems…” │<br>  └─────────────────┴──────┴────────────────────────────────────┘</p>
+<p>  python generate_testset.py</p>
+<p>  python evals.py evals&#x2F;testset&#x2F;testset_eval_20260508_185746.csv</p>
+<p>或者不传CSV,用内置手写的评测集：python evals.py</p>
+<p>三个文件分工：generate_testset.py 出题 → rag.py 回答 → evals.py 打分，各司其职。</p>
+<hr>
+<h1 id="OpenCompass"><a href="#OpenCompass" class="headerlink" title="OpenCompass"></a>OpenCompass</h1><p>OpenCompass 是面向大模型评测的一站式平台。其主要特点如下：</p>
+<ul>
+<li><strong>开源可复现</strong>：提供公平、公开、可复现的大模型评测方案</li>
+<li><strong>全面的能力维度</strong>：五大维度设计，提供 70+ 个数据集约 40 万题的的模型评测方案，全面评估模型能力</li>
+<li><strong>丰富的模型支持</strong>：已支持 20+ HuggingFace 及 API 模型</li>
+<li><strong>分布式高效评测</strong>：一行命令实现任务分割和分布式评测，数小时即可完成千亿模型全量评测</li>
+<li><strong>多样化评测范式</strong>：支持零样本、小样本及思维链评测，结合标准型或对话型提示词模板，轻松激发各种模型最大性能</li>
+<li><strong>灵活化拓展</strong>：想增加新模型或数据集？想要自定义更高级的任务分割策略，甚至接入新的集群管理系统？OpenCompass 的一切均可轻松扩展！</li>
+</ul>
+<h4 id="创建虚拟环境"><a href="#创建虚拟环境" class="headerlink" title="创建虚拟环境"></a>创建虚拟环境</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">conda</span> create --name opencompass python=<span class="hljs-number">3</span>.<span class="hljs-number">10</span> -y<br><span class="hljs-attribute">conda</span> activate opencompass<br></code></pre></td></tr></table></figure>
+
+<h4 id="通过pip安装OpenCompass"><a href="#通过pip安装OpenCompass" class="headerlink" title="通过pip安装OpenCompass"></a>通过pip安装OpenCompass</h4><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><span class="hljs-meta"># 支持绝大多数数据集及模型</span><br>pip install -U opencompass<br><br><span class="hljs-meta"># 完整安装（支持更多数据集）</span><br><span class="hljs-meta"># pip install <span class="hljs-string">&quot;opencompass[full]&quot;</span></span><br><br><span class="hljs-meta"># 模型推理后端，由于这些推理后端通常存在依赖冲突，建议使用不同的虚拟环境来管理它们。</span><br><span class="hljs-meta"># pip install <span class="hljs-string">&quot;opencompass[lmdeploy]&quot;</span></span><br><span class="hljs-meta"># pip install <span class="hljs-string">&quot;opencompass[vllm]&quot;</span></span><br><br><span class="hljs-meta"># API 测试（例如 OpenAI、Qwen）</span><br><span class="hljs-meta"># pip install <span class="hljs-string">&quot;opencompass[api]&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<h4 id="基于源码安装OpenCompass"><a href="#基于源码安装OpenCompass" class="headerlink" title="基于源码安装OpenCompass"></a>基于源码安装OpenCompass</h4><p>如果希望使用 OpenCompass 的最新功能，也可以从源代码构建它：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs arduino">git clone https:<span class="hljs-comment">//github.com/open-compass/opencompass opencompass</span><br>cd opencompass<br>pip install -e .<br><span class="hljs-meta"># pip install -e <span class="hljs-string">&quot;.[full]&quot;</span></span><br><span class="hljs-meta"># pip install -e <span class="hljs-string">&quot;.[vllm]&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<h2 id="阶段一：核心概念"><a href="#阶段一：核心概念" class="headerlink" title="阶段一：核心概念"></a>阶段一：核心概念</h2><h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><table>
+<thead>
+<tr>
+<th>目录&#x2F;文件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>datasets/</code></td>
+<td>各类评测数据集（GSM8K, MMLU, TruthfulQA 等）</td>
+</tr>
+<tr>
+<td><code>models/</code></td>
+<td>支持的模型实现（HuggingFace, API 等）</td>
+</tr>
+<tr>
+<td><code>openicl/</code></td>
+<td>推理和评测的核心逻辑（In-Context Learning）</td>
+</tr>
+<tr>
+<td><code>runners/</code></td>
+<td>任务执行器（本地、分布式等）</td>
+</tr>
+<tr>
+<td><code>tasks/</code></td>
+<td>评测任务定义</td>
+</tr>
+<tr>
+<td><code>partitioners/</code></td>
+<td>数据集划分策略</td>
+</tr>
+<tr>
+<td><code>evaluator/</code></td>
+<td>评估器实现</td>
+</tr>
+<tr>
+<td><code>summarizers/</code></td>
+<td>结果汇总生成</td>
+</tr>
+<tr>
+<td><code>configs/</code></td>
+<td>预置评测配置示例</td>
+</tr>
+<tr>
+<td><code>run.py</code></td>
+<td>主入口文件</td>
+</tr>
+</tbody></table>
+<h3 id="评测流程"><a href="#评测流程" class="headerlink" title="评测流程"></a>评测流程</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs scss">OpenCompass 评测流程<br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br><span class="hljs-number">1</span>. 配置 (config)    定义模型 + 数据集<br>         ↓<br><span class="hljs-number">2</span>. 推理 (inference) 模型生成答案<br>         ↓<br><span class="hljs-number">3</span>. 评估 (evaluation) 比对答案计算指标<br>         ↓<br><span class="hljs-number">4</span>. 汇总 (summary)   生成最终报告<br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br></code></pre></td></tr></table></figure>
+
+<h3 id="评测方式"><a href="#评测方式" class="headerlink" title="评测方式"></a>评测方式</h3><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>说明</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PPL (Perplexity)</strong></td>
+<td>计算文本困惑度，选择最优选项</td>
+<td>选择题（ABCD）</td>
+</tr>
+<tr>
+<td><strong>Gen (Generation)</strong></td>
+<td>让模型生成答案，再评估</td>
+<td>开放式问答、代码生成</td>
+</tr>
+</tbody></table>
+<h3 id="配置文件结构"><a href="#配置文件结构" class="headerlink" title="配置文件结构"></a>配置文件结构</h3><h4 id="数据集配置示例-mmlu-gen-py"><a href="#数据集配置示例-mmlu-gen-py" class="headerlink" title="数据集配置示例 (mmlu_gen.py)"></a>数据集配置示例 (<code>mmlu_gen.py</code>)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> mmengine.config <span class="hljs-keyword">import</span> read_base<br><br><span class="hljs-keyword">with</span> read_base():<br>    <span class="hljs-keyword">from</span> .mmlu_openai_simple_evals_gen_b618ea <span class="hljs-keyword">import</span> mmlu_datasets<br></code></pre></td></tr></table></figure>
+
+<h4 id="模型配置示例-hf-internlm2-7b-py"><a href="#模型配置示例-hf-internlm2-7b-py" class="headerlink" title="模型配置示例 (hf_internlm2_7b.py)"></a>模型配置示例 (<code>hf_internlm2_7b.py</code>)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> opencompass.models <span class="hljs-keyword">import</span> HuggingFaceBaseModel<br><br>models = [<br>    <span class="hljs-built_in">dict</span>(<br>        <span class="hljs-built_in">type</span>=HuggingFaceBaseModel,    <span class="hljs-comment"># 模型类型</span><br>        abbr=<span class="hljs-string">&#x27;internlm2-7b-hf&#x27;</span>,       <span class="hljs-comment"># 简称（显示用）</span><br>        path=<span class="hljs-string">&#x27;internlm/internlm2-7b&#x27;</span>, <span class="hljs-comment"># HuggingFace 模型路径</span><br>        max_out_len=<span class="hljs-number">1024</span>,              <span class="hljs-comment"># 最大输出长度</span><br>        batch_size=<span class="hljs-number">8</span>,                  <span class="hljs-comment"># 批处理大小</span><br>        run_cfg=<span class="hljs-built_in">dict</span>(num_gpus=<span class="hljs-number">1</span>),      <span class="hljs-comment"># 运行配置：使用1个GPU</span><br>    )<br>]<br></code></pre></td></tr></table></figure>
+
+<h3 id="核心配置项"><a href="#核心配置项" class="headerlink" title="核心配置项"></a>核心配置项</h3><table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>datasets</code></td>
+<td>要评测的数据集列表</td>
+</tr>
+<tr>
+<td><code>models</code></td>
+<td>要评测的模型列表</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>模型&#x2F;数据集的实现类</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>模型路径或数据集标识</td>
+</tr>
+<tr>
+<td><code>max_out_len</code></td>
+<td>模型最大输出 token 数</td>
+</tr>
+<tr>
+<td><code>batch_size</code></td>
+<td>批处理大小</td>
+</tr>
+<tr>
+<td><code>run_cfg</code></td>
+<td>运行配置（GPU数量等）</td>
+</tr>
+</tbody></table>
+<h2 id="阶段二：运行评测"><a href="#阶段二：运行评测" class="headerlink" title="阶段二：运行评测"></a>阶段二：运行评测</h2><h3 id="run-py-常用参数"><a href="#run-py-常用参数" class="headerlink" title="run.py 常用参数"></a>run.py 常用参数</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--datasets</code></td>
+<td>指定数据集</td>
+</tr>
+<tr>
+<td><code>--models</code></td>
+<td>指定模型配置</td>
+</tr>
+<tr>
+<td><code>--hf-path</code></td>
+<td>HuggingFace 模型路径</td>
+</tr>
+<tr>
+<td><code>--hf-num-gpus</code></td>
+<td>GPU 数量</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td>调试模式</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td>预演模式（只打印命令）</td>
+</tr>
+<tr>
+<td><code>-m &#123;all,infer,eval,viz&#125;</code></td>
+<td>运行模式（全部&#x2F;推理&#x2F;评估&#x2F;可视化）</td>
+</tr>
+<tr>
+<td><code>-w</code></td>
+<td>工作目录</td>
+</tr>
+<tr>
+<td><code>--reuse</code></td>
+<td>复用之前的推理结果</td>
+</tr>
+</tbody></table>
+<h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 基本命令格式</span><br>python run.py --datasets &lt;数据集&gt; --hf-path &lt;模型路径&gt; --hf-num-gpus &lt;GPU数&gt;<br><br><span class="hljs-comment"># 示例：运行 MMLU 评测</span><br>python run.py --datasets mmlu_gen --hf-path facebook/opt-125m --hf-num-gpus 1<br><br><span class="hljs-comment"># 调试模式</span><br>python run.py --datasets mmlu_gen --hf-path facebook/opt-125m --debug<br><br><span class="hljs-comment"># 预演模式（不实际执行）</span><br>python run.py --datasets mmlu_gen --hf-path facebook/opt-125m --dry-run<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="阶段三：结果解读"><a href="#阶段三：结果解读" class="headerlink" title="阶段三：结果解读"></a>阶段三：结果解读</h2><h3 id="输出目录结构"><a href="#输出目录结构" class="headerlink" title="输出目录结构"></a>输出目录结构</h3><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs nix">outputs<span class="hljs-operator">/</span>default<span class="hljs-operator">/</span><span class="hljs-operator">&lt;</span>时间戳<span class="hljs-operator">&gt;</span><span class="hljs-symbol">/</span><br>├── configs<span class="hljs-symbol">/</span>           <span class="hljs-comment"># 本次运行的配置</span><br>├── predictions<span class="hljs-symbol">/</span>       <span class="hljs-comment"># 模型原始预测</span><br>│   └── <span class="hljs-operator">&lt;</span>模型名<span class="hljs-operator">&gt;</span><span class="hljs-symbol">/</span><br>│       └── <span class="hljs-operator">&lt;</span>数据集名<span class="hljs-operator">&gt;</span>.json<br>└── results<span class="hljs-symbol">/</span>           <span class="hljs-comment"># 评测结果（含准确率）</span><br>    └── <span class="hljs-operator">&lt;</span>模型名<span class="hljs-operator">&gt;</span><span class="hljs-symbol">/</span><br>        └── <span class="hljs-operator">&lt;</span>数据集名<span class="hljs-operator">&gt;</span>.json<br></code></pre></td></tr></table></figure>
+
+<h3 id="结果文件格式"><a href="#结果文件格式" class="headerlink" title="结果文件格式"></a>结果文件格式</h3><h4 id="results-xxx-json"><a href="#results-xxx-json" class="headerlink" title="results&#x2F;xxx.json"></a>results&#x2F;xxx.json</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;accuracy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.0</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;details&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;GEN&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;0&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;prompt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>                <span class="hljs-punctuation">&#123;</span><br>                    <span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;HUMAN&quot;</span><span class="hljs-punctuation">,</span><br>                    <span class="hljs-attr">&quot;prompt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Answer the following multiple choice question...&quot;</span><br>                <span class="hljs-punctuation">&#125;</span><br>            <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;origin_prediction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;I&#x27;m not sure if this is a good idea...&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;predictions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;references&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A&quot;</span><br>        <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="predictions-xxx-json"><a href="#predictions-xxx-json" class="headerlink" title="predictions&#x2F;xxx.json"></a>predictions&#x2F;xxx.json</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;0&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;origin_prompt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>            <span class="hljs-punctuation">&#123;</span><br>                <span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;HUMAN&quot;</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-attr">&quot;prompt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Answer the following multiple choice question...&quot;</span><br>            <span class="hljs-punctuation">&#125;</span><br>        <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;prediction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;I&#x27;m not sure if this is a good idea...&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;gold&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="本次实验结果"><a href="#本次实验结果" class="headerlink" title="本次实验结果"></a>本次实验结果</h3><h4 id="实验一：opt-125m-on-MMLU"><a href="#实验一：opt-125m-on-MMLU" class="headerlink" title="实验一：opt-125m on MMLU"></a>实验一：opt-125m on MMLU</h4><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>模型</strong></td>
+<td>facebook&#x2F;opt-125m</td>
+</tr>
+<tr>
+<td><strong>数据集</strong></td>
+<td>MMLU (lukaemon_mmlu_anatomy 等)</td>
+</tr>
+<tr>
+<td><strong>准确率</strong></td>
+<td>0.0 (0%)</td>
+</tr>
+<tr>
+<td><strong>输出目录</strong></td>
+<td><code>outputs/default/20260510_115643/</code></td>
+</tr>
+</tbody></table>
+<p><strong>分析</strong>：opt-125m 模型太小（125M 参数），无法正确回答问题，输出均为重复的无效文本。</p>
+<h4 id="Qwen2-0-5B-on-GSM8K（成功推理）"><a href="#Qwen2-0-5B-on-GSM8K（成功推理）" class="headerlink" title="Qwen2-0.5B on GSM8K（成功推理）"></a>Qwen2-0.5B on GSM8K（成功推理）</h4><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>模型</strong></td>
+<td>Qwen&#x2F;Qwen2-0.5B-Instruct</td>
+</tr>
+<tr>
+<td><strong>数据集</strong></td>
+<td>GSM8K (数学应用题，2000+ 条)</td>
+</tr>
+<tr>
+<td><strong>进度</strong></td>
+<td>116&#x2F;2000+ 条（约 5%）</td>
+</tr>
+<tr>
+<td><strong>输出目录</strong></td>
+<td><code>outputs/gsm8k_qwen05/</code></td>
+</tr>
+<tr>
+<td><strong>状态</strong></td>
+<td>✅ 推理正常</td>
+</tr>
+</tbody></table>
+<p><strong>运行命令</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">python run.py --datasets gsm8k_gen \<br>    --hf-path Qwen/Qwen2-0.5B-Instruct \<br>    --hf-num-gpus 1 \<br>    --max-seq-len 1024 \<br>    --max-out-len 256 \<br>    --batch-size 4 \<br>    -w outputs/gsm8k_qwen05<br></code></pre></td></tr></table></figure>
+
+<p><strong>预测示例</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;0&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;prediction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Janet lays 16 * 24 = 384 eggs per day.\nShe eats 3 eggs for breakfast and bakes muffins for her friends 4 times a day, so she eats 3 + 4 = 7 eggs per day.\nSo she makes 384 - 7 = 377 eggs per day from s...&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;gold&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Janet sells 16 - 3 - 4 = &lt;&lt;16-3-4=9&gt;&gt;9 duck eggs a day...&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>模型输出分析</strong>：</p>
+<ul>
+<li>✅ 生成了有意义的数学推理过程</li>
+<li>✅ 包含分步计算（乘法、加法、减法）</li>
+<li>✅ 输出格式正确，带有 <code>####</code> 最终答案标记</li>
+<li>✅ 模型 0.5B 规模即可进行基础数学推理</li>
+</ul>
+<p><strong>注意事项</strong>：</p>
+<ol>
+<li>PPL 模式不适用于 Chat 模型（<code>HuggingFacewithChatTemplate does not support ppl-based evaluation yet</code>），需要使用 <code>gen</code> 模式</li>
+<li>大数据集（如 GSM8K 2000+ 条）推理时间较长，0.5B 模型预计需要 5-6 小时</li>
+<li>显存不足时尝试减小 <code>batch-size</code> 或 <code>max-out-len</code></li>
+</ol>
+<h2 id="阶段四：API-模型评测"><a href="#阶段四：API-模型评测" class="headerlink" title="阶段四：API 模型评测"></a>阶段四：API 模型评测</h2><h3 id="API-模型配置"><a href="#API-模型配置" class="headerlink" title="API 模型配置"></a>API 模型配置</h3><p>OpenCompass 支持通过 API 调用第三方模型进行评测，避免本地 GPU 资源限制。</p>
+<h4 id="配置示例-opencompass-configs-models-deepseek-deepseek-api-py"><a href="#配置示例-opencompass-configs-models-deepseek-deepseek-api-py" class="headerlink" title="配置示例 (opencompass/configs/models/deepseek/deepseek_api.py)"></a>配置示例 (<code>opencompass/configs/models/deepseek/deepseek_api.py</code>)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> opencompass.models <span class="hljs-keyword">import</span> DeepseekAPI<br><br>api_meta_template = <span class="hljs-built_in">dict</span>(<br>    <span class="hljs-built_in">round</span>=[<br>        <span class="hljs-built_in">dict</span>(role=<span class="hljs-string">&#x27;HUMAN&#x27;</span>, api_role=<span class="hljs-string">&#x27;HUMAN&#x27;</span>),<br>        <span class="hljs-built_in">dict</span>(role=<span class="hljs-string">&#x27;BOT&#x27;</span>, api_role=<span class="hljs-string">&#x27;BOT&#x27;</span>, generate=<span class="hljs-literal">True</span>),<br>    ],<br>)<br><br>models = [<br>    <span class="hljs-built_in">dict</span>(<br>        abbr=<span class="hljs-string">&#x27;deepseek-chat&#x27;</span>,           <span class="hljs-comment"># 模型简称</span><br>        <span class="hljs-built_in">type</span>=DeepseekAPI,              <span class="hljs-comment"># 模型类型</span><br>        path=<span class="hljs-string">&#x27;deepseek-chat&#x27;</span>,          <span class="hljs-comment"># API 模型名称</span><br>        key=<span class="hljs-string">&#x27;sk-xxxxxxxxxxxxxxxx&#x27;</span>,     <span class="hljs-comment"># API Key</span><br>        url=<span class="hljs-string">&#x27;https://api.deepseek.com/v1/chat/completions&#x27;</span>,  <span class="hljs-comment"># API 端点</span><br>        meta_template=api_meta_template,<br>        query_per_second=<span class="hljs-number">2</span>,            <span class="hljs-comment"># QPS 限制</span><br>        max_out_len=<span class="hljs-number">2048</span>,             <span class="hljs-comment"># 最大输出长度</span><br>        max_seq_len=<span class="hljs-number">4096</span>,             <span class="hljs-comment"># 最大输入长度</span><br>        batch_size=<span class="hljs-number">8</span>,                 <span class="hljs-comment"># 批处理大小</span><br>    ),<br>]<br></code></pre></td></tr></table></figure>
+
+<h3 id="运行-API-评测"><a href="#运行-API-评测" class="headerlink" title="运行 API 评测"></a>运行 API 评测</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 基本命令</span><br>python run.py --datasets &lt;数据集&gt; --models &lt;模型配置&gt; -w &lt;工作目录&gt;<br><br><span class="hljs-comment"># 示例：DeepSeek API 评测 HellaSwag</span><br>python run.py --datasets hellaswag_gen --models deepseek_api -w outputs/deepseek_api_test<br><br><span class="hljs-comment"># 示例：使用自定义配置文件</span><br>python run.py --datasets math_prm800k_500_gen --models deepseek/deepseek_api -w outputs/math_deepseek<br></code></pre></td></tr></table></figure>
+
+<h3 id="API-评测结果"><a href="#API-评测结果" class="headerlink" title="API 评测结果"></a>API 评测结果</h3><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>模型</strong></td>
+<td>deepseek-chat (via API)</td>
+</tr>
+<tr>
+<td><strong>数据集</strong></td>
+<td>HellaSwag (10,042 条)</td>
+</tr>
+<tr>
+<td><strong>预测样本</strong></td>
+<td>480 条（推理中）</td>
+</tr>
+<tr>
+<td><strong>状态</strong></td>
+<td>✅ API 调用正常</td>
+</tr>
+<tr>
+<td><strong>输出目录</strong></td>
+<td><code>outputs/deepseek_api_test/</code></td>
+</tr>
+</tbody></table>
+<p><strong>预测示例</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;0&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;prediction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;D&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;gold&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;D&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;5&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;prediction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;B&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;gold&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;B&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;10&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;prediction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;D&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;gold&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;D&quot;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="API-评测特点"><a href="#API-评测特点" class="headerlink" title="API 评测特点"></a>API 评测特点</h3><table>
+<thead>
+<tr>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅ 无需 GPU 资源</td>
+<td>⚠️ 需要 API Key</td>
+</tr>
+<tr>
+<td>✅ 支持大型模型</td>
+<td>⚠️ 调用频率限制（QPS）</td>
+</tr>
+<tr>
+<td>✅ 部署简单</td>
+<td>⚠️ 网络依赖</td>
+</tr>
+<tr>
+<td>✅ 支持国产模型</td>
+<td>⚠️ 可能有调用费用</td>
+</tr>
+</tbody></table>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><ol>
+<li><strong>PPL 模式不适用</strong>：API 模型（如 DeepSeek、GPT 等）不支持 PPL 模式，必须使用 <code>gen</code> 模式</li>
+<li><strong>QPS 限制</strong>：通过 <code>query_per_second</code> 参数控制调用频率</li>
+<li><strong>API Key 安全</strong>：不要将 API Key 提交到代码仓库，建议使用环境变量</li>
+</ol>
+<p>支持的Benchmark有：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">humaneval, triviaqa, commonsenseqa, tydiqa, strategyqa, cmmlu, lambada, piqa, ceval, math, LCSTS, Xsum, winogrande, openbookqa, AGIEval, gsm8k, nq, race, siqa, mbpp, mmlu, hellaswag, ARC, <span class="hljs-keyword">BBH, </span>xstory_cloze, summedits, GAOKAO-<span class="hljs-keyword">BENCH, </span>OCNLI, cmnli<br></code></pre></td></tr></table></figure>
+
+<h2 id="常用Benchmark与评估指标"><a href="#常用Benchmark与评估指标" class="headerlink" title="常用Benchmark与评估指标"></a>常用Benchmark与评估指标</h2><h3 id="分类与多项选择"><a href="#分类与多项选择" class="headerlink" title="分类与多项选择"></a>分类与多项选择</h3><table>
+<thead>
+<tr>
+<th align="left">指标</th>
+<th align="left">计算方式</th>
+<th align="left">适用场景</th>
+<th align="left">典型Benchmark</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Accuracy</strong></td>
+<td align="left">正确预测数 &#x2F; 总样本数</td>
+<td align="left">平衡数据集</td>
+<td align="left">MMLU、C-Eval、ARC</td>
+</tr>
+<tr>
+<td align="left"><strong>Macro F1</strong></td>
+<td align="left">各类别F1的平均值（不按样本数加权）</td>
+<td align="left">类别不均衡时</td>
+<td align="left">BoolQ、AGIEval</td>
+</tr>
+<tr>
+<td align="left"><strong>Micro F1</strong></td>
+<td align="left">全局计算TP&#x2F;FP&#x2F;FN</td>
+<td align="left">类别不均衡时</td>
+<td align="left">多分类任务</td>
+</tr>
+<tr>
+<td align="left"><strong>Exact Match (EM)</strong></td>
+<td align="left">预测与答案完全一致的比例</td>
+<td align="left">答案唯一且严格</td>
+<td align="left">Natural Questions</td>
+</tr>
+</tbody></table>
+<p><strong>示例</strong>：MMLU 报告 <strong>Accuracy</strong>，AGIEval 同时报告 Accuracy 和 Exact Match。</p>
+<hr>
+<h3 id="生成与文本相似度"><a href="#生成与文本相似度" class="headerlink" title="生成与文本相似度"></a>生成与文本相似度</h3><p>生成任务（摘要、翻译、对话）没有唯一标准答案，需要用相似度指标。</p>
+<table>
+<thead>
+<tr>
+<th align="left">指标</th>
+<th align="left">核心思想</th>
+<th align="left">缺点</th>
+<th align="left">适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>BLEU</strong></td>
+<td align="left">基于n-gram精确匹配（0~1，越高越好）</td>
+<td align="left">忽略语义，偏好短句</td>
+<td align="left">机器翻译</td>
+</tr>
+<tr>
+<td align="left"><strong>ROUGE-1&#x2F;2&#x2F;L</strong></td>
+<td align="left">召回率导向的n-gram重叠</td>
+<td align="left">同上</td>
+<td align="left">摘要生成</td>
+</tr>
+<tr>
+<td align="left"><strong>METEOR</strong></td>
+<td align="left">考虑同义词和词形变化</td>
+<td align="left">速度较慢</td>
+<td align="left">通用生成</td>
+</tr>
+<tr>
+<td align="left"><strong>BERTScore</strong></td>
+<td align="left">用BERT计算语义相似度</td>
+<td align="left">计算成本高</td>
+<td align="left">对话、摘要</td>
+</tr>
+<tr>
+<td align="left"><strong>Perplexity (PPL)</strong></td>
+<td align="left">预测下一个词的困惑度（越低越好）</td>
+<td align="left">偏向保守输出</td>
+<td align="left">语言模型内在评估</td>
+</tr>
+</tbody></table>
+<p><strong>示例</strong>：对话评测用 BERTScore 或 ROUGE。</p>
+<hr>
+<h1 id="GAIA评测"><a href="#GAIA评测" class="headerlink" title="GAIA评测"></a>GAIA评测</h1><p>GAIA是评测Agent能力的，由 Meta、Hugging Face 等团队在 2023 年发布的 AI 评测基准。核心特点：</p>
+<ul>
+<li><strong>对人类简单，对 AI 难</strong>：题目设计让普通人能答对，但 AI 系统目前准确率远低于人类</li>
+<li><strong>多步推理</strong>：每道题平均需要 7.7 步才能完成，涉及搜索 → 阅读 → 提取 → 计算，中间过程涉及很多工具调用</li>
+<li><strong>三级难度</strong>：Level 1（基础）、Level 2（中等）、Level 3（困难）</li>
+<li><strong>明确答案</strong>：每道题有明确的可验证的标准答案，避免主观评分</li>
+</ul>
+<h3 id="数据集概览"><a href="#数据集概览" class="headerlink" title="数据集概览"></a>数据集概览</h3><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>验证集题数</td>
+<td>165</td>
+</tr>
+<tr>
+<td>Level 1</td>
+<td>53 题 (32.1%)</td>
+</tr>
+<tr>
+<td>Level 2</td>
+<td>86 题 (52.1%)</td>
+</tr>
+<tr>
+<td>Level 3</td>
+<td>26 题 (15.8%)</td>
+</tr>
+<tr>
+<td>有附件题目</td>
+<td>38 题 (23.0%)</td>
+</tr>
+<tr>
+<td>附件类型</td>
+<td>xlsx, png, mp3, pdf, zip, jpg, pdb, jsonld, docx, txt, pptx, csv, py</td>
+</tr>
+<tr>
+<td>平均解题步骤</td>
+<td>7.7 步（标注者数据）</td>
+</tr>
+</tbody></table>
+<h3 id="样题展示"><a href="#样题展示" class="headerlink" title="样题展示"></a>样题展示</h3><p><strong>Level 1 示例</strong>:</p>
+<blockquote>
+<p>“If Eliud Kipchoge could maintain his record-making marathon pace indefinitely, how many thousand hours would it take him to run the distance between the Earth and the Moon at its closest approach?”<br>答案: <strong>17</strong></p>
+</blockquote>
+<p><strong>Level 2 示例</strong>:</p>
+<blockquote>
+<p>“A paper about AI regulation that was originally submitted to arXiv.org in June 2022 shows a figure with three axes, where each axis has a label word at both ends. Which of these words is used to describe a type of society in a Physics and Society article submitted to arXiv.org on August 11, 2016?”<br>答案: <strong>egalitarian</strong></p>
+</blockquote>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h3 id="创建-Conda-虚拟环境"><a href="#创建-Conda-虚拟环境" class="headerlink" title="创建 Conda 虚拟环境"></a>创建 Conda 虚拟环境</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda create -n gaia python=3.10 -y<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda run -n gaia pip install datasets openai pandas requests pillow python-dotenv duckduckgo-search openpyxl<br></code></pre></td></tr></table></figure>
+
+<p>核心依赖说明：</p>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>datasets</code></td>
+<td>加载 HuggingFace 上的 GAIA 数据集</td>
+</tr>
+<tr>
+<td><code>openai</code></td>
+<td>调用 DeepSeek API（兼容 OpenAI 接口）</td>
+</tr>
+<tr>
+<td><code>duckduckgo-search</code> &#x2F; <code>ddgs</code></td>
+<td>免费网页搜索</td>
+</tr>
+<tr>
+<td><code>openpyxl</code></td>
+<td>读取 Excel 附件（GAIA 附件中 xlsx 最多）</td>
+</tr>
+<tr>
+<td><code>python-dotenv</code></td>
+<td>管理 API Key</td>
+</tr>
+</tbody></table>
+<h3 id="配置-API-Key"><a href="#配置-API-Key" class="headerlink" title="配置 API Key"></a>配置 API Key</h3><p>创建 <code>.env</code> 文件（已加入 <code>.gitignore</code>）：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">DEEPSEEK_API_KEY</span>=sk-xxx<br><span class="hljs-attr">DEEPSEEK_BASE_URL</span>=https://api.deepseek.com<br><span class="hljs-attr">HF_TOKEN</span>=hf_xxx<br></code></pre></td></tr></table></figure>
+
+<h3 id="下载-GAIA-数据集"><a href="#下载-GAIA-数据集" class="headerlink" title="下载 GAIA 数据集"></a>下载 GAIA 数据集</h3><p>GAIA 是 gated dataset，需要：</p>
+<ol>
+<li>在 <a target="_blank" rel="noopener" href="https://huggingface.co/gaia-benchmark/GAIA">https://huggingface.co/gaia-benchmark/GAIA</a> 同意使用条款</li>
+<li>创建 HuggingFace Access Token（read 权限）</li>
+<li>使用 <code>hf auth login</code> 认证</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset<br>dataset = load_dataset(<span class="hljs-string">&quot;gaia-benchmark/GAIA&quot;</span>, <span class="hljs-string">&quot;2023_all&quot;</span>, split=<span class="hljs-string">&quot;validation&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>然后就可以设计自己的Agent架构了</p>
+<p>这里先用新版LangChain（1.X)搭一个agent</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">GAIA Agent - LangChain 1.X 版本</span><br><span class="hljs-string">使用 langchain.agents.create_agent + ChatTongyi (阿里百炼)</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> math<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path<br><br><span class="hljs-comment"># 设置百炼 API Key</span><br>os.environ[<span class="hljs-string">&quot;DASHSCOPE_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-c31f9d72ca054379aed38453b93b33e9&quot;</span><br><br><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent<br><span class="hljs-keyword">from</span> langchain_community.chat_models.tongyi <span class="hljs-keyword">import</span> ChatTongyi<br><span class="hljs-keyword">from</span> langchain_core.tools <span class="hljs-keyword">import</span> tool<br><br>sys.path.insert(<span class="hljs-number">0</span>, os.path.dirname(os.path.abspath(__file__)))<br>DATA_DIR = <span class="hljs-string">&quot;/workspace/GAIA_Study/data&quot;</span><br><br><span class="hljs-meta">@tool(<span class="hljs-params">description=<span class="hljs-string">&quot;计算数学表达式。输入如 &#x27;2+3*4&#x27; 或 &#x27;sqrt(144)&#x27; 或 &#x27;42.195/(2+1/60+9/3600)&#x27;&quot;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calculator</span>(<span class="hljs-params">expression: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;计算数学表达式&quot;&quot;&quot;</span><br>    safe_globals = &#123;<br>        <span class="hljs-string">&quot;__builtins__&quot;</span>: &#123;&#125;,<br>        <span class="hljs-string">&quot;sqrt&quot;</span>: math.sqrt, <span class="hljs-string">&quot;abs&quot;</span>: <span class="hljs-built_in">abs</span>, <span class="hljs-string">&quot;round&quot;</span>: <span class="hljs-built_in">round</span>,<br>        <span class="hljs-string">&quot;int&quot;</span>: <span class="hljs-built_in">int</span>, <span class="hljs-string">&quot;float&quot;</span>: <span class="hljs-built_in">float</span>, <span class="hljs-string">&quot;min&quot;</span>: <span class="hljs-built_in">min</span>, <span class="hljs-string">&quot;max&quot;</span>: <span class="hljs-built_in">max</span>,<br>        <span class="hljs-string">&quot;pow&quot;</span>: <span class="hljs-built_in">pow</span>, <span class="hljs-string">&quot;pi&quot;</span>: math.pi, <span class="hljs-string">&quot;e&quot;</span>: math.e,<br>        <span class="hljs-string">&quot;log&quot;</span>: math.log, <span class="hljs-string">&quot;sin&quot;</span>: math.sin, <span class="hljs-string">&quot;cos&quot;</span>: math.cos,<br>    &#125;<br>    <span class="hljs-keyword">try</span>:<br>        result = <span class="hljs-built_in">eval</span>(expression, safe_globals)<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(result, <span class="hljs-built_in">float</span>):<br>            result = <span class="hljs-built_in">round</span>(result, <span class="hljs-number">10</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">str</span>(result)<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;计算错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span><br><br><br><span class="hljs-meta">@tool(<span class="hljs-params">description=<span class="hljs-string">&quot;读取题目附带的文件内容。支持 .txt, .csv, .json, .py, .xlsx 文件。传入文件路径。&quot;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">read_file</span>(<span class="hljs-params">filename: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;读取文件内容&quot;&quot;&quot;</span><br>    filepath = Path(filename)<br>    candidates = [<br>        filepath,<br>        Path(DATA_DIR) / filename,<br>        Path(DATA_DIR) / filepath.name,<br>    ]<br>    hf_cache = Path(os.path.expanduser(<span class="hljs-string">&quot;~/.cache/huggingface/hub&quot;</span>))<br>    found = <span class="hljs-literal">None</span><br>    <span class="hljs-keyword">for</span> cand <span class="hljs-keyword">in</span> candidates:<br>        <span class="hljs-keyword">if</span> cand.exists():<br>            found = cand<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">if</span> found <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> hf_cache.exists():<br>        <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> hf_cache.rglob(filepath.name):<br>            found = f<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">if</span> found <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;文件未找到: <span class="hljs-subst">&#123;filename&#125;</span>&quot;</span><br><br>    <span class="hljs-keyword">try</span>:<br>        ext = found.suffix.lower()<br>        <span class="hljs-keyword">if</span> ext <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;.txt&quot;</span>, <span class="hljs-string">&quot;.py&quot;</span>, <span class="hljs-string">&quot;.md&quot;</span>, <span class="hljs-string">&quot;.json&quot;</span>, <span class="hljs-string">&quot;.jsonld&quot;</span>, <span class="hljs-string">&quot;.csv&quot;</span>]:<br>            content = found.read_text(encoding=<span class="hljs-string">&quot;utf-8&quot;</span>, errors=<span class="hljs-string">&quot;replace&quot;</span>)<br>            <span class="hljs-keyword">return</span> content[:<span class="hljs-number">4000</span>]<br>        <span class="hljs-keyword">elif</span> ext <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;.xlsx&quot;</span>, <span class="hljs-string">&quot;.xls&quot;</span>]:<br>            <span class="hljs-keyword">import</span> openpyxl<br>            wb = openpyxl.load_workbook(found)<br>            result = []<br>            <span class="hljs-keyword">for</span> sheet_name <span class="hljs-keyword">in</span> wb.sheetnames:<br>                ws = wb[sheet_name]<br>                result.append(<span class="hljs-string">f&quot;=== <span class="hljs-subst">&#123;sheet_name&#125;</span> (<span class="hljs-subst">&#123;ws.max_row&#125;</span>x<span class="hljs-subst">&#123;ws.max_column&#125;</span>) ===&quot;</span>)<br>                has_values = <span class="hljs-built_in">any</span>(cell.value <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> ws.iter_rows() <span class="hljs-keyword">for</span> cell <span class="hljs-keyword">in</span> row)<br>                <span class="hljs-keyword">if</span> has_values:<br>                    <span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br>                    df = pd.read_excel(found, sheet_name=sheet_name)<br>                    result.append(df.to_string(max_rows=<span class="hljs-number">50</span>))<br>                <span class="hljs-keyword">else</span>:<br>                    color_map = &#123;<br>                        <span class="hljs-string">&quot;FF00FF00&quot;</span>: <span class="hljs-string">&quot;G&quot;</span>, <span class="hljs-string">&quot;FFFF0000&quot;</span>: <span class="hljs-string">&quot;R&quot;</span>, <span class="hljs-string">&quot;FF4A86E8&quot;</span>: <span class="hljs-string">&quot;B&quot;</span>,<br>                        <span class="hljs-string">&quot;FF9900FF&quot;</span>: <span class="hljs-string">&quot;P&quot;</span>, <span class="hljs-string">&quot;FFFFFF00&quot;</span>: <span class="hljs-string">&quot;Y&quot;</span>, <span class="hljs-string">&quot;FFFF9900&quot;</span>: <span class="hljs-string">&quot;O&quot;</span>,<br>                    &#125;<br>                    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> ws.iter_rows(min_row=<span class="hljs-number">1</span>, max_row=<span class="hljs-built_in">min</span>(ws.max_row, <span class="hljs-number">30</span>), values_only=<span class="hljs-literal">False</span>):<br>                        row_chars = []<br>                        <span class="hljs-keyword">for</span> cell <span class="hljs-keyword">in</span> row:<br>                            rgb = <span class="hljs-built_in">str</span>(cell.fill.start_color.rgb) <span class="hljs-keyword">if</span> cell.fill <span class="hljs-keyword">and</span> cell.fill.start_color <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;none&quot;</span><br>                            row_chars.append(color_map.get(rgb, <span class="hljs-string">&quot;?&quot;</span>))<br>                        result.append(<span class="hljs-string">&quot;&quot;</span>.join(row_chars))<br>                    result.append(<span class="hljs-string">&quot;\n图例: G=Green, R=Red, B=Blue, P=Purple, Y=Yellow, O=Orange&quot;</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;\n&quot;</span>.join(result)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;不支持的文件格式: <span class="hljs-subst">&#123;ext&#125;</span>&quot;</span><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;读取错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span><br><br><br>SYSTEM_PROMPT = <span class="hljs-string">&quot;&quot;&quot;你是一个 GAIA 基准测试解题助手。你需要通过多步推理来回答题目。</span><br><span class="hljs-string"></span><br><span class="hljs-string">规则:</span><br><span class="hljs-string">1. 先思考再行动，先简要说明你的推理步骤</span><br><span class="hljs-string">2. 所有数学计算必须使用 calculator 工具，不要心算</span><br><span class="hljs-string">3. 如果题目提到附件，先用 read_file 读取文件内容</span><br><span class="hljs-string">4. 得到答案后直接给出，只给出答案本身（数字、单词或简短短语），不要多余解释</span><br><span class="hljs-string">5. 如果一道题需要搜索网络信息，直接调用计算器验证并给答案</span><br><span class="hljs-string">6. 尽可能在 2-4 轮内完成&quot;&quot;&quot;</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_gaia_agent</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;创建 GAIA 评测 Agent&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> create_agent(<br>        model=ChatTongyi(model=<span class="hljs-string">&quot;qwen3-max&quot;</span>),<br>        tools=[calculator, read_file],<br>        system_prompt=SYSTEM_PROMPT,<br>    )<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">evaluate_single</span>(<span class="hljs-params">agent, task: <span class="hljs-built_in">dict</span>, max_turns: <span class="hljs-built_in">int</span> = <span class="hljs-number">10</span>, verbose: <span class="hljs-built_in">bool</span> = <span class="hljs-literal">True</span></span>) -&gt; <span class="hljs-built_in">dict</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;评测单道题&quot;&quot;&quot;</span><br>    task_id = task[<span class="hljs-string">&quot;task_id&quot;</span>]<br>    question = task[<span class="hljs-string">&quot;Question&quot;</span>]<br>    expected = task[<span class="hljs-string">&quot;Final answer&quot;</span>]<br>    level = task[<span class="hljs-string">&quot;Level&quot;</span>]<br>    file_path = task.get(<span class="hljs-string">&quot;file_path&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)<br><br>    <span class="hljs-comment"># 预加载附件（如果文件存在）</span><br>    <span class="hljs-keyword">if</span> file_path:<br>        file_content = read_file.invoke(file_path)<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;文件未找到&quot;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> file_content:<br>            question = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;question&#125;</span>\n\n[附件内容已自动读取]\n<span class="hljs-subst">&#123;file_content&#125;</span>&quot;</span><br><br>    <span class="hljs-keyword">if</span> verbose:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n<span class="hljs-subst">&#123;<span class="hljs-string">&#x27;=&#x27;</span>*<span class="hljs-number">60</span>&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Task: <span class="hljs-subst">&#123;task_id&#125;</span> | Level: <span class="hljs-subst">&#123;level&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Question: <span class="hljs-subst">&#123;question[:<span class="hljs-number">150</span>]&#125;</span>...&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Expected: <span class="hljs-subst">&#123;expected&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">try</span>:<br>        result = agent.invoke(&#123;<br>            <span class="hljs-string">&quot;messages&quot;</span>: [&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: question&#125;]<br>        &#125;)<br><br>        <span class="hljs-comment"># 从结果中提取最后一条 AI 消息</span><br>        predicted = <span class="hljs-string">&quot;&quot;</span><br>        <span class="hljs-keyword">for</span> msg <span class="hljs-keyword">in</span> result[<span class="hljs-string">&quot;messages&quot;</span>]:<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(msg, <span class="hljs-string">&quot;content&quot;</span>) <span class="hljs-keyword">and</span> msg.content:<br>                predicted = msg.content.strip()<br>            <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(msg, <span class="hljs-built_in">dict</span>) <span class="hljs-keyword">and</span> msg.get(<span class="hljs-string">&quot;content&quot;</span>):<br>                predicted = msg[<span class="hljs-string">&quot;content&quot;</span>].strip()<br><br>        <span class="hljs-comment"># 如果答案太长，尝试提取关键短答案</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(predicted) &gt; <span class="hljs-number">200</span>:<br>            <span class="hljs-comment"># 先尝试取最后一行（经常是独立答案）</span><br>            last_line = predicted.strip().split(<span class="hljs-string">&quot;\n&quot;</span>)[-<span class="hljs-number">1</span>].strip().strip(<span class="hljs-string">&quot;*\&quot;&#x27;`.,;: &quot;</span>)<br>            <span class="hljs-keyword">if</span> last_line <span class="hljs-keyword">and</span> <span class="hljs-built_in">len</span>(last_line) &lt; <span class="hljs-number">20</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> last_line.startswith((<span class="hljs-string">&quot;But&quot;</span>, <span class="hljs-string">&quot;And&quot;</span>, <span class="hljs-string">&quot;Also&quot;</span>, <span class="hljs-string">&quot;I&quot;</span>, <span class="hljs-string">&quot;Let&quot;</span>)):<br>                predicted = last_line<br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-comment"># 尝试常见答案模式</span><br>                patterns = [<br>                    <span class="hljs-string">r&#x27;(?:^|\n)\s*(?:Answer|答案|Therefore|Thus|So|Hence|所以|因此)\s*(?:is|是|为)?\s*[:：]?\s*\**\s*(\S&#123;1,30&#125;)\s*\**\s*$&#x27;</span>,<br>                    <span class="hljs-string">r&#x27;(?i)(?:therefore|thus|so|hence)\s*,?\s*(?:the\s+answer\s+is|it\&#x27;?s?)\s+\**\s*(\S&#123;1,30&#125;)\s*\**&#x27;</span>,<br>                    <span class="hljs-string">r&#x27;(?:impossible|possible)\s*[.,]\s*\n\s*(\S&#123;1,10&#125;)\s*$&#x27;</span>,<br>                ]<br>                <span class="hljs-keyword">for</span> pat <span class="hljs-keyword">in</span> patterns:<br>                    m = re.search(pat, predicted, re.MULTILINE)<br>                    <span class="hljs-keyword">if</span> m:<br>                        predicted = m.group(<span class="hljs-number">1</span>).strip().strip(<span class="hljs-string">&quot;.,;:*\&quot;&#x27;` &quot;</span>)<br>                        <span class="hljs-keyword">break</span><br><br>        <span class="hljs-comment"># 清理答案</span><br>        predicted = predicted.strip().strip(<span class="hljs-string">&quot;.,;: *\&quot;&#x27;`\n&quot;</span>)<br><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        predicted = <span class="hljs-string">f&quot;ERROR: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span><br><br>    <span class="hljs-keyword">if</span> verbose:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Predicted: [<span class="hljs-subst">&#123;predicted&#125;</span>]&quot;</span>)<br>        <span class="hljs-keyword">match</span> = predicted.lower() == <span class="hljs-built_in">str</span>(expected).lower()<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Correct: <span class="hljs-subst">&#123;<span class="hljs-keyword">match</span>&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> &#123;<br>        <span class="hljs-string">&quot;task_id&quot;</span>: task_id,<br>        <span class="hljs-string">&quot;level&quot;</span>: level,<br>        <span class="hljs-string">&quot;predicted&quot;</span>: predicted,<br>        <span class="hljs-string">&quot;expected&quot;</span>: expected,<br>        <span class="hljs-string">&quot;correct&quot;</span>: predicted.lower() == <span class="hljs-built_in">str</span>(expected).lower(),<br>    &#125;<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">evaluate_batch</span>(<span class="hljs-params">agent, levels: <span class="hljs-built_in">list</span> = <span class="hljs-literal">None</span>, max_questions: <span class="hljs-built_in">int</span> = <span class="hljs-number">5</span>, verbose: <span class="hljs-built_in">bool</span> = <span class="hljs-literal">True</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;批量评测&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset<br>    dataset = load_dataset(<span class="hljs-string">&quot;gaia-benchmark/GAIA&quot;</span>, <span class="hljs-string">&quot;2023_all&quot;</span>, split=<span class="hljs-string">&quot;validation&quot;</span>)<br><br>    results = []<br>    correct = <span class="hljs-number">0</span><br>    total = <span class="hljs-number">0</span><br><br>    <span class="hljs-keyword">for</span> ex <span class="hljs-keyword">in</span> dataset:<br>        <span class="hljs-keyword">if</span> levels <span class="hljs-keyword">and</span> ex[<span class="hljs-string">&quot;Level&quot;</span>] <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> levels:<br>            <span class="hljs-keyword">continue</span><br>        <span class="hljs-keyword">if</span> total &gt;= max_questions:<br>            <span class="hljs-keyword">break</span><br><br>        r = evaluate_single(agent, ex, verbose=verbose)<br>        results.append(r)<br>        total += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">if</span> r[<span class="hljs-string">&quot;correct&quot;</span>]:<br>            correct += <span class="hljs-number">1</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n<span class="hljs-subst">&#123;<span class="hljs-string">&#x27;=&#x27;</span>*<span class="hljs-number">60</span>&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;评测完成: <span class="hljs-subst">&#123;correct&#125;</span>/<span class="hljs-subst">&#123;total&#125;</span> (<span class="hljs-subst">&#123;correct/total*<span class="hljs-number">100</span>:<span class="hljs-number">.1</span>f&#125;</span>%)&quot;</span> <span class="hljs-keyword">if</span> total &gt; <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;无评测&quot;</span>)<br>    <span class="hljs-keyword">for</span> lv <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-string">&quot;3&quot;</span>]:<br>        lr = [r <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> results <span class="hljs-keyword">if</span> r[<span class="hljs-string">&quot;level&quot;</span>] == lv]<br>        <span class="hljs-keyword">if</span> lr:<br>            lc = <span class="hljs-built_in">sum</span>(<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> lr <span class="hljs-keyword">if</span> r[<span class="hljs-string">&quot;correct&quot;</span>])<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Level <span class="hljs-subst">&#123;lv&#125;</span>: <span class="hljs-subst">&#123;lc&#125;</span>/<span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(lr)&#125;</span> (<span class="hljs-subst">&#123;lc/<span class="hljs-built_in">len</span>(lr)*<span class="hljs-number">100</span>:<span class="hljs-number">.1</span>f&#125;</span>%)&quot;</span>)<br><br>    <span class="hljs-comment"># 保存</span><br>    result_file = Path(__file__).parent / <span class="hljs-string">&quot;results_langchain.json&quot;</span><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(result_file, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:<br>        json.dump(results, f, indent=<span class="hljs-number">2</span>, ensure_ascii=<span class="hljs-literal">False</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;结果: <span class="hljs-subst">&#123;result_file&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> results<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-keyword">import</span> argparse<br>    parser = argparse.ArgumentParser()<br>    parser.add_argument(<span class="hljs-string">&quot;--task-id&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-built_in">str</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;单题 task_id&quot;</span>)<br>    parser.add_argument(<span class="hljs-string">&quot;--levels&quot;</span>, nargs=<span class="hljs-string">&quot;+&quot;</span>, default=[<span class="hljs-string">&quot;1&quot;</span>], <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;难度&quot;</span>)<br>    parser.add_argument(<span class="hljs-string">&quot;--max&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-built_in">int</span>, default=<span class="hljs-number">3</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;最大题数&quot;</span>)<br>    args = parser.parse_args()<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;创建 LangChain Agent (ChatTongyi + qwen3-max)...&quot;</span>)<br>    agent = create_gaia_agent()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Agent 创建完成\n&quot;</span>)<br><br>    <span class="hljs-keyword">if</span> args.task_id:<br>        <span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset<br>        dataset = load_dataset(<span class="hljs-string">&quot;gaia-benchmark/GAIA&quot;</span>, <span class="hljs-string">&quot;2023_all&quot;</span>, split=<span class="hljs-string">&quot;validation&quot;</span>)<br>        <span class="hljs-keyword">for</span> ex <span class="hljs-keyword">in</span> dataset:<br>            <span class="hljs-keyword">if</span> ex[<span class="hljs-string">&quot;task_id&quot;</span>] == args.task_id:<br>                evaluate_single(agent, ex, verbose=<span class="hljs-literal">True</span>)<br>                <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;未找到: <span class="hljs-subst">&#123;args.task_id&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        evaluate_batch(agent, levels=args.levels, max_questions=args.<span class="hljs-built_in">max</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="评测结果"><a href="#评测结果" class="headerlink" title="评测结果"></a>评测结果</h3><table>
+<thead>
+<tr>
+<th>#</th>
+<th>题目</th>
+<th>预测</th>
+<th>正确答案</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>xlsx 颜色网格</td>
+<td>No</td>
+<td>No</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Kipchoge 马拉松</td>
+<td>17000</td>
+<td>17</td>
+<td>✗ (格式错误)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Mercedes Sosa 专辑</td>
+<td>4</td>
+<td>3</td>
+<td>✗ (无搜索)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Ping-Pong 概率</td>
+<td>3</td>
+<td>3</td>
+<td>✓</td>
+</tr>
+</tbody></table>
+<hr>
+<p>GAIA 本身就是一个大的数据集对吗？不像 OpenCompass 一样是一个大模型通用能力评测框架包含了多个 benchmark。数据从哪里下载的，保存到哪里了，能看到形式吗？</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>OpenCompass</th>
+<th>GAIA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>性质</td>
+<td><strong>评测框架</strong></td>
+<td><strong>单个数据集 (benchmark)</strong></td>
+</tr>
+<tr>
+<td>内容</td>
+<td>集成 MMLU、C-Eval、GSM8K 等几十个 benchmark</td>
+<td>466 道题（165 validation + 301 test）</td>
+</tr>
+<tr>
+<td>使用方式</td>
+<td>框架统一调用模型，自动跑分</td>
+<td>直接读 parquet 文件，自行写 Agent 解题</td>
+</tr>
+<tr>
+<td>存储</td>
+<td>Python 包 + 数据集按需下载</td>
+<td>HuggingFace 上的 parquet + 附件文件</td>
+</tr>
+<tr>
+<td>答案公开</td>
+<td>取决于子 benchmark</td>
+<td>test 集答案未公开，validation 集公开</td>
+</tr>
+</tbody></table>
+<p>GAIA 就是一个单一的 benchmark 数据集，不像 OpenCompass 那样”包含多个 benchmark”的评测框架。</p>
+<h3 id="数据下载与存储"><a href="#数据下载与存储" class="headerlink" title="数据下载与存储"></a>数据下载与存储</h3><p>GAIA 托管在 HuggingFace：<code>gaia-benchmark/GAIA</code></p>
+<p>通过 <code>datasets.load_dataset(&quot;gaia-benchmark/GAIA&quot;, &quot;2023_all&quot;, split=&quot;validation&quot;)</code> 下载。</p>
+<p><strong>本地缓存在两个位置</strong>：</p>
+<h4 id="位置-1-HuggingFace-Hub-缓存（原始文件）"><a href="#位置-1-HuggingFace-Hub-缓存（原始文件）" class="headerlink" title="位置 1: HuggingFace Hub 缓存（原始文件）"></a>位置 1: HuggingFace Hub 缓存（原始文件）</h4><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-operator">/</span>root<span class="hljs-operator">/</span>.cache<span class="hljs-operator">/</span>huggingface<span class="hljs-operator">/</span>hub<span class="hljs-operator">/</span>datasets--gaia-benchmark--GAIA<span class="hljs-symbol">/</span><br>└── snapshots<span class="hljs-operator">/</span><span class="hljs-number">682</span>dd723ee1e1697e00360edccf2366dc8418dd9<span class="hljs-symbol">/</span><br>    ├── README.md<br>    └── <span class="hljs-number">2023</span><span class="hljs-symbol">/</span><br>        ├── test<span class="hljs-symbol">/</span><br>        │   └── metadata.parquet       ← <span class="hljs-number">301</span> 题（答案未公开）<br>        └── validation<span class="hljs-symbol">/</span><br>            ├── metadata.parquet        ← <span class="hljs-number">165</span> 题（有公开答案）<br>            └── <span class="hljs-number">5</span>cfb274c...xlsx         ← 附件文件（按需下载）<br></code></pre></td></tr></table></figure>
+
+<p>附件文件采用<strong>内容寻址存储</strong>：文件名是符号链接，指向 <code>blobs/</code> 目录下的 hash 值文件。只有通过 <code>hf_hub_download()</code> 明确下载过的附件才会出现在本地。</p>
+<p>实际 blob 文件：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">blobs/<br>├── 2cfc0a8.<span class="hljs-string">..</span>  ← README.md<br>├── 6fab73b.<span class="hljs-string">..</span>  ← test/metadata.parquet <span class="hljs-params">(75 KB)</span><br>├── 7d106d1.<span class="hljs-string">..</span>  ← 5cfb274c.<span class="hljs-string">..xlsx</span> <span class="hljs-params">(5 KB, 我们下载的那道颜色网格题)</span><br>└── d9141ba.<span class="hljs-string">..</span>  ← validation/metadata.parquet <span class="hljs-params">(117 KB)</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="位置-2-datasets-库加载后的-Arrow-格式缓存"><a href="#位置-2-datasets-库加载后的-Arrow-格式缓存" class="headerlink" title="位置 2: datasets 库加载后的 Arrow 格式缓存"></a>位置 2: datasets 库加载后的 Arrow 格式缓存</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/root/</span>.cache<span class="hljs-regexp">/huggingface/</span>datasets<span class="hljs-regexp">/gaia-benchmark___gaia/</span><br>└── <span class="hljs-number">2023</span>_all<span class="hljs-regexp">/0.0.0/</span><span class="hljs-number">682</span>dd.../<br>    ├── dataset_info.json        (<span class="hljs-number">1</span> KB)<br>    ├── gaia-test.arrow          (<span class="hljs-number">117</span> KB — <span class="hljs-number">301</span> 题)<br>    └── gaia-validation.arrow    (<span class="hljs-number">192</span> KB — <span class="hljs-number">165</span> 题)<br></code></pre></td></tr></table></figure>
+
+<p>这是 <code>datasets</code> 库把 parquet 解析后转换成的 Arrow 格式，加载更快。</p>
+<h3 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h3><p>每道题是一个 Parquet 行，字段如下：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>task_id</code></td>
+<td>string</td>
+<td>UUID</td>
+<td><code>e1fc63a2-da7a-432f-be78-7c4a95598703</code></td>
+</tr>
+<tr>
+<td><code>Question</code></td>
+<td>string</td>
+<td>题目文本</td>
+<td>完整的问题描述</td>
+</tr>
+<tr>
+<td><code>Level</code></td>
+<td>string</td>
+<td>难度</td>
+<td><code>1</code> &#x2F; <code>2</code> &#x2F; <code>3</code></td>
+</tr>
+<tr>
+<td><code>Final answer</code></td>
+<td>string</td>
+<td>标准答案</td>
+<td><code>17</code> &#x2F; <code>No</code> &#x2F; <code>egalitarian</code></td>
+</tr>
+<tr>
+<td><code>file_name</code></td>
+<td>string</td>
+<td>附件文件名（或空）</td>
+<td><code>5cfb274c...xlsx</code></td>
+</tr>
+<tr>
+<td><code>file_path</code></td>
+<td>string</td>
+<td>附件路径（或空）</td>
+<td><code>2023/validation/5cfb274c...xlsx</code></td>
+</tr>
+<tr>
+<td><code>Annotator Metadata</code></td>
+<td>struct</td>
+<td>标注元数据</td>
+<td>步骤数、使用工具、耗时</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="SWE-Bench"><a href="#SWE-Bench" class="headerlink" title="SWE-Bench"></a>SWE-Bench</h1><p><strong>SWE-bench</strong> 是目前评估<strong>大语言模型解决真实 GitHub Issue 能力</strong>的最权威基准之一，由普林斯顿大学等机构于 2023 年底推出。如果说 GAIA 评测的是 AI 作为”通用智能体”的能力，那么 <strong>SWE-bench 专门评测 AI 作为”软件工程师”的能力</strong>。</p>
+<p><strong>真实场景还原</strong>：</p>
+<ul>
+<li>输入：一个真实的 GitHub Issue 描述 + 完整代码仓库</li>
+<li>输出：能够解决该 Issue 的代码补丁（Patch）</li>
+<li>评估：该补丁是否能通过所有单元测试</li>
+</ul>
+<h2 id="数据集构成"><a href="#数据集构成" class="headerlink" title="数据集构成"></a>数据集构成</h2><p>SWE-bench 包含 <strong>2,294 个真实 Issue</strong>，来自 12 个知名 Python 开源项目：</p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">领域</th>
+<th align="left">Issue 数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">django</td>
+<td align="left">Web 框架</td>
+<td align="left">~500</td>
+</tr>
+<tr>
+<td align="left">scikit-learn</td>
+<td align="left">机器学习</td>
+<td align="left">~400</td>
+</tr>
+<tr>
+<td align="left">matplotlib</td>
+<td align="left">数据可视化</td>
+<td align="left">~300</td>
+</tr>
+<tr>
+<td align="left">pytest</td>
+<td align="left">测试框架</td>
+<td align="left">~200</td>
+</tr>
+<tr>
+<td align="left">sympy</td>
+<td align="left">符号数学</td>
+<td align="left">~200</td>
+</tr>
+<tr>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+</tr>
+</tbody></table>
+<p>每个 Issue 包含：</p>
+<ul>
+<li><strong>问题描述</strong>：用户&#x2F;开发者提交的完整 Issue 文本（含代码示例、错误日志）</li>
+<li><strong>代码仓库</strong>：该 Issue 出现时的完整代码快照</li>
+<li><strong>测试用例</strong>：验证修复是否正确的单元测试</li>
+<li><strong>参考补丁</strong>：人类开发者实际合并的修复代码（用于评估）</li>
+</ul>
+<h2 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h2><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs fortran">┌─────────────┐<br>│  Issue 描述 │<br>│  + 代码仓库 │<br>└──────┬──────┘<br>       ▼<br>┌─────────────┐<br>│  模型生成   │<br>│  代码补丁   │<br>└──────┬──────┘<br>       ▼<br>┌─────────────┐<br>│  应用到仓库 │<br>└──────┬──────┘<br>       ▼<br>┌─────────────┐<br>│  运行测试   │<br>│  (<span class="hljs-keyword">PASS</span>/FAIL)│<br>└─────────────┘<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键约束</strong>：</p>
+<ul>
+<li>模型只能看到 Issue 创建<strong>之前</strong>的代码（不能提前”作弊”看到修复方案）</li>
+<li>补丁必须<strong>精确</strong>：只修改必要的代码行，不能引入新问题</li>
+<li>必须通过<strong>全部</strong>相关测试（不仅仅是 Issue 中提到的那个）</li>
+</ul>
+<h2 id="评估指标-1"><a href="#评估指标-1" class="headerlink" title="评估指标"></a>评估指标</h2><p><strong>主指标：Resolved Rate（解决率）</strong></p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">Resolved Rate <span class="hljs-operator">=</span> 通过所有测试的 Issue 数量 / 总 Issue 数量<br></code></pre></td></tr></table></figure>
+
+<p><strong>辅助指标</strong>：</p>
+<ul>
+<li><strong>Applied Rate</strong>：补丁能成功应用到代码库的比例</li>
+<li><strong>Exact Match</strong>：与人类补丁完全一致的比例</li>
+<li><strong>Avg Edit Distance</strong>：生成补丁与真实补丁的差异程度</li>
+</ul>
+<h2 id="SWE-bench-的演进版本"><a href="#SWE-bench-的演进版本" class="headerlink" title="SWE-bench 的演进版本"></a>SWE-bench 的演进版本</h2><h3 id="SWE-bench-Lite"><a href="#SWE-bench-Lite" class="headerlink" title="SWE-bench Lite"></a>SWE-bench Lite</h3><ul>
+<li>筛选了 <strong>300 个</strong> 相对”干净”的 Issue</li>
+<li>移除了依赖冲突、网络问题等干扰因素</li>
+<li>更适合快速迭代和学术研究</li>
+</ul>
+<h3 id="SWE-bench-Verified"><a href="#SWE-bench-Verified" class="headerlink" title="SWE-bench Verified"></a>SWE-bench Verified</h3><ul>
+<li>由 <strong>OpenAI</strong> 在 2024 年推出</li>
+<li>人工验证了每个 Issue 的测试正确性</li>
+<li>解决了原版中部分测试误判的问题</li>
+</ul>
+<h3 id="SWE-bench-Multilingual"><a href="#SWE-bench-Multilingual" class="headerlink" title="SWE-bench Multilingual"></a>SWE-bench Multilingual</h3><ul>
+<li>扩展到 <strong>Java、TypeScript、JavaScript、Go</strong> 等语言</li>
+<li>覆盖 SpringBoot、Express.js 等主流框架</li>
+</ul>
+<h3 id="完整三步流程图"><a href="#完整三步流程图" class="headerlink" title="完整三步流程图"></a>完整三步流程图</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">① make_datasets (数据准备)<br>   ├─ <span class="hljs-keyword">clone</span> <span class="hljs-title">仓库到 base_commit</span><br>   ├─ BM25 检索 / oracle 提取相关文件<br>   ├─ 构建 prompt：issue + 代码上下文 + patch 示例<br>   └─ 输出 &#123;instance_id: &#123;text, ...&#125;&#125;<br><br>          ↓<br><br>② run_api (推理)<br>   ├─ 读入上面的 text 字段<br>   ├─ 调用 LLM API<br>   ├─ 从回复中提取 diff 格式 patch<br>   └─ 输出 predictions.json<br><br>          ↓<br><br>③ run_evaluation (评估)<br>   ├─ Docker 或 Modal 沙箱中<br>   ├─ <span class="hljs-keyword">clone</span> <span class="hljs-title">repo</span> → checkout base_commit<br>   ├─ git apply patch (<span class="hljs-number">3</span> 种回退策略)<br>   ├─ 运行 FAIL_TO_PASS + PASS_TO_PASS 测试<br>   ├─ get_eval_report() 打分<br>   └─ 输出 report.json → Resolve Rate<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/LLM/" class="category-chain-item">LLM</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Agent%E8%AF%84%E6%B5%8B/" class="print-no-link">#Agent评测</a>
+      
+        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%AF%84%E6%B5%8B/" class="print-no-link">#大模型评测</a>
+      
+        <a href="/tags/RAG%E8%AF%84%E6%B5%8B/" class="print-no-link">#RAG评测</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>大模型评测</div>
+      <div>https://lilpear2002.github.io/2026/04/27/大模型评测/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>测开求职者</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年4月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/03/30/Coze%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" title="Coze基础学习">
+                        <span class="hidden-mobile">Coze基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
